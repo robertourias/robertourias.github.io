@@ -41,10 +41,35 @@ Antes de executar qualquer alteração no código:
 
 ---
 
+## Prompt 3: Obter Contexto do Projeto
+
+```
+Leia o arquivo AGENTS/PROJECT_CONTEXT.md para entender mais sobre o projeto e me forneça um resumo do:
+- O que é o projeto
+- Stack tecnológico
+- Estrutura principal
+- Estado atual
+- Regras e padrões
+```
+
+---
+
+## Prompt 4: Executar Plano Manual
+
+```
+Leia o arquivo AGENTS/PLANO.md atual.
+Execute cada passo listed em ## Passos Planejados, marcando conforme avança:
+- [ ] → [x] quando concluir cada passo
+- Atualize o status para "Em Execução" no início
+- Marque como "Concluído" ao final
+```
+
+---
+
 ## Como Usar
 
 Copie e cole o prompt desejado quando precisar. O prompt será executado e os arquivos serão criados/atualizados automaticamente.
 
 ---
 
-*Prompts adicionados em: Abril 2026*
+_Prompts adicionados em: Abril 2026_
