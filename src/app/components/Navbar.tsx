@@ -27,11 +27,9 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 font-display tracking-tight ${
-        isScrolled
-          ? "bg-surface/70 backdrop-blur-xl py-4"
-          : "bg-transparent py-6"
-      }`}
+      className={`fixed top-0 w-full z-50 transition-all duration-300 font-display tracking-tight ${isScrolled ? "bg-surface/70 backdrop-blur-xl py-4" : "bg-transparent py-6"}`}
+      role="navigation"
+      aria-label="Navegação principal"
     >
       <div className="flex justify-between items-center px-6 md:px-8 max-w-7xl mx-auto">
         <div className="text-xl font-bold tracking-tighter text-on-surface">
@@ -72,6 +70,9 @@ export default function Navbar() {
           <button
             className="md:hidden p-2 text-on-surface"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Abrir menu mobile"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isMobileMenuOpen ? (
@@ -85,13 +86,14 @@ export default function Navbar() {
       </div>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-surface-container-highest backdrop-blur-xl py-4 px-6">
+        <div id="mobile-menu" className="md:hidden bg-surface-container-highest backdrop-blur-xl py-4 px-6" role="menu" aria-label="Menu mobile">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               className="block py-3 text-on-surface-variant hover:text-on-surface transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
+              role="menuitem"
             >
               {link.label}
             </a>

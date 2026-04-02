@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export default function Hero() {
   return (
     <section
@@ -12,19 +14,21 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 max-w-5xl w-full flex flex-col items-center text-center">
-        <div className="w-32 h-32 md:w-40 md:h-40 mb-8 rounded-full overflow-hidden border-4 border-surface-container-high">
-          <img
+        <div className="w-32 h-32 md:w-40 md:h-40 mb-8 rounded-full overflow-hidden border-4 border-surface-container-high relative">
+          <Image
             src="/roberto-nicoletti.png"
-            alt="Roberto Nicoletti"
-            className="w-full h-full object-cover"
+            alt="Foto de Roberto Nicoletti, desenvolvedor Fullstack"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 128px, 160px"
           />
         </div>
 
-        <h2 className="font-display text-3xl md:text-5xl font-light text-primary-fixed-dim tracking-tight mb-4">
+        <h1 className="font-display text-3xl md:text-5xl font-light text-primary-fixed-dim tracking-tight mb-4">
           Fullstack Developer
-        </h2>
+        </h1>
 
-        <p className="text-on-surface-variant text-lg md:text-xl font-medium mb-12 max-w-2xl">
+        <p className="text-on-surface-variant text-lg md:text-xl font-medium mb-12 max-w-2xl" role="subtitle">
           React • Next.js • NestJS • LLMs • RAG • APIs de IA • Arquitetura de Software
         </p>
 
