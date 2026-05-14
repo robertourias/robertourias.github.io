@@ -7,7 +7,7 @@ export default function About() {
             <img
               alt="Roberto Nicoletti em seu escritório de trabalho"
               className="w-full h-full object-cover"
-              src="/escritorio.png"
+              src="/roberto-nicoletti.png"
             />
           </div>
           <figcaption className="sr-only">Roberto Nicoletti em seu ambiente de trabalho</figcaption>
