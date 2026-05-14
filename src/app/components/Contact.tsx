@@ -39,7 +39,12 @@ export default function Contact() {
       });
 
       if (!response.ok) {
-        throw new Error("Falha ao enviar mensagem");
+        throw new Error("Falha ao preparar mensagem");
+      }
+
+      const data = await response.json();
+      if (data.redirectUrl) {
+        window.location.href = data.redirectUrl;
       }
 
       setStatus("success");
