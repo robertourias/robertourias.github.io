@@ -1,4 +1,54 @@
+"use client";
+
+import { useState, FormEvent } from "react";
+
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+type FormStatus = "idle" | "loading" | "success" | "error";
+
 export default function Contact() {
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Falha ao enviar mensagem");
+      }
+
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(error instanceof Error ? error.message : "Erro ao enviar mensagem");
+    }
+  };
   return (
     <section id="contact" className="py-20 md:py-24 px-6 md:px-8 bg-surface-container-lowest" aria-labelledby="contact-title">
       <div className="max-w-7xl mx-auto">
@@ -80,17 +130,33 @@ export default function Contact() {
 
           <div className="md:col-span-7 bg-surface-container-low p-8 md:p-10 rounded-2xl">
             <h4 className="font-display text-xl font-bold mb-8">Nova Mensagem</h4>
-            <form className="space-y-6" aria-label="Formulário de contato">
+            
+            {status === "success" && (
+              <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm">
+                Mensagem enviada com sucesso! Em breve entrarei em contato.
+              </div>
+            )}
+
+            {status === "error" && (
+              <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+                {errorMessage}
+              </div>
+            )}
+
+            <form className="space-y-6" aria-label="Formulário de contato" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label htmlFor="name" className="text-[10px] font-bold uppercase tracking-widest text-outline">Seu Nome</label>
                   <input
                     id="name"
                     name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     className="w-full bg-surface-container-high border-none rounded-sm px-4 py-3 focus:ring-1 focus:ring-primary text-on-surface placeholder:text-outline/30 outline-none transition-colors"
                     placeholder="Nome Sobrenome"
                     type="text"
                     required
+                    disabled={status === "loading"}
                   />
                 </div>
                 <div className="space-y-2">
@@ -98,10 +164,13 @@ export default function Contact() {
                   <input
                     id="email"
                     name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full bg-surface-container-high border-none rounded-sm px-4 py-3 focus:ring-1 focus:ring-primary text-on-surface placeholder:text-outline/30 outline-none transition-colors"
                     placeholder="voce@dominio.com"
                     type="email"
                     required
+                    disabled={status === "loading"}
                   />
                 </div>
               </div>
@@ -111,18 +180,32 @@ export default function Contact() {
                 <textarea
                   id="message"
                   name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   className="w-full bg-surface-container-high border-none rounded-sm px-4 py-3 focus:ring-1 focus:ring-primary text-on-surface placeholder:text-outline/30 outline-none transition-colors resize-none"
                   placeholder="Descreva seu projeto ou ideia..."
                   rows={4}
                   required
+                  disabled={status === "loading"}
                 />
               </div>
 
               <button
-                className="w-full py-4 bg-primary text-on-primary font-bold tracking-widest uppercase text-xs rounded-full hover:bg-primary-container transition-colors shadow-[0_20px_40px_rgba(0,218,243,0.08)]"
+                className="w-full py-4 bg-primary text-on-primary font-bold tracking-widest uppercase text-xs rounded-full hover:bg-primary-container transition-colors shadow-[0_20px_40px_rgba(0,218,243,0.08)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 type="submit"
+                disabled={status === "loading"}
               >
-                Iniciar Contato
+                {status === "loading" ? (
+                  <>
+                    <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Enviando...
+                  </>
+                ) : (
+                  "Iniciar Contato"
+                )}
               </button>
             </form>
           </div>

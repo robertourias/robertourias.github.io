@@ -16,7 +16,7 @@ export default function Hero() {
       <div className="relative z-10 max-w-5xl w-full flex flex-col items-center text-center">
         <div className="w-32 h-32 md:w-40 md:h-40 mb-8 rounded-full overflow-hidden border-4 border-surface-container-high relative">
           <Image
-            src="/roberto-nicoletti.png"
+            src="/roberto-nicoletti.jpg"
             alt="Foto de Roberto Nicoletti, desenvolvedor Fullstack"
             fill
             className="object-cover"
