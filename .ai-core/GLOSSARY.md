@@ -5,17 +5,8 @@ Use sempre estes termos exatos — não sinônimos — em nomes de variáveis, c
 
 | Termo | Definição |
 |-------|-----------|
-| <!-- Termo --> | <!-- Definição precisa --> |
-
-<!--
-Exemplos para inspirar (substitua pelo seu domínio):
-
-| Termo       | Definição                                                        |
-|-------------|------------------------------------------------------------------|
-| User        | Pessoa autenticada com uma conta no sistema                      |
-| Member      | User que pertence a uma Organization                             |
-| Owner       | Member com permissões de administrador sobre uma Organization    |
-| Workspace   | Container de nível superior para os dados de um time             |
-| Plan        | Nível de assinatura (Free / Pro / Enterprise)                    |
-| Seat        | Slot de usuário cobrado dentro de um Plan                        |
--->
+| Subprojeto | Aplicação separada dentro do monorepo Turborepo com deploy próprio em um subdomínio de nico.dev (ex: `projeto.nico.dev`). Cada subprojeto tem ciclo de vida e pipeline de deploy independentes. |
+| Monorepo | Repositório único gerenciado com Turborepo contendo o site principal (`apps/web`) e todos os subprojetos. Packages compartilhados ficam em `packages/`. |
+| Site principal | A aplicação `apps/web`, hospedada em `nico.dev`, que contém portfólio, blog, currículo e formulário de contato. |
+| Portfólio | Seção do site principal que exibe os projetos e trabalhos de Roberto Nicoletti, com descrição, tecnologias e links. |
+| BlogPost | Artigo técnico autoral publicado no blog de nico.dev (feature planejada). |

@@ -1,19 +1,19 @@
 # UI Guidelines
 
-> Decisões de design system e padrões de componentes para o frontend. Preencha as seções `<!-- TODO -->` com suas escolhas reais — quanto mais específico, menos o agente vai inventar.
+> Decisões de design system e padrões de componentes para o frontend.
 
 ## Design System
 
-**Component library**: <!-- TODO: ex: "shadcn/ui sobre Radix UI — sem MUI, sem Chakra" -->
-**Styling solution**: <!-- TODO: ex: "Tailwind CSS — sem CSS Modules, sem styled-components" -->
-**Icon library**: <!-- TODO: ex: "Lucide React — sem Heroicons" -->
-**Design tokens source**: <!-- TODO: ex: "Figma / tokens.css na raiz do packages/ui" -->
+**Component library**: shadcn/ui sobre Radix UI — sem MUI, sem Chakra
+**Styling solution**: Tailwind CSS — sem CSS Modules, sem styled-components
+**Icon library**: Lucide React — sem Heroicons, sem Phosphor
+**Design tokens source**: <!-- a definir -->
 
 ## Color Tokens
 
 Use variáveis semânticas — nunca valores hex diretos em componentes.
 
-<!-- TODO: preencha com seus tokens reais -->
+<!-- a definir — preencher quando design tokens forem estabelecidos -->
 ```css
 --color-primary        /* cor principal da marca, com variantes hover e active */
 --color-success / --color-warning / --color-error / --color-info
@@ -32,11 +32,11 @@ Dark mode: todas as cores devem suportar dark mode via CSS variables ou classes 
 
 ## Tipografia
 
-<!-- TODO: preencha com suas fontes reais -->
+<!-- a definir — preencher quando fontes forem escolhidas -->
 ```
-Headings: [Fonte], pesos 600/700
-Body:     [Fonte], pesos 400/500
-Mono:     [Fonte] (blocos de código, conteúdo técnico)
+Headings: [a definir], pesos 600/700
+Body:     [a definir], pesos 400/500
+Mono:     [a definir] (blocos de código, conteúdo técnico)
 ```
 
 Usar escala de tipo do Tailwind (`text-sm`, `text-base`, `text-lg` etc.) — sem tamanhos de fonte customizados salvo exceção justificada.
@@ -53,6 +53,7 @@ Sempre exibir loading state durante ações assíncronas (spinner ou skeleton).
 - Sempre associar inputs a labels visíveis — nunca usar placeholder como substituto de label
 - Validar no blur, não no keystroke
 - Erros inline ao lado do campo; campos obrigatórios marcados com `*`
+- Validação via Zod + React Hook Form
 
 ### Empty & Error States
 

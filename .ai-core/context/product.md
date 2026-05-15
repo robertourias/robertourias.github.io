@@ -1,45 +1,42 @@
 # Product Context
 
 > **Purpose**: Help AI agents understand the product domain, user needs, and business rules. Update this as the product evolves.
-> **Status do arquivo:** vazio — preencha as seções `<!-- TODO -->` com os dados reais do produto antes de usar com agentes. Sem estas informações o planner não consegue gerar specs nem planos alinhados ao domínio.
 
 ## Product Overview
 
-**Product name**: [Your Product Name]
-**Tagline**: [One sentence value proposition]
-**Stage**: [Idea / MVP / Growth / Scale]
+**Product name**: Nico.dev
+**Tagline**: Engenheiro de software construindo produtos digitais escaláveis
+**Stage**: MVP
 
-<!-- TODO: 2-3 sentences describing what the product is and does -->
+Site pessoal e portfólio profissional de Roberto Nicoletti. Organizado como um monorepo Turborepo, reúne o site principal e subprojetos independentes com deploy em subdomínios separados. O objetivo é apresentar trabalhos, projetos e experiência para recrutadores e empresas interessadas em contratar um engenheiro de software sênior.
 
 ## Target Users
 
 ### Primary User
-- **Who**: [Role / persona name]
-- **Goal**: [What they're trying to accomplish]
-- **Pain point**: [What problem this solves for them]
-- **Technical level**: [Non-technical / Technical / Developer]
+- **Who**: Recrutador ou empresa buscando contratar engenheiro sênior
+- **Goal**: Avaliar experiência, projetos e fit técnico de Roberto Nicoletti
+- **Pain point**: Dificuldade em encontrar evidências concretas de senioridade e qualidade de entrega em um único lugar
+- **Technical level**: Técnico / Semi-técnico
 
 ### Secondary User (if any)
-- **Who**: [Role / persona name]
-- **Goal**: [What they're trying to accomplish]
+- **Who**: Comunidade de desenvolvedores
+- **Goal**: Consumir conteúdo técnico via blog e acompanhar projetos open source
 
 ## Core Features
 
-<!-- TODO: List the main features of the product -->
-
 | Feature | Description | Status |
 |---------|-------------|--------|
-| [Feature 1] | [Description] | Planned / In Progress / Live |
-| [Feature 2] | [Description] | |
+| Portfólio de projetos | Galeria de trabalhos e projetos com descrição, tecnologias e links | Live |
+| Blog | Artigos técnicos autorais | Planejado |
+| Currículo | Página de CV com experiência, habilidades e histórico profissional | Em andamento |
+| Formulário de contato | Canal direto de contato para oportunidades e colaborações | Em andamento |
+| Subprojetos no monorepo | Aplicações independentes com deploy em subdomínios (ex: projeto.nico.dev) | Planejado |
 
 ## Business Rules
 
 > Critical business logic that AI agents must never violate. These are non-negotiable constraints.
 
-<!-- TODO: Document business rules here. Examples: -->
-- [Rule 1]: e.g., "A user can only belong to one organization at a time"
-- [Rule 2]: e.g., "Invoices cannot be deleted, only voided"
-- [Rule 3]: e.g., "Free tier is limited to 5 projects"
+- Sem regras críticas definidas neste momento.
 
 ## Domain Glossary
 
@@ -47,51 +44,41 @@
 
 | Term | Definition |
 |------|-----------|
-| [Term 1] | [Definition — be precise] |
-| [Term 2] | [Definition] |
-| [Term 3] | [Definition] |
+| Subprojeto | Aplicação separada dentro do monorepo Turborepo, com deploy próprio em um subdomínio de nico.dev (ex: `projeto.nico.dev`) |
+| Monorepo | Repositório único gerenciado com Turborepo contendo o site principal e todos os subprojetos |
 
 ## User Journeys
 
-### Journey 1: [Name — e.g., "New User Onboarding"]
+### Journey 1: Recrutador avaliando candidato
 ```
-1. User signs up with email
-2. Receives verification email
-3. Completes profile setup
-4. Creates first [entity]
-5. Invites team members
+1. Recrutador acessa nico.dev
+2. Navega pelo portfólio de projetos
+3. Consulta o currículo para histórico profissional
+4. Acessa subprojetos via subdomínios para ver aplicações reais em funcionamento
+5. Usa o formulário de contato para iniciar conversa
 ```
 
-### Journey 2: [Name — e.g., "Core Value Loop"]
+### Journey 2: Desenvolvedor consumindo conteúdo
 ```
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
+1. Acessa nico.dev via busca orgânica ou link
+2. Lê artigos técnicos no blog
+3. Explora repositórios linkados nos projetos
 ```
 
 ## Metrics & Success Criteria
 
-<!-- TODO: What does success look like? -->
-- **Primary metric**: [e.g., Weekly Active Users]
-- **Secondary metrics**: [e.g., Activation rate, Retention D7]
-- **Current targets**: [e.g., 1000 MAU by Q3]
+<!-- a definir -->
+- **Primary metric**: Contatos qualificados recebidos via formulário
+- **Secondary metrics**: Visitas únicas, tempo na página de portfólio
+- **Current targets**: a definir
 
 ## Out of Scope
 
-> Features or behaviors explicitly NOT part of this product (prevents scope creep).
-
-- [What this product does NOT do]
-- [What should NOT be built]
+- Autenticação de usuários (site é público e estático)
+- E-commerce ou cobrança
+- CMS complexo (conteúdo gerenciado via código/markdown)
 
 ## Competitive Context
 
-<!-- TODO: Optional — useful for AI to understand positioning -->
-- **Similar products**: [List competitors or alternatives]
-- **Our differentiation**: [What makes this different]
-
-## Roadmap (High Level)
-
-| Quarter | Theme | Key Deliverables |
-|---------|-------|-----------------|
-| Q[N] | [Theme] | [Feature list] |
-| Q[N+1] | [Theme] | [Feature list] |
+- **Similar products**: Portfólios de outros engenheiros sênior, LinkedIn
+- **Our differentiation**: Subprojetos reais acessíveis em subdomínios, mostrando produto funcionando — não apenas screenshots

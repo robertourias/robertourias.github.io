@@ -4,36 +4,99 @@ Escolhas específicas deste projeto que substituem padrões gerais.
 Carregue junto com `agents/backend.agent.md`.
 
 ## Arquitetura
-- Clean Architecture com limites de camada estritos (ver `agents/backend.agent.md`)
-- DI baseado em tokens para interfaces de repositório:
-  `{ provide: IUsersRepository, useClass: TypeOrmUsersRepository }`
-- Entidades de domínio são classes TypeScript puras — zero imports de NestJS na camada de domínio
-- Exceções de domínio tipadas que estendem as built-ins do NestJS
+
+- Feature-first, organizado por módulo (não por camada técnica)
+- Clean Architecture com limites de camada estritos
+- Domínio isolado do NestJS — zero imports de framework na camada de domínio
+- Módulos comunicam-se apenas via services públicos (sem acesso cross-module a repositories)
+
+```
+src/
+  modules/
+  common/
+  infra/
+  config/
+
+module/
+  controllers/
+  services/
+  repositories/
+  domain/
+  dto/
+```
+
+## Regras invioláveis
+
+- Sem lógica de negócio em controllers
+- Prisma apenas dentro de repositories
+- DTOs apenas na camada de transporte
+- Services contêm os use-cases
+- Sem acesso cross-module a repositories
 
 ## ORM e banco
-<!-- TODO: ex: "TypeORM com PostgreSQL" ou "Prisma com PostgreSQL" -->
+
+- Prisma ORM com PostgreSQL
 - `synchronize: false` em produção — migrations obrigatórias para toda mudança de schema
+- Sem concatenação de SQL raw
 
 ## Autenticação
-<!-- TODO: ex: "JWT com Passport.js + rotação de refresh token" ou "Clerk" -->
+
+- NextAuth / Auth.js
+- HTTP-only cookies para sessão
+- Guards obrigatórios em todas as rotas privadas
 
 ## Eventos e filas
-<!-- TODO: ex: "EventEmitter2 para eventos in-process" ou "BullMQ para jobs assíncronos" -->
-- Operações pesadas (email, PDF, imagem) vão para fila — nunca bloqueiam a resposta HTTP
+
+- Nenhum por enquanto
+- Jobs pesados devem usar filas quando implementados (não bloqueiam resposta HTTP)
 
 ## Cache
-<!-- TODO: ex: "Redis via NestJS CacheModule" -->
+
+- Redis via NestJS CacheModule
 
 ## API
+
 - REST com Swagger (`@nestjs/swagger`)
 - Versionamento via prefixo de URL: `/api/v1/`
-- Paginação cursor-based preferida sobre offset em tabelas grandes
+- Breaking changes exigem nova versão
+- Paginação obrigatória em listagens (evitar N+1)
 
 ## Tratamento de erros
-- Filtro global de exceções para erros inesperados — shape consistente de resposta
-- Log sempre com contexto: `this.logger.error('msg', { entityId, error })`
+
+- Todos os erros estendem `AppException`
+- Sem stacktrace exposto ao cliente
+- Tratamento centralizado via HTTP exception filter global
+- Erros de domínio exigem código único identificador
+
+## Logging
+
+- Pino logger
+- Logs JSON estruturados
+- `requestId` obrigatório em todos os logs
+- Proibido `console.log`
+- Nunca logar dados sensíveis
+
+## Segurança
+
+- Validação com Zod obrigatória em todas as entradas
+- Nunca confiar em input do cliente
+- Helmet habilitado
+- Rate limiting habilitado
 
 ## Testes
-- Unit: Jest com interfaces de repositório mockadas
-- Integration: Supertest contra app NestJS real com banco de teste
-- Cobertura mínima: use cases 90%, controllers 80%, repos 60%
+
+- Unit: Jest para services (use-cases)
+- e2e: Supertest para fluxos HTTP
+
+## Naming
+
+- `camelCase` para variáveis
+- `PascalCase` para classes
+- `kebab-case` para arquivos
+
+## AI Rules
+
+- Não adicionar lógica de negócio em controllers
+- Não acessar Prisma fora de repositories
+- Não duplicar DTOs
+- Seguir a estrutura de módulo existente
