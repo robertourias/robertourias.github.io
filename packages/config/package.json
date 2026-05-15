@@ -1,0 +1,11 @@
+{
+  "name": "@nico.dev/config",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tsconfig/base.json": "./tsconfig/base.json",
+    "./eslint/base": "./eslint/base.js",
+    "./tailwind/postcss.mjs": "./tailwind/postcss.mjs"
+  }
+}

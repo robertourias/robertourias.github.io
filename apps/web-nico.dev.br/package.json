@@ -1,5 +1,5 @@
 {
-  "name": "robertourias.github.io",
+  "name": "@nico.dev/web-nico.dev.br",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,6 +15,7 @@
     "resend": "^6.10.0"
   },
   "devDependencies": {
+    "@nico.dev/config": "workspace:*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
