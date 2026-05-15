@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Manrope, Inter } from "next/font/google"
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { ThemeProvider } from "./components/ThemeProvider"
 import SmoothScroll from "./components/SmoothScroll"
@@ -72,6 +73,7 @@ export default function RootLayout({
         <ThemeProvider>
           <SmoothScroll />
           {children}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
