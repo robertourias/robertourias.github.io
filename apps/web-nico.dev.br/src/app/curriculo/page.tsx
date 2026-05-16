@@ -222,12 +222,44 @@ export default function CurriculoPage() {
             >
               Formação
             </h2>
-            <div className="bg-surface-container rounded-xl p-6">
-              <h3 className="font-display font-bold text-on-surface mb-1">
-                {cv.education.degree}
-              </h3>
-              <p className="text-sm text-on-surface-variant">{cv.education.institution}</p>
-              <p className="text-xs text-outline mt-1">{cv.education.period}</p>
+            <div className="space-y-4">
+              {cv.educationList.map((edu, i) => (
+                <div key={i} className="bg-surface-container rounded-xl p-6">
+                  <div className="flex items-start justify-between gap-3 mb-1">
+                    <h3 className="font-display font-bold text-on-surface">
+                      {edu.degree}
+                    </h3>
+                    {edu.status === "in_progress" && (
+                      <span className="shrink-0 px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-semibold rounded-full uppercase tracking-wider">
+                        Em andamento
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-on-surface-variant">{edu.institution}</p>
+                  <p className="text-xs text-outline mt-1">
+                    {edu.status === "in_progress" && edu.expectedCompletion
+                      ? `Previsão de conclusão: ${edu.expectedCompletion}`
+                      : edu.period}
+                  </p>
+                  {edu.highlights && edu.highlights.length > 0 && (
+                    <div className="mt-4">
+                      <p className="text-xs text-on-surface-variant font-semibold uppercase tracking-wider mb-3">
+                        Principais competências
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {edu.highlights.map((h) => (
+                          <span
+                            key={h}
+                            className="px-2.5 py-1 bg-surface-container-high text-on-surface-variant text-xs rounded-md font-medium"
+                          >
+                            {h}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </section>
 

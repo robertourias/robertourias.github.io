@@ -11,6 +11,15 @@ export interface SkillGroup {
   skills: string[]
 }
 
+export interface EducationEntry {
+  degree: string
+  institution: string
+  period: string
+  status: "completed" | "in_progress"
+  expectedCompletion?: string
+  highlights?: string[]
+}
+
 export interface CurriculumData {
   name: string
   title: string
@@ -23,11 +32,7 @@ export interface CurriculumData {
   skillGroups: SkillGroup[]
   differentials: string[]
   experiences: WorkExperience[]
-  education: {
-    degree: string
-    institution: string
-    period: string
-  }
+  educationList: EducationEntry[]
 }
 
 export const curriculumData: CurriculumData = {
@@ -208,9 +213,32 @@ export const curriculumData: CurriculumData = {
     },
   ],
 
-  education: {
-    degree: "Bacharel em Sistemas de Informação",
-    institution: "Universidade Bandeirantes de São Paulo",
-    period: "2005 – 2008",
-  },
+  educationList: [
+    {
+      degree: "Pós-graduação em Engenharia de Software em IA Aplicada",
+      institution: "Unipds",
+      period: "Em andamento",
+      status: "in_progress",
+      expectedCompletion: "04/2027",
+      highlights: [
+        "IA Generativa e LLMs",
+        "RAG e Vector Databases",
+        "Agents e Multi-Agent Systems",
+        "MCP (Model Context Protocol)",
+        "LangChain e LangGraph",
+        "Arquitetura AI-First",
+        "Fine-tuning de modelos",
+        "DevOps para IA e AIOps",
+        "Kubernetes e observabilidade",
+        "Engenharia de prompts",
+        "Sistemas multimodais",
+      ],
+    },
+    {
+      degree: "Bacharel em Sistemas de Informação",
+      institution: "Universidade Bandeirantes de São Paulo",
+      period: "2005 – 2008",
+      status: "completed",
+    },
+  ],
 }

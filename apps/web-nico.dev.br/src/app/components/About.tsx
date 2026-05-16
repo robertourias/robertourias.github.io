@@ -1,4 +1,5 @@
 import Image from "next/image"
+import ChatCTAButton from "./ChatCTAButton"
 
 export default function About() {
   return (
@@ -28,6 +29,8 @@ export default function About() {
           <p className="text-on-surface-variant text-lg leading-relaxed">
             Desenvolvedor com mais de 14 anos de experiência em Frontend, evoluindo para Fullstack com foco em Inteligência Artificial aplicada. Atuo na construção de aplicações modernas e na integração de LLMs, RAG e automações, sempre com foco em resolver problemas reais e gerar valor em produtos digitais.
           </p>
+
+          <ChatCTAButton className="inline-flex items-center gap-2 px-6 py-3 border border-outline-variant text-on-surface rounded-full text-sm font-semibold hover:bg-surface-container transition-all" />
         </article>
       </div>
     </section>

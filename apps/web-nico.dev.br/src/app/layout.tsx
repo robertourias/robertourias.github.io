@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css"
 import { ThemeProvider } from "./components/ThemeProvider"
+import ChatWidget from "./components/ChatWidget"
 
 const manrope = Manrope({
   variable: "--font-display",
@@ -78,6 +79,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           {children}
+          <ChatWidget />
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>

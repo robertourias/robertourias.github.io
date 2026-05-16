@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import ChatCTAButton from "./ChatCTAButton";
 
 export default function Hero() {
   return (
@@ -51,6 +52,8 @@ export default function Hero() {
             </svg>
             Currículo
           </a>
+          <ChatCTAButton className="px-10 py-4 border border-outline-variant text-on-surface rounded-full font-semibold hover:bg-surface-container-low transition-all flex items-center gap-2" />
+
           <a
             href="#contact"
             className="px-10 py-4 border border-outline-variant text-on-surface rounded-full font-semibold hover:bg-surface-container-low transition-all flex items-center gap-2"
