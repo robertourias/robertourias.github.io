@@ -4,7 +4,6 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css"
 import { ThemeProvider } from "./components/ThemeProvider"
-import SmoothScroll from "./components/SmoothScroll"
 
 const manrope = Manrope({
   variable: "--font-display",
@@ -67,12 +66,17 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        {/* Blocking script: aplica tema antes da hidratação para evitar flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(t===null&&d)){document.documentElement.classList.add('dark')}else{document.documentElement.classList.remove('dark')}}catch(e){}})()`,
+          }}
+        />
       </head>
       <body
         className={`${manrope.variable} ${inter.variable} min-h-full flex flex-col antialiased`}
       >
         <ThemeProvider>
-          <SmoothScroll />
           {children}
           <Analytics />
           <SpeedInsights />

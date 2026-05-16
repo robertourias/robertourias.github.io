@@ -5,7 +5,7 @@ export default function About() {
     <section id="about" className="py-24 md:py-32 px-6 md:px-8 bg-surface-container-low" aria-labelledby="about-title">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
         <figure className="relative group">
-          <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl grayscale hover:grayscale-0 transition-all duration-700">
+          <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
             <Image
               alt="Roberto Nicoletti em seu escritório de trabalho"
               className="object-cover"

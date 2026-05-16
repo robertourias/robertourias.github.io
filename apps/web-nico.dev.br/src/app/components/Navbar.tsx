@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
 
 export default function Navbar() {
   const { theme, toggleTheme, mounted } = useTheme();
   const isDark = theme === "dark";
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -23,7 +25,26 @@ export default function Navbar() {
     { href: "#skills", label: "Conhecimentos" },
     { href: "#projects", label: "Projetos" },
     { href: "#contact", label: "Contato" },
+    { href: "/curriculo", label: "Currículo" },
   ];
+
+  // Resolve href de âncora para /#section quando fora da home
+  const getHref = (href: string) =>
+    href.startsWith("#") && pathname !== "/" ? `/${href}` : href;
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    setIsMobileMenuOpen(false);
+    if (!href.startsWith("#")) return;
+    // Fora da home: deixa navegação nativa para /#section
+    if (pathname !== "/") return;
+    // Na home: smooth scroll
+    e.preventDefault();
+    const id = href.slice(1);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
     <nav
@@ -32,15 +53,20 @@ export default function Navbar() {
       aria-label="Navegação principal"
     >
       <div className="flex justify-between items-center px-6 md:px-8 max-w-7xl mx-auto">
-        <div className="text-xl font-bold tracking-tighter text-on-surface">
+        <a
+          href="/"
+          className="text-xl font-bold tracking-tighter text-on-surface hover:text-primary transition-colors"
+          aria-label="Roberto Nicoletti — página inicial"
+        >
           Roberto Nicoletti
-        </div>
+        </a>
 
         <div className="hidden md:flex flex-1 justify-center items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={getHref(link.href)}
+              onClick={(e) => handleNavClick(e, link.href)}
               className="text-on-surface-variant hover:text-on-surface transition-colors text-sm"
             >
               {link.label}
@@ -90,9 +116,9 @@ export default function Navbar() {
           {navLinks.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={getHref(link.href)}
               className="block py-3 text-on-surface-variant hover:text-on-surface transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={(e) => handleNavClick(e, link.href)}
               role="menuitem"
             >
               {link.label}

@@ -87,6 +87,17 @@
   --color-outline-variant: var(--outline-variant);
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   background: var(--surface);
   color: var(--on-surface);
