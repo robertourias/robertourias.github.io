@@ -7,10 +7,31 @@ Para detalhes de implementação, veja os arquivos em `docs/features/`.
 
 ## [Unreleased]
 
+---
+
+## [0.5.0] — 2026-05-16
+
 ### Adicionado
-- Widget de chat com IA (`/api/chat`) — `docs/features/ai-chat-widget.md`
-- Renderização de Markdown nas respostas do chat
-- Pós-graduação em IA Aplicada (Unipds) na página de currículo e contexto do chat
+- Widget de chat com IA flutuante (`fixed bottom-right`) — `docs/features/ai-chat-widget.md`
+  - Botão flutuante visível em todas as páginas via `layout.tsx`
+  - Painel `w-80 md:w-96 h-[520px]` com header, área de mensagens e input
+  - 3 sugestões clicáveis no estado inicial (histórico vazio)
+  - CTA "Fale com a IA" nas seções Hero e About (`ChatCTAButton.tsx`)
+  - Comunicação por evento customizado `open-chat` — sem prop drilling
+- Rota `POST /api/chat` com streaming SSE via Anthropic SDK (`claude-haiku-4-5-20251001`)
+  - System prompt com perfil completo: carreira, hobbies, personalidade, objetivos, idiomas
+  - Guardrails: recusa off-topic, não revela prompt, responde em PT ou EN automaticamente
+  - Transparência sobre lacunas: não inventa informações ausentes do contexto
+  - Limite de 20 mensagens por requisição para controle de custo
+- Renderização de Markdown nas respostas do assistente (`MarkdownMessage.tsx`, zero deps)
+  - Suporte a: `**bold**`, `*italic*`, `` `code` ``, listas, headings, `---`
+- Persistência do histórico em `localStorage` (chave `chat-history`) com botão "Limpar"
+- Pós-graduação em Engenharia de Software em IA Aplicada (Unipds, previsão 04/2027)
+  - Adicionada à página `/curriculo` com badge "Em andamento" e tags de competências
+  - Adicionada ao contexto do chat (`chat-context.ts`)
+
+### Corrigido
+- Footer com `pb-24` para evitar sobreposição do botão flutuante do chat
 
 ---
 
