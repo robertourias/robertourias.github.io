@@ -35,7 +35,10 @@ export default function Contact() {
     control,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: { name: "", email: "", phone: "", message: "" },
+  });
 
   const onSubmit = async (data: FormData) => {
     setSubmitStatus("idle");
