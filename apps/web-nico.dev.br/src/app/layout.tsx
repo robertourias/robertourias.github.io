@@ -65,7 +65,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favico.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         {/* Blocking script: aplica tema antes da hidratação para evitar flash */}
         <script
