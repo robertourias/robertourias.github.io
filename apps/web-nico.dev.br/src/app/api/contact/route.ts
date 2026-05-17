@@ -1,28 +1,31 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
-    const { name, email, message } = await request.json();
+    const { name, email, phone, message } = await request.json();
 
-    if (!name || !email || !message) {
+    if (!name || !email || !phone || !message) {
       return NextResponse.json(
         { error: "Todos os campos são obrigatórios" },
         { status: 400 }
       );
     }
 
-    // Redirecionamento temporário para mailto (deve ser processado pelo frontend)
-    const subject = encodeURIComponent("Contato através do site portfolio");
-    const body = encodeURIComponent(
-      `Nome: ${name}\nE-mail: ${email}\n\nMensagem:\n${message}`
-    );
-    const mailtoUrl = `mailto:roberto.urias@gmail.com?subject=${subject}&body=${body}`;
+    await resend.emails.send({
+      from: "Portfólio <onboarding@resend.dev>",
+      to: ["roberto.urias@gmail.com"],
+      subject: `[Portfólio] Nova mensagem de ${name}`,
+      text: `Nova mensagem recebida pelo formulário de contato:\n\nNome: ${name}\nE-mail: ${email}\nTelefone: ${phone}\n\nMensagem:\n${message}`,
+    });
 
-    return NextResponse.json({ success: true, redirectUrl: mailtoUrl });
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Erro ao processar formulário:", error);
+    console.error("Erro ao enviar e-mail:", error);
     return NextResponse.json(
-      { error: "Erro ao processar o formulário" },
+      { error: "Erro ao enviar mensagem" },
       { status: 500 }
     );
   }

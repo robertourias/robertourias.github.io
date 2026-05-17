@@ -1,59 +1,63 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-interface FormData {
-  name: string;
-  email: string;
-  message: string;
+const schema = z.object({
+  name: z.string().min(1, "Nome é obrigatório"),
+  email: z.string().email("E-mail inválido"),
+  phone: z.string().min(14, "Telefone inválido"),
+  message: z.string().min(1, "Mensagem é obrigatória"),
+});
+
+type FormData = z.infer<typeof schema>;
+
+function formatPhone(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+  if (digits.length <= 10) {
+    return digits
+      .replace(/^(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d{4})(\d)/, "$1-$2");
+  }
+  return digits
+    .replace(/^(\d{2})(\d)/, "($1) $2")
+    .replace(/(\d{5})(\d)/, "$1-$2");
 }
 
-type FormStatus = "idle" | "loading" | "success" | "error";
-
 export default function Contact() {
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [status, setStatus] = useState<FormStatus>("idle");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setStatus("loading");
-    setErrorMessage("");
-
+  const onSubmit = async (data: FormData) => {
+    setSubmitStatus("idle");
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        throw new Error("Falha ao preparar mensagem");
-      }
+      if (!response.ok) throw new Error();
 
-      const data = await response.json();
-      if (data.redirectUrl) {
-        window.location.href = data.redirectUrl;
-      }
-
-      setStatus("success");
-      setFormData({ name: "", email: "", message: "" });
-    } catch (error) {
-      setStatus("error");
-      setErrorMessage(error instanceof Error ? error.message : "Erro ao enviar mensagem");
+      setSubmitStatus("success");
+      reset();
+    } catch {
+      setSubmitStatus("error");
     }
   };
+
+  const inputClass =
+    "w-full bg-surface-container-high border-none rounded-sm px-4 py-3 focus:ring-1 focus:ring-primary text-on-surface placeholder:text-outline/30 outline-none transition-colors disabled:opacity-50";
+
   return (
     <section id="contact" className="py-20 md:py-24 px-6 md:px-8 bg-surface-container-lowest" aria-labelledby="contact-title">
       <div className="max-w-7xl mx-auto">
@@ -100,7 +104,7 @@ export default function Contact() {
                   >
                     <div className="w-12 h-12 flex items-center justify-center bg-surface-container rounded-lg group-hover:bg-primary transition-colors">
                       <svg className="w-5 h-5 text-on-surface group-hover:text-on-primary" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124.272-1.254.852-1.252 1.106-.001 2.078.134 2.846.622 1.514.976 2.14 2.744 2.14 4.615-.001 4.037-3.347 7.072-7.455 7.072-1.23.001-2.39-.381-3.306-1.113l-6.018 1.677 1.678-6.018c.461-1.21.117-2.67-.867-2.67-1.16-.001-2.124.622-2.879 1.664l-.892 1.772-1.823-1.117zm-3.68-8.818c.566 0 .866.401.866.803 0 .395-.22.783-.564.887-.36.11-.717.164-1.155.164-.447 0-.82-.058-1.125-.175-.298-.114-.535-.276-.704-.444-.171-.17-.289-.37-.353-.594l-.02-.216c-.033-.188-.019-.388.043-.575.063-.19.172-.356.328-.495l.197-.25c.116-.135.268-.232.455-.29.19-.058.42-.102.664-.131.244-.03.531-.044.86-.044 1.065-.001 1.936.415 2.422 1.164.485.748.679 1.705.579 2.684-.107 1.033-.537 1.964-1.226 2.654-.69.69-1.602 1.13-2.56 1.238-1.027.115-2.024-.097-2.795-.595-.769-.498-1.265-1.212-1.393-2.008l-.029-.245c-.128-.937.138-1.884.752-2.582.616-.697 1.488-1.102 2.453-1.139.949-.036 1.876.182 2.603.61l.218.127c.21.123.387.279.518.462.13.183.2.39.209.616l.022.262c-.016.187.028.382.129.567.103.188.263.347.472.466l.216.143c.156.09.34.145.531.162.19.017.39.011.594.001.402-.02.768-.132 1.072-.323.297-.188.514-.45.638-.77.124-.32.162-.677.111-1.027l-.018-.114c-.053-.337-.226-.628-.487-.823-.263-.196-.589-.303-.938-.308-.35-.004-.684.109-.978.331-.29.22-.48.539-.56.928l-.023.224c.012.36.15.702.397.987.247.284.586.474.958.533.372.06.765.01 1.127-.143l.219-.097c.222-.099.418-.234.58-.402.162-.167.272-.372.326-.601.054-.23.052-.473-.006-.696l-.015-.074z"/>
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
                       </svg>
                     </div>
                     <div>
@@ -135,74 +139,117 @@ export default function Contact() {
 
           <div className="md:col-span-7 bg-surface-container-low p-8 md:p-10 rounded-2xl">
             <h4 className="font-display text-xl font-bold mb-8">Nova Mensagem</h4>
-            
-            {status === "success" && (
-              <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm">
+
+            {submitStatus === "success" && (
+              <div role="alert" className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm">
                 Mensagem enviada com sucesso! Em breve entrarei em contato.
               </div>
             )}
 
-            {status === "error" && (
-              <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
-                {errorMessage}
+            {submitStatus === "error" && (
+              <div role="alert" className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+                Erro ao enviar mensagem. Tente novamente ou use um dos canais ao lado.
               </div>
             )}
 
-            <form className="space-y-6" aria-label="Formulário de contato" onSubmit={handleSubmit}>
+            <form className="space-y-6" aria-label="Formulário de contato" onSubmit={handleSubmit(onSubmit)} noValidate>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label htmlFor="name" className="text-[10px] font-bold uppercase tracking-widest text-outline">Seu Nome</label>
+                  <label htmlFor="name" className="text-[10px] font-bold uppercase tracking-widest text-outline">
+                    Seu Nome <span aria-hidden="true">*</span>
+                  </label>
                   <input
                     id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full bg-surface-container-high border-none rounded-sm px-4 py-3 focus:ring-1 focus:ring-primary text-on-surface placeholder:text-outline/30 outline-none transition-colors"
+                    className={inputClass}
                     placeholder="Nome Sobrenome"
                     type="text"
-                    required
-                    disabled={status === "loading"}
+                    autoComplete="name"
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "name-error" : undefined}
+                    disabled={isSubmitting}
+                    {...register("name")}
                   />
+                  {errors.name && (
+                    <p id="name-error" className="text-xs text-red-400">{errors.name.message}</p>
+                  )}
                 </div>
+
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-[10px] font-bold uppercase tracking-widest text-outline">E-mail de Contato</label>
+                  <label htmlFor="email" className="text-[10px] font-bold uppercase tracking-widest text-outline">
+                    E-mail de Contato <span aria-hidden="true">*</span>
+                  </label>
                   <input
                     id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full bg-surface-container-high border-none rounded-sm px-4 py-3 focus:ring-1 focus:ring-primary text-on-surface placeholder:text-outline/30 outline-none transition-colors"
+                    className={inputClass}
                     placeholder="voce@dominio.com"
                     type="email"
-                    required
-                    disabled={status === "loading"}
+                    autoComplete="email"
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                    disabled={isSubmitting}
+                    {...register("email")}
                   />
+                  {errors.email && (
+                    <p id="email-error" className="text-xs text-red-400">{errors.email.message}</p>
+                  )}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="message" className="text-[10px] font-bold uppercase tracking-widest text-outline">Mensagem</label>
+                <label htmlFor="phone" className="text-[10px] font-bold uppercase tracking-widest text-outline">
+                  Telefone <span aria-hidden="true">*</span>
+                </label>
+                <Controller
+                  control={control}
+                  name="phone"
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      id="phone"
+                      className={inputClass}
+                      placeholder="(11) 99999-9999"
+                      type="tel"
+                      autoComplete="tel"
+                      inputMode="numeric"
+                      aria-invalid={!!errors.phone}
+                      aria-describedby={errors.phone ? "phone-error" : undefined}
+                      disabled={isSubmitting}
+                      onChange={(e) => field.onChange(formatPhone(e.target.value))}
+                    />
+                  )}
+                />
+                {errors.phone && (
+                  <p id="phone-error" className="text-xs text-red-400">{errors.phone.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="message" className="text-[10px] font-bold uppercase tracking-widest text-outline">
+                  Mensagem <span aria-hidden="true">*</span>
+                </label>
                 <textarea
                   id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full bg-surface-container-high border-none rounded-sm px-4 py-3 focus:ring-1 focus:ring-primary text-on-surface placeholder:text-outline/30 outline-none transition-colors resize-none"
+                  className={`${inputClass} resize-none`}
                   placeholder="Descreva seu projeto ou ideia..."
                   rows={4}
-                  required
-                  disabled={status === "loading"}
+                  aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? "message-error" : undefined}
+                  disabled={isSubmitting}
+                  {...register("message")}
                 />
+                {errors.message && (
+                  <p id="message-error" className="text-xs text-red-400">{errors.message.message}</p>
+                )}
               </div>
 
               <button
                 className="w-full py-4 bg-primary text-on-primary font-bold tracking-widest uppercase text-xs rounded-full hover:bg-primary-container transition-colors shadow-[0_20px_40px_rgba(0,218,243,0.08)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 type="submit"
-                disabled={status === "loading"}
+                disabled={isSubmitting}
               >
-                {status === "loading" ? (
+                {isSubmitting ? (
                   <>
-                    <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                    <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                     </svg>
