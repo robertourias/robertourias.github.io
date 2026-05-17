@@ -9,6 +9,21 @@ Para detalhes de implementação, veja os arquivos em `docs/features/`.
 
 ---
 
+## [0.6.0] — 2026-05-16
+
+### Adicionado
+- Formulário de contato funcional com envio real de e-mail via Resend SDK
+  - Campos: Nome, E-mail, Telefone e Mensagem — todos obrigatórios
+  - Campo Telefone com máscara automática: `(XX) XXXX-XXXX` (fixo) e `(XX) XXXXX-XXXX` (celular)
+  - Validação no frontend (Zod) e no backend (API route) com mensagens inline por campo
+  - Feedback de sucesso/erro inline após envio, sem redirecionamento
+- Migração do formulário para React Hook Form + Zod (padrão definido em `.ai-core/decisions/frontend.md`)
+
+### Corrigido
+- Substituído redirect `mailto:` por envio real de e-mail — fluxo quebrava em mobile e ambientes sem cliente de e-mail configurado
+
+---
+
 ## [0.5.0] — 2026-05-16
 
 ### Adicionado
