@@ -18,12 +18,12 @@ export default function ProjetosPage() {
       <div className="pt-28 pb-20 px-6 md:px-8 bg-surface min-h-screen">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12 md:mb-16">
-            <h1 className="font-display text-sm tracking-[0.2em] text-primary uppercase mb-4">
+            <p className="font-display text-sm tracking-[0.2em] text-primary uppercase mb-4">
               Portfólio
-            </h1>
-            <h2 className="font-display text-3xl md:text-5xl font-bold text-on-surface">
+            </p>
+            <h1 className="font-display text-3xl md:text-5xl font-bold text-on-surface">
               Todos os Projetos
-            </h2>
+            </h1>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
