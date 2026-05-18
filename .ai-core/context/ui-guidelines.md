@@ -4,24 +4,54 @@
 
 ## Design System
 
-**Component library**: shadcn/ui sobre Radix UI — sem MUI, sem Chakra
-**Styling solution**: Tailwind CSS — sem CSS Modules, sem styled-components
+**Component library**: `@nico.dev/ui` (packages/ui/) — fonte primária de todos os componentes
+**Design source of truth**: `docs/nico.dev.br.pen` (Pencil) — tokens e componentes visuais definidos aqui
+**Component reference**: `apps/storybook/` — rodar `pnpm dev --filter @nico.dev/storybook`
+**Styling solution**: Tailwind CSS v4 — sem CSS Modules, sem styled-components
 **Icon library**: Lucide React — sem Heroicons, sem Phosphor
-**Design tokens source**: <!-- a definir -->
 
-## Color Tokens
+## Componentes disponíveis em `@nico.dev/ui`
 
-Use variáveis semânticas — nunca valores hex diretos em componentes.
+| Categoria | Componentes |
+|-----------|-------------|
+| Formulários | `Button`, `Input`, `Label`, `Textarea`, `Checkbox`, `RadioGroup`, `Switch`, `Select`, `FormGroup` |
+| Feedback | `Badge` (default/success/destructive/warning), `Alert` (default/success/warning/destructive) |
+| Layout | `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter` |
+| Navegação | `Tabs` (pill/underline), `ToggleFilter`, `ToggleFilterGroup` |
+| Identidade | `Avatar`, `AvatarImage`, `AvatarFallback`, `AvatarWithStatus`, `AvatarGroup` |
+| Dados | `Calendar`, `DatePicker`, `Heatmap` |
+| Estado | `Skeleton` (line/line-short/circle/card) |
 
-<!-- a definir — preencher quando design tokens forem estabelecidos -->
-```css
---color-primary        /* cor principal da marca, com variantes hover e active */
---color-success / --color-warning / --color-error / --color-info
---color-text-primary / --color-text-secondary / --color-text-disabled
---color-border / --color-background / --color-surface
+## Tokens de Design (fonte: Pencil)
+
+**Tipografia:**
+- `font-sans`: Inter
+- `font-mono`: JetBrains Mono
+- Escala de font-size: xs=11px, sm=12px, base=14px, lg=16px, xl=18px, 2xl=20px, 3xl=24px, 4xl=30px
+
+**Radius:**
+- sm=4px, md=6px, lg=8px, xl=12px, 2xl=16px
+
+**Spacing:** grid de 4px (spacing-1=4px, spacing-2=8px, spacing-3=12px, spacing-4=16px, spacing-5=20px, spacing-6=24px, spacing-8=32px)
+
+**Color Tokens** — use sempre variáveis semânticas via classes Tailwind:
+
+```
+bg-background / text-foreground
+bg-surface / bg-surface-raised / bg-surface-overlay
+bg-primary / text-primary-foreground / hover:bg-primary-hover
+bg-secondary / text-secondary-foreground
+bg-muted / text-muted-foreground
+bg-accent / text-accent-foreground
+bg-destructive / text-destructive-foreground
+bg-success / text-success-foreground
+bg-warning / text-warning-foreground
+border-border / border-input / ring-ring
+bg-badge-destructive-bg / bg-badge-success-bg / bg-badge-warning-bg
 ```
 
-Dark mode: todas as cores devem suportar dark mode via CSS variables ou classes `dark:` do Tailwind. Contraste mínimo: 4.5:1 para texto normal, 3:1 para texto grande.
+Dark mode: suportado via classe `.dark` no elemento raiz — todas as variáveis têm valor no modo escuro.
+Contraste mínimo: 4.5:1 para texto normal, 3:1 para texto grande.
 
 ## Espaçamento & Layout
 
@@ -30,52 +60,40 @@ Dark mode: todas as cores devem suportar dark mode via CSS variables ou classes 
 - Max-width: conteúdo `max-w-7xl` centralizado; prose `max-w-prose`; formulários `max-w-md` ou `max-w-lg`
 - Layouts de página: CSS Grid; layouts de componente: Flexbox
 
-## Tipografia
-
-<!-- a definir — preencher quando fontes forem escolhidas -->
-```
-Headings: [a definir], pesos 600/700
-Body:     [a definir], pesos 400/500
-Mono:     [a definir] (blocos de código, conteúdo técnico)
-```
-
-Usar escala de tipo do Tailwind (`text-sm`, `text-base`, `text-lg` etc.) — sem tamanhos de fonte customizados salvo exceção justificada.
-
 ## Padrões de Componentes
 
 ### Buttons
 
-Quatro variantes: `primary` (máximo um por seção de tela), `secondary`, `destructive` (sempre pedir confirmação antes de executar), `ghost`.
-Sempre exibir loading state durante ações assíncronas (spinner ou skeleton).
+Seis variantes: `default` (máximo um por seção), `secondary`, `outline`, `ghost`, `destructive` (sempre pedir confirmação antes), `link`.
+Sempre exibir loading state durante ações assíncronas.
 
 ### Forms
 
+- Usar `FormGroup` para emparelhar Label + Input + mensagem de erro/hint
 - Sempre associar inputs a labels visíveis — nunca usar placeholder como substituto de label
 - Validar no blur, não no keystroke
-- Erros inline ao lado do campo; campos obrigatórios marcados com `*`
 - Validação via Zod + React Hook Form
 
 ### Empty & Error States
 
 Toda lista ou tabela exige ambos:
 - **Empty state:** ícone + título + descrição + botão de ação
-- **Error state:** título + descrição + botão de retry
+- **Error state:** usar `Alert` variant `destructive` + botão de retry
 
 ### Loading States
 
-- Áreas de conteúdo: skeleton screens preferidos sobre spinners
-- Ações de botão e áreas pequenas: spinner
+- Áreas de conteúdo: usar `Skeleton` — preferido sobre spinners
+- Ações de botão e áreas pequenas: spinner (Lucide `Loader2` com `animate-spin`)
 
 ## Motion
 
 - Sempre respeitar `prefers-reduced-motion` — todas as animações devem poder ser desativadas
 - Durações: fast=100ms, normal=200ms, slow=350ms
-- Animar apenas `transform` e `opacity` — nunca propriedades de layout (`width`, `height`)
+- Animar apenas `transform` e `opacity` — nunca propriedades de layout
 
 ## Accessibility Baseline
 
 - Cor nunca deve ser o único diferenciador — sempre adicionar texto ou ícone
 - `outline: none` é proibido — focus rings devem ser sempre visíveis
-- Modals: capturar foco ao abrir, restaurar ao fechar
 - Touch targets: mínimo 44×44px em mobile
 - Ícones usados sozinhos: exigem `aria-label` ou `title`

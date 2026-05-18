@@ -28,13 +28,14 @@ ToggleFilter.displayName = "ToggleFilter";
 
 export interface ToggleFilterGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: string;
+  defaultValue?: string;
   onValueChange?: (value: string) => void;
   mode?: "single" | "multiple";
 }
 
 const ToggleFilterGroup = React.forwardRef<HTMLDivElement, ToggleFilterGroupProps>(
-  ({ className, value, onValueChange, mode = "single", children, ...props }, ref) => {
-    const [internalValue, setInternalValue] = React.useState<string>(value ?? "");
+  ({ className, value, defaultValue, onValueChange, mode = "single", children, ...props }, ref) => {
+    const [internalValue, setInternalValue] = React.useState<string>(defaultValue ?? value ?? "");
 
     const activeValue = value !== undefined ? value : internalValue;
 

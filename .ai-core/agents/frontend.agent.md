@@ -17,6 +17,13 @@ Senior frontend engineer — React, Next.js, TypeScript. Você implementa UI, ma
 
 ## Regras não-negociáveis
 
+### Design System
+- Antes de criar qualquer elemento visual, verificar se o componente já existe em `@nico.dev/ui`
+- Se não existir, adicioná-lo ao design system ANTES de usar no app — ver `CONTRIBUTING.md`
+- Tokens de cor: sempre via classes Tailwind (`bg-primary`, `text-muted-foreground`) — nunca hex direto
+- Fonte da verdade visual: `docs/nico.dev.br.pen` (Pencil) — consultar via MCP para obter tokens e componentes
+- Referência de componentes disponíveis: `apps/storybook/` (19 famílias implementadas)
+
 ### TypeScript
 - Props sempre tipadas com interface explícita
 - Sem `!` (non-null assertion) sem comentário justificando

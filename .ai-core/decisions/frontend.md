@@ -14,9 +14,18 @@ Carregue junto com `agents/frontend.agent.md`.
 
 - Tailwind CSS — sem CSS Modules, sem styled-components
 
+## Design System
+
+- Todos os componentes UI devem vir de `@nico.dev/ui` (packages/ui/)
+- Nenhum componente deve ser criado diretamente em `apps/web` ou subprojetos sem antes existir (ou ser adicionado) ao design system
+- Fonte da verdade visual: `docs/nico.dev.br.pen` via MCP do Pencil
+- Referência de componentes disponíveis: rodar `pnpm dev --filter @nico.dev/storybook`
+- Tokens de cor: sempre via variáveis CSS semânticas (classes Tailwind como `bg-primary`) — nunca hex direto
+
 ## Componentes
 
-- shadcn/ui sobre Radix UI — sem MUI, sem Chakra
+- Radix UI para primitivas de acessibilidade (Checkbox, Select, Tabs, Avatar, etc.)
+- shadcn/ui como referência de padrão — sem MUI, sem Chakra
 
 ## Estado global
 
