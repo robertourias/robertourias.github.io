@@ -1,13 +1,12 @@
+// Source of truth: docs/nico.dev.br.pen
 export const radius = {
   none: "0px",
-  sm: "calc(var(--radius) - 4px)",
-  md: "calc(var(--radius) - 2px)",
-  lg: "var(--radius)",
-  xl: "calc(var(--radius) + 4px)",
-  "2xl": "calc(var(--radius) + 8px)",
-  "3xl": "calc(var(--radius) + 16px)",
+  sm: "4px",
+  md: "6px",
+  lg: "8px",
+  xl: "12px",
+  "2xl": "16px",
   full: "9999px",
 } as const;
 
-// Base radius value used in CSS: 8px
-export const BASE_RADIUS = "8px";
+export type RadiusToken = keyof typeof radius;
