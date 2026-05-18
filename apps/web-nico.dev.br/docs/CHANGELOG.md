@@ -7,6 +7,13 @@ Para detalhes de implementação, veja os arquivos em `docs/features/`.
 
 ## [Unreleased]
 
+### Monorepo
+
+- **Scaffold `apps/tools`** — novo subprojeto `tools.nico.dev` com 8 ferramentas planejadas para devs (dashboard de clima, debugger de código com IA, leitor inteligente de documentos, buscador semântico, classificador de conteúdo, analisador de texto, mercado financeiro e calculadora CLT vs PJ)
+  - Next.js 16 + App Router, Tailwind v4, Anthropic Claude SDK
+  - Design tokens e configs de ESLint/TypeScript herdados de `@nico.dev/config`
+  - Dev server na porta 3001 — `pnpm --filter @nico.dev/tools dev`
+
 ---
 
 ## [0.9.0] — 2026-05-18

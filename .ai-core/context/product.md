@@ -31,6 +31,7 @@ Site pessoal e portfólio profissional de Roberto Nicoletti. Organizado como um 
 | Currículo | Página de CV com experiência, habilidades e histórico profissional | Em andamento |
 | Formulário de contato | Canal direto de contato para oportunidades e colaborações | Em andamento |
 | Subprojetos no monorepo | Aplicações independentes com deploy em subdomínios (ex: projeto.nico.dev) | Planejado |
+| tools.nico.dev | Coleção de ferramentas web para devs (clima, debugger IA, OCR, busca semântica, mercado financeiro, CLT vs PJ…) | Planejado |
 
 ## Business Rules
 
