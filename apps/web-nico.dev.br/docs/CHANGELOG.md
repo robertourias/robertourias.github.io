@@ -9,6 +9,19 @@ Para detalhes de implementação, veja os arquivos em `docs/features/`.
 
 ### Monorepo
 
+- **Scaffold `packages/ui` — Design System** com tokens redesenhados do zero
+  - Color system: paleta primitiva (neutral, indigo, violet, red, green, amber) + tokens semânticos light/dark (background, surface, primary, secondary, muted, accent, destructive, success, warning, border)
+  - Typography, spacing, border radius e motion tokens (Framer Motion variants + transitions)
+  - `globals.css` com CSS custom properties + `@theme inline` para Tailwind v4
+  - `Button` component com 6 variantes (default, secondary, outline, ghost, destructive, link) e 4 tamanhos via CVA + shadcn/ui pattern
+  - `cn()` utility (clsx + tailwind-merge)
+  - Stack: shadcn/ui pattern + Radix UI Slot + Framer Motion + Tailwind v4
+
+- **Scaffold `apps/storybook`** — Storybook 8 com Next.js framework
+  - `Button.stories.tsx` com stories para todas as variantes e tamanhos
+  - Preview com decorador de tema e import automático do `globals.css` do design system
+  - Dev server na porta 6006 — `pnpm --filter @nico.dev/storybook dev`
+
 - **Scaffold `apps/tools`** — novo subprojeto `tools.nico.dev` com 8 ferramentas planejadas para devs (dashboard de clima, debugger de código com IA, leitor inteligente de documentos, buscador semântico, classificador de conteúdo, analisador de texto, mercado financeiro e calculadora CLT vs PJ)
   - Next.js 16 + App Router, Tailwind v4, Anthropic Claude SDK
   - Design tokens e configs de ESLint/TypeScript herdados de `@nico.dev/config`

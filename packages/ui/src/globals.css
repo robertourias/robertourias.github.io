@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ────────────────────────────────────────────────── */
+
+:root {
+  --radius: 8px;
+
+  /* Background & Foreground */
+  --background: #fafafa;
+  --foreground: #18181b;
+
+  /* Surface */
+  --surface: #ffffff;
+  --surface-raised: #f4f4f5;
+  --surface-overlay: #e4e4e7;
+
+  /* Primary — Indigo */
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+  --primary-hover: #4338ca;
+
+  /* Secondary — Violet */
+  --secondary: #8b5cf6;
+  --secondary-foreground: #ffffff;
+
+  /* Muted */
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+
+  /* Accent */
+  --accent: #e0e7ff;
+  --accent-foreground: #4338ca;
+
+  /* Destructive */
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  /* Status */
+  --success: #16a34a;
+  --success-foreground: #ffffff;
+  --warning: #f59e0b;
+  --warning-foreground: #09090b;
+
+  /* Border & Input */
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #6366f1;
+}
+
+:root.dark {
+  --background: #09090b;
+  --foreground: #fafafa;
+
+  --surface: #18181b;
+  --surface-raised: #27272a;
+  --surface-overlay: #3f3f46;
+
+  --primary: #818cf8;
+  --primary-foreground: #09090b;
+  --primary-hover: #a5b4fc;
+
+  --secondary: #a78bfa;
+  --secondary-foreground: #09090b;
+
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+
+  --accent: #1e1b4b;
+  --accent-foreground: #a5b4fc;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --success: #22c55e;
+  --success-foreground: #09090b;
+  --warning: #fbbf24;
+  --warning-foreground: #09090b;
+
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #818cf8;
+}
+
+/* ─── Tailwind Theme Bridge ────────────────────────────────────────── */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+}
+
+/* ─── Base Styles ──────────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+*,
+*::before,
+*::after {
+  border-color: var(--border);
+}
