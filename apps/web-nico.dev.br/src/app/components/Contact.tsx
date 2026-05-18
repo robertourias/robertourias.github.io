@@ -65,7 +65,7 @@ export default function Contact() {
     <section id="contact" className="py-20 md:py-24 px-6 md:px-8 bg-surface-container-lowest" aria-labelledby="contact-title">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start">
-          <div className="md:col-span-5 space-y-10 md:space-y-12">
+          <div className="md:col-span-6 space-y-10 md:space-y-12">
             <div>
               <h2 id="contact-title" className="font-display text-sm tracking-[0.2em] text-primary uppercase mb-4">
                 Comunicação
@@ -140,7 +140,7 @@ export default function Contact() {
             </nav>
           </div>
 
-          <div className="md:col-span-7 bg-surface-container-low p-8 md:p-10 rounded-2xl">
+          <div className="md:col-span-6 bg-surface-container-low p-8 md:p-10 rounded-2xl">
             <h4 className="font-display text-xl font-bold mb-8">Nova Mensagem</h4>
 
             {submitStatus === "success" && (
@@ -156,8 +156,8 @@ export default function Contact() {
             )}
 
             <form className="space-y-6" aria-label="Formulário de contato" onSubmit={handleSubmit(onSubmit)} noValidate>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
+              <div className="grid grid-cols-2 gap-6">
+                <div className="col-span-2 space-y-2">
                   <label htmlFor="name" className="text-[10px] font-bold uppercase tracking-widest text-outline">
                     Seu Nome <span aria-hidden="true">*</span>
                   </label>
@@ -196,34 +196,34 @@ export default function Contact() {
                     <p id="email-error" className="text-xs text-red-400">{errors.email.message}</p>
                   )}
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <label htmlFor="phone" className="text-[10px] font-bold uppercase tracking-widest text-outline">
-                  Telefone <span aria-hidden="true">*</span>
-                </label>
-                <Controller
-                  control={control}
-                  name="phone"
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      id="phone"
-                      className={inputClass}
-                      placeholder="(11) 99999-9999"
-                      type="tel"
-                      autoComplete="tel"
-                      inputMode="numeric"
-                      aria-invalid={!!errors.phone}
-                      aria-describedby={errors.phone ? "phone-error" : undefined}
-                      disabled={isSubmitting}
-                      onChange={(e) => field.onChange(formatPhone(e.target.value))}
-                    />
+                <div className="space-y-2">
+                  <label htmlFor="phone" className="text-[10px] font-bold uppercase tracking-widest text-outline">
+                    Telefone <span aria-hidden="true">*</span>
+                  </label>
+                  <Controller
+                    control={control}
+                    name="phone"
+                    render={({ field }) => (
+                      <input
+                        {...field}
+                        id="phone"
+                        className={inputClass}
+                        placeholder="(11) 99999-9999"
+                        type="tel"
+                        autoComplete="tel"
+                        inputMode="numeric"
+                        aria-invalid={!!errors.phone}
+                        aria-describedby={errors.phone ? "phone-error" : undefined}
+                        disabled={isSubmitting}
+                        onChange={(e) => field.onChange(formatPhone(e.target.value))}
+                      />
+                    )}
+                  />
+                  {errors.phone && (
+                    <p id="phone-error" className="text-xs text-red-400">{errors.phone.message}</p>
                   )}
-                />
-                {errors.phone && (
-                  <p id="phone-error" className="text-xs text-red-400">{errors.phone.message}</p>
-                )}
+                </div>
               </div>
 
               <div className="space-y-2">

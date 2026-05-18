@@ -30,7 +30,21 @@ export default function About() {
             Desenvolvedor com mais de 14 anos de experiência em Frontend, evoluindo para Fullstack com foco em Inteligência Artificial aplicada. Atuo na construção de aplicações modernas e na integração de LLMs, RAG e automações, sempre com foco em resolver problemas reais e gerar valor em produtos digitais.
           </p>
 
-          <ChatCTAButton className="inline-flex items-center gap-2 px-6 py-3 border border-outline-variant text-on-surface rounded-full text-sm font-semibold hover:bg-surface-container transition-all" />
+          <div className="flex flex-wrap gap-4">
+            <a
+              href="#projects"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-full text-sm font-semibold shadow-md shadow-primary/10 hover:scale-105 transition-transform"
+            >
+              Ver Projetos
+            </a>
+            <a
+              href="/curriculo"
+              className="inline-flex items-center gap-2 px-6 py-3 border border-outline-variant text-on-surface rounded-full text-sm font-semibold hover:bg-surface-container transition-all"
+            >
+              Currículo
+            </a>
+            <ChatCTAButton className="inline-flex items-center gap-2 px-6 py-3 border border-outline-variant text-on-surface rounded-full text-sm font-semibold hover:bg-surface-container transition-all" />
+          </div>
         </article>
       </div>
     </section>

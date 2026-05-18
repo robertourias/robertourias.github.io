@@ -34,25 +34,7 @@ export default function Hero() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-6">
-          <a
-            href="#projects"
-            className="px-10 py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-full font-semibold shadow-lg shadow-primary/10 hover:scale-105 transition-transform flex items-center gap-2"
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M4 4l16 8-8 2-2 8z" />
-            </svg>
-            Ver Projetos
-          </a>
-          <a
-            href="/curriculo"
-            className="px-10 py-4 border border-outline-variant text-on-surface rounded-full font-semibold hover:bg-surface-container-low transition-all flex items-center gap-2"
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M4 4l16 8-8 2-2 8z" />
-            </svg>
-            Currículo
-          </a>
-          <ChatCTAButton className="px-10 py-4 border border-outline-variant text-on-surface rounded-full font-semibold hover:bg-surface-container-low transition-all flex items-center gap-2" />
+          <ChatCTAButton className="px-10 py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-full font-semibold shadow-lg shadow-primary/10 hover:scale-105 transition-transform flex items-center gap-2" />
 
           <a
             href="#contact"
