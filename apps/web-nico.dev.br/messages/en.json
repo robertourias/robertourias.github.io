@@ -1,0 +1,129 @@
+{
+  "nav": {
+    "ariaLabel": "Main navigation",
+    "ariaHome": "Roberto Nicoletti — home page",
+    "ariaTheme": "Toggle theme",
+    "ariaMobileOpen": "Open mobile menu",
+    "ariaMobileMenu": "Mobile menu",
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "contact": "Contact",
+    "resume": "Resume"
+  },
+  "hero": {
+    "imageAlt": "Photo of Roberto Nicoletti, Fullstack Developer",
+    "title": "Fullstack Developer",
+    "subtitle": "React • Next.js • NestJS • LLMs • RAG • AI APIs • Software Architecture",
+    "ctaChat": "Let's Talk"
+  },
+  "about": {
+    "tag": "Background",
+    "title": "Software Engineer",
+    "description": "Developer with over 14 years of experience in Frontend, evolving into Fullstack with a focus on Applied Artificial Intelligence. I build modern applications and integrate LLMs, RAG and automations, always focused on solving real problems and generating value in digital products.",
+    "imageAlt": "Roberto Nicoletti at his home office",
+    "imageCaption": "Roberto Nicoletti at his workspace",
+    "ctaProjects": "View Projects",
+    "ctaResume": "Resume"
+  },
+  "skills": {
+    "title": "Skills",
+    "subtitle": "Technologies and concepts I use to build robust and intelligent solutions.",
+    "items": [
+      { "title": "Frontend", "description": "React • Next.js • TypeScript" },
+      { "title": "Backend", "description": "Node.js • NestJS • REST APIs • GraphQL" },
+      { "title": "Artificial Intelligence", "description": "LLMs • RAG • Embeddings • Agents • Prompt Engineering" },
+      { "title": "Databases", "description": "PostgreSQL • Redis" },
+      { "title": "Infrastructure", "description": "Vercel • Docker • Cloud Deploy" }
+    ]
+  },
+  "projects": {
+    "tag": "Portfolio",
+    "title": "Featured Projects",
+    "viewAll": "View all projects",
+    "ariaPrev": "Previous projects",
+    "ariaNext": "Next projects",
+    "ariaCarousel": "Featured projects carousel",
+    "ariaPage": "Page {current} of {total}",
+    "pageTitle": "All Projects",
+    "pageMetaTitle": "Projects | Roberto Nicoletti",
+    "pageMetaDesc": "All developed projects — landing pages, web applications and digital products."
+  },
+  "contact": {
+    "tag": "Get in Touch",
+    "title": "Let's Talk.",
+    "ariaLinkedIn": "View LinkedIn profile",
+    "ariaWhatsApp": "Send a WhatsApp message",
+    "ariaGitHub": "View GitHub profile",
+    "formTitle": "New Message",
+    "ariaForm": "Contact form",
+    "success": "Message sent successfully! I'll get back to you soon.",
+    "error": "Error sending message. Please try again or use one of the channels on the side.",
+    "labelName": "Your Name",
+    "labelEmail": "Contact Email",
+    "labelPhone": "Phone",
+    "labelMessage": "Message",
+    "placeholderName": "First Last",
+    "placeholderEmail": "you@domain.com",
+    "placeholderPhone": "+1 (555) 000-0000",
+    "placeholderMessage": "Describe your project or idea...",
+    "submit": "Start Conversation",
+    "submitting": "Sending...",
+    "validationName": "Name is required",
+    "validationEmail": "Invalid email",
+    "validationPhone": "Invalid phone number",
+    "validationMessage": "Message is required"
+  },
+  "footer": {
+    "ariaLabel": "Footer links",
+    "rights": "© {year} Roberto Nicoletti"
+  },
+  "chat": {
+    "ariaOpen": "Open chat — Talk with Roberto",
+    "ariaClose": "Close chat",
+    "ariaExpanded": "AI Chat — Talk with Roberto",
+    "ariaClear": "Clear conversation",
+    "ariaField": "Message field",
+    "ariaSend": "Send message",
+    "ariaButton": "Open chat — Talk to the AI about Roberto",
+    "title": "Talk with Roberto",
+    "greeting": "Hi! I'm an AI assistant specialized in Roberto Nicoletti's profile. How can I help you?",
+    "placeholder": "Ask a question...",
+    "errorMessage": "Sorry, an error occurred while processing your message. Please try again.",
+    "footer": "AI assistant specialized in Roberto Nicoletti's profile",
+    "ctaButton": "Talk to the AI",
+    "suggestions": [
+      "What is your experience with React and Next.js?",
+      "How was your journey at PicPay?",
+      "What are your career goals?"
+    ]
+  },
+  "resume": {
+    "metaTitle": "Resume | Roberto Nicoletti",
+    "metaDesc": "Resume of Roberto Nicoletti — Senior Frontend / Product Engineer with over 10 years of experience in React, Next.js and software architecture.",
+    "downloadPdf": "Download PDF",
+    "ariaDownload": "Download resume as PDF",
+    "ariaLinkedIn": "LinkedIn profile",
+    "ariaGitHub": "GitHub profile",
+    "sectionSummary": "Professional Summary",
+    "sectionSkills": "Technical Skills",
+    "sectionDifferentials": "Key Strengths",
+    "sectionExperience": "Professional Experience",
+    "sectionEducation": "Education",
+    "sectionReferences": "References",
+    "educationInProgress": "In progress",
+    "educationExpected": "Expected completion: {date}",
+    "educationHighlights": "Key competencies",
+    "referencesTitle": "LinkedIn Recommendations",
+    "referencesDesc": "Professional references available directly on my profile.",
+    "referencesBtn": "View Recommendations",
+    "ariaReferences": "View recommendations on LinkedIn"
+  },
+  "meta": {
+    "homeTitle": "Roberto Nicoletti | Fullstack AI Developer",
+    "homeDesc": "Fullstack Developer focused on Applied Artificial Intelligence. React • Next.js • NestJS • LLMs • RAG",
+    "ogTitle": "Roberto Nicoletti | Fullstack",
+    "ogDesc": "Fullstack Developer focused on Applied Artificial Intelligence."
+  }
+}
