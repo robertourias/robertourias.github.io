@@ -3,52 +3,49 @@
 > Memória de trabalho persistente. Atualizado pelo `/checkpoint`, lido pelo `/retomar`.
 > Não edite manualmente durante uma sessão ativa — use `/checkpoint` antes de fechar.
 
-**Última atualização:** 2026-05-17
-**Resumo da última sessão:** Carrossel de Projetos em Destaque refeito com Embla Carousel — loop infinito, responsividade por breakpoint, espaçamento entre cards, botões prev/next no tablet/desktop, 6 projetos exibidos.
+**Última atualização:** 2026-05-18
+**Resumo da última sessão:** Spec e plano técnico do Design System criados — sincronização de tokens do Pencil com `packages/ui`, implementação de 19 famílias de componentes, Storybook e documentação de workflow.
 
 ---
 
 ## Feature em andamento
 
-**Spec ativo:** .ai-core/specs/2026-05-17-carousel-responsive.md (Status: approved — implementado e commitado)
-**Plano ativo:** .ai-core/plans/2026-05-17-carousel-responsive.md
+**Spec ativo:** .ai-core/specs/2026-05-18-design-system.md (Status: approved)
+**Plano ativo:** .ai-core/plans/2026-05-18-design-system.md
 
 ---
 
 ## Tasks
 
 ### ✅ Concluídas
-- Spec e plano técnico do carrossel responsivo
-- Implementação inicial com lógica manual (clone-based infinite loop)
-- Refatoração para Embla Carousel (`embla-carousel` + `embla-carousel-react`)
-  - Loop infinito nativo
-  - Responsividade CSS: `flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%]`
-  - Dots dinâmicos via `scrollSnapList()` + evento `reInit`
-  - Botões Anterior/Próximo (`hidden md:flex`) com SVG inline
-  - 6 projetos exibidos (era 5)
-  - Espaçamento com `pl-4 md:pl-5` nos slides e `-ml-4 md:-ml-5` no track
-- CHANGELOG promovido para `[0.7.0]`
+- Spec do Design System gerado e aprovado (`.ai-core/specs/2026-05-18-design-system.md`)
+- Plano técnico com 12 tarefas decompostas e ordenadas (`.ai-core/plans/2026-05-18-design-system.md`)
 
 ### 🔄 Em progresso
-- (nenhuma)
+- (nenhuma — plano pronto, implementação ainda não iniciada)
 
 ### ⏭ Próximos passos
-1. Deploy de produção e verificar `RESEND_API_KEY` nas variáveis de ambiente da Vercel (pendente da sessão anterior)
-2. Verificar domínio `nico.dev.br` no painel do Resend para usar como remetente
-3. Usar `/spec` para próxima feature — sugestões: Blog, animações de entrada nas seções, seção de depoimentos
+1. Executar **Tarefa 1**: sync tokens do Pencil em `packages/ui/src/tokens/` e `globals.css` — comando: `/front Tarefa 1 do plano 2026-05-18-design-system — sync tokens`
+2. Executar **Tarefa 2**: instalar deps Radix UI e react-day-picker em `packages/ui` — comando: `/front Tarefa 2`
+3. Executar Tarefas 3–9 em paralelo (componentes de formulário, feedback, layout, navegação, avatar, dados, estado)
+4. Executar **Tarefa 10**: barrel exports + verificação de build
+5. Executar **Tarefa 11**: stories Storybook (19 arquivos)
+6. Executar **Tarefa 12**: CONTRIBUTING.md + updates em `.ai-core/`
 
 ---
 
 ## Decisões desta sessão
 
-- **Embla Carousel em vez de implementação manual:** a biblioteca resolve natively o loop infinito (duplicação de slides internamente), drag/swipe, e breakpoints — elimina ~100 linhas de lógica frágil com refs e `transitionend`
-- **Responsividade via CSS (não JS):** `flex-[0_0_X%]` nos slides + `breakpoints.slidesToScroll` no Embla — sem `window.innerWidth` nem `useEffect` de resize para calcular layout
-- **Dots via `scrollSnapList()`:** Embla calcula automaticamente o número de snaps conforme breakpoint; `reInit` atualiza ao redimensionar
-- **Espaçamento padrão Embla:** `pl-4 md:pl-5` nos slides + `-ml-4 md:-ml-5` no track — evita padding externo visível nas bordas do container
+- **Pencil é a fonte da verdade para tokens:** todos os valores de `packages/ui/src/tokens/` serão substituídos pelos valores exatos do arquivo `docs/nico.dev.br.pen` via MCP do Pencil
+- **Todos os 47 componentes (19 famílias):** escopo completo, sem priorização — implementar tudo nesta iteração
+- **Workflow via CONTRIBUTING.md (sem lint automático):** a regra "sempre usar packages/ui" será documentada em `CONTRIBUTING.md` na raiz e nos arquivos `.ai-core/` — sem enforcement por ferramentas nesta iteração
+- **Dependências Radix UI confirmadas:** Label, Checkbox, RadioGroup, Switch, Select, Tabs, Avatar — cada um com seu primitivo Radix dedicado
+- **Calendar/DatePicker via react-day-picker + date-fns**
+- **Heatmap:** implementação custom CSS grid (53 colunas × 7 linhas), sem dependência extra
 
 ---
 
 ## Bloqueadores / Perguntas abertas
 
-- `RESEND_API_KEY` precisa ser configurada no painel da Vercel antes do próximo deploy de produção
-- Domínio `nico.dev.br` não verificado no Resend — e-mails saem com remetente `onboarding@resend.dev`
+- `react-day-picker` v9 pode ter breaking changes — verificar com `context7-mcp` antes de iniciar Tarefa 8
+- Mudança de tokens (Tarefa 1) pode afetar visual de `apps/web` — rodar `pnpm build --filter @nico.dev/web` após Tarefa 1 para detectar regressões
