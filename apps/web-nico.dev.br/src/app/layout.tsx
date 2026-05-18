@@ -1,10 +1,5 @@
-import type { Metadata } from "next"
 import { Manrope, Inter } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css"
-import { ThemeProvider } from "./components/ThemeProvider"
-import ChatWidget from "./components/ChatWidget"
 
 const manrope = Manrope({
   variable: "--font-display",
@@ -18,52 +13,13 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 })
 
-export const metadata: Metadata = {
-  title: "Roberto Nicoletti | Fullstack AI Developer",
-  description:
-    "Desenvolvedor Fullstack com foco em Inteligência Artificial aplicada. React • Next.js • NestJS • LLMs • RAG",
-  keywords: [
-    "desenvolvedor fullstack",
-    "desenvolvedor React",
-    "Next.js",
-    "inteligência artificial",
-    "LLM",
-    "RAG",
-    "desenvolvedor frontend",
-    "engenheiro de software",
-    "portfolio desenvolvedor",
-  ],
-  authors: [{ name: "Roberto Nicoletti" }],
-  creator: "Roberto Nicoletti",
-  publisher: "Roberto Nicoletti",
-  openGraph: {
-    title: "Roberto Nicoletti | Fullstack",
-    description:
-      "Desenvolvedor Fullstack com foco em Inteligência Artificial aplicada.",
-    url: "https://robertourias.github.io",
-    siteName: "Roberto Nicoletti Portfolio",
-    locale: "pt_BR",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Roberto Nicoletti | Fullstack AI Developer",
-    description:
-      "Desenvolvedor Fullstack com foco em Inteligência Artificial aplicada.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-}
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favico.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -77,12 +33,7 @@ export default function RootLayout({
       <body
         className={`${manrope.variable} ${inter.variable} min-h-full flex flex-col antialiased`}
       >
-        <ThemeProvider>
-          {children}
-          <ChatWidget />
-          <Analytics />
-          <SpeedInsights />
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   )

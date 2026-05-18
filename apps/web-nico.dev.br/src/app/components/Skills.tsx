@@ -1,26 +1,25 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+
 export default function Skills() {
-  const skills = [
-    { title: "Frontend", description: "React • Next.js • TypeScript" },
-    { title: "Backend", description: "Node.js • NestJS • APIs REST • GraphQL" },
-    { title: "Inteligência Artificial", description: "LLMs • RAG • Embeddings • Agents • Prompt Engineering" },
-    { title: "Banco de dados", description: "PostgreSQL • Redis" },
-    { title: "Infraestrutura", description: "Vercel • Docker • Cloud Deploy" },
-  ];
+  const t = useTranslations("skills");
+  const items = t.raw("items") as Array<{ title: string; description: string }>;
 
   return (
     <section id="skills" className="py-20 md:py-24 px-6 md:px-8 bg-surface" aria-labelledby="skills-title">
       <div className="max-w-7xl mx-auto">
         <div className="max-w-xl mb-12 md:mb-16 space-y-4">
           <h2 id="skills-title" className="font-display text-3xl md:text-5xl font-bold text-on-surface tracking-tighter">
-            Conhecimentos
+            {t("title")}
           </h2>
           <p className="text-on-surface-variant text-lg">
-            Tecnologias e conceitos que utilizo para construir soluções robustas e inteligentes.
+            {t("subtitle")}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skills.map((skill, index) => (
+          {items.map((skill, index) => (
             <article
               key={index}
               className="p-6 md:p-8 bg-surface-container-low rounded-2xl border border-outline-variant/10"

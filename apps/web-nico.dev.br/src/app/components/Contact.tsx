@@ -4,15 +4,7 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
-const schema = z.object({
-  name: z.string().min(1, "Nome é obrigatório"),
-  email: z.string().email("E-mail inválido"),
-  phone: z.string().min(14, "Telefone inválido"),
-  message: z.string().min(1, "Mensagem é obrigatória"),
-});
-
-type FormData = z.infer<typeof schema>;
+import { useTranslations } from "next-intl";
 
 function formatPhone(value: string): string {
   const digits = value.replace(/\D/g, "").slice(0, 11);
@@ -27,7 +19,17 @@ function formatPhone(value: string): string {
 }
 
 export default function Contact() {
+  const t = useTranslations("contact");
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const schema = z.object({
+    name: z.string().min(1, t("validationName")),
+    email: z.string().email(t("validationEmail")),
+    phone: z.string().min(14, t("validationPhone")),
+    message: z.string().min(1, t("validationMessage")),
+  });
+
+  type FormData = z.infer<typeof schema>;
 
   const {
     register,
@@ -68,10 +70,10 @@ export default function Contact() {
           <div className="md:col-span-6 space-y-10 md:space-y-12">
             <div>
               <h2 id="contact-title" className="font-display text-sm tracking-[0.2em] text-primary uppercase mb-4">
-                Comunicação
+                {t("tag")}
               </h2>
               <h3 className="font-display text-3xl md:text-5xl font-bold text-on-surface">
-                Vamos Conversar.
+                {t("title")}
               </h3>
             </div>
 
@@ -83,7 +85,7 @@ export default function Contact() {
                     href="https://www.linkedin.com/in/robertourias/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Acessar perfil no LinkedIn"
+                    aria-label={t("ariaLinkedIn")}
                   >
                     <div className="w-12 h-12 flex items-center justify-center bg-surface-container rounded-lg group-hover:bg-primary transition-colors">
                       <svg className="w-5 h-5 text-on-surface group-hover:text-on-primary" fill="currentColor" viewBox="0 0 24 24">
@@ -103,7 +105,7 @@ export default function Contact() {
                     href="https://wa.me/5511980927661"
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Enviar mensagem via WhatsApp"
+                    aria-label={t("ariaWhatsApp")}
                   >
                     <div className="w-12 h-12 flex items-center justify-center bg-surface-container rounded-lg group-hover:bg-primary transition-colors">
                       <svg className="w-5 h-5 text-on-surface group-hover:text-on-primary" fill="currentColor" viewBox="0 0 24 24">
@@ -123,7 +125,7 @@ export default function Contact() {
                     href="https://github.com/robertourias"
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Acessar perfil no GitHub"
+                    aria-label={t("ariaGitHub")}
                   >
                     <div className="w-12 h-12 flex items-center justify-center bg-surface-container rounded-lg group-hover:bg-primary transition-colors">
                       <svg className="w-5 h-5 text-on-surface group-hover:text-on-primary" fill="currentColor" viewBox="0 0 24 24">
@@ -141,30 +143,30 @@ export default function Contact() {
           </div>
 
           <div className="md:col-span-6 bg-surface-container-low p-8 md:p-10 rounded-2xl">
-            <h4 className="font-display text-xl font-bold mb-8">Nova Mensagem</h4>
+            <h4 className="font-display text-xl font-bold mb-8">{t("formTitle")}</h4>
 
             {submitStatus === "success" && (
               <div role="alert" className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm">
-                Mensagem enviada com sucesso! Em breve entrarei em contato.
+                {t("success")}
               </div>
             )}
 
             {submitStatus === "error" && (
               <div role="alert" className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
-                Erro ao enviar mensagem. Tente novamente ou use um dos canais ao lado.
+                {t("error")}
               </div>
             )}
 
-            <form className="space-y-6" aria-label="Formulário de contato" onSubmit={handleSubmit(onSubmit)} noValidate>
+            <form className="space-y-6" aria-label={t("ariaForm")} onSubmit={handleSubmit(onSubmit)} noValidate>
               <div className="grid grid-cols-2 gap-6">
                 <div className="col-span-2 space-y-2">
                   <label htmlFor="name" className="text-[10px] font-bold uppercase tracking-widest text-outline">
-                    Seu Nome <span aria-hidden="true">*</span>
+                    {t("labelName")} <span aria-hidden="true">*</span>
                   </label>
                   <input
                     id="name"
                     className={inputClass}
-                    placeholder="Nome Sobrenome"
+                    placeholder={t("placeholderName")}
                     type="text"
                     autoComplete="name"
                     aria-invalid={!!errors.name}
@@ -179,12 +181,12 @@ export default function Contact() {
 
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-[10px] font-bold uppercase tracking-widest text-outline">
-                    E-mail de Contato <span aria-hidden="true">*</span>
+                    {t("labelEmail")} <span aria-hidden="true">*</span>
                   </label>
                   <input
                     id="email"
                     className={inputClass}
-                    placeholder="voce@dominio.com"
+                    placeholder={t("placeholderEmail")}
                     type="email"
                     autoComplete="email"
                     aria-invalid={!!errors.email}
@@ -199,7 +201,7 @@ export default function Contact() {
 
                 <div className="space-y-2">
                   <label htmlFor="phone" className="text-[10px] font-bold uppercase tracking-widest text-outline">
-                    Telefone <span aria-hidden="true">*</span>
+                    {t("labelPhone")} <span aria-hidden="true">*</span>
                   </label>
                   <Controller
                     control={control}
@@ -209,7 +211,7 @@ export default function Contact() {
                         {...field}
                         id="phone"
                         className={inputClass}
-                        placeholder="(11) 99999-9999"
+                        placeholder={t("placeholderPhone")}
                         type="tel"
                         autoComplete="tel"
                         inputMode="numeric"
@@ -228,12 +230,12 @@ export default function Contact() {
 
               <div className="space-y-2">
                 <label htmlFor="message" className="text-[10px] font-bold uppercase tracking-widest text-outline">
-                  Mensagem <span aria-hidden="true">*</span>
+                  {t("labelMessage")} <span aria-hidden="true">*</span>
                 </label>
                 <textarea
                   id="message"
                   className={`${inputClass} resize-none`}
-                  placeholder="Descreva seu projeto ou ideia..."
+                  placeholder={t("placeholderMessage")}
                   rows={4}
                   aria-invalid={!!errors.message}
                   aria-describedby={errors.message ? "message-error" : undefined}
@@ -256,10 +258,10 @@ export default function Contact() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                     </svg>
-                    Enviando...
+                    {t("submitting")}
                   </>
                 ) : (
-                  "Iniciar Contato"
+                  t("submit")
                 )}
               </button>
             </form>

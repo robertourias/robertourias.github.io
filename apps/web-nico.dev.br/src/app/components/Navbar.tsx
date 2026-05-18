@@ -1,62 +1,64 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
+import { usePathname } from "@/i18n/navigation";
 import { useTheme } from "./ThemeProvider";
+import LocaleSwitcher from "./LocaleSwitcher";
 
 export default function Navbar() {
   const { theme, toggleTheme, mounted } = useTheme();
   const isDark = theme === "dark";
-  const pathname = usePathname();
+  const pathname = usePathname(); // pathname sem prefixo de locale (ex: "/curriculo")
+  const locale = useLocale();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const t = useTranslations("nav");
+
+  const isHome = pathname === "/" || pathname === "";
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
-    { href: "#hero", label: "Início" },
-    { href: "#about", label: "Sobre" },
-    { href: "#skills", label: "Conhecimentos" },
-    { href: "#projects", label: "Projetos" },
-    { href: "#contact", label: "Contato" },
-    { href: "/curriculo", label: "Currículo" },
+    { href: "#hero", label: t("home") },
+    { href: "#about", label: t("about") },
+    { href: "#skills", label: t("skills") },
+    { href: "#projects", label: t("projects") },
+    { href: "#contact", label: t("contact") },
+    { href: `/${locale}/curriculo`, label: t("resume") },
   ];
 
-  // Resolve href de âncora para /#section quando fora da home
-  const getHref = (href: string) =>
-    href.startsWith("#") && pathname !== "/" ? `/${href}` : href;
+  // Âncoras fora da home precisam voltar para /{locale}/#section
+  const getHref = (href: string) => {
+    if (!href.startsWith("#")) return href;
+    if (isHome) return href;
+    return `/${locale}/${href}`; // ex: /en/#hero
+  };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     setIsMobileMenuOpen(false);
     if (!href.startsWith("#")) return;
-    // Fora da home: deixa navegação nativa para /#section
-    if (pathname !== "/") return;
-    // Na home: smooth scroll
+    if (!isHome) return; // deixa navegação nativa para /{locale}/#section
     e.preventDefault();
-    const id = href.slice(1);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    const element = document.getElementById(href.slice(1));
+    if (element) element.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 font-display tracking-tight ${isScrolled ? "bg-surface/70 backdrop-blur-xl py-4" : "bg-transparent py-6"}`}
       role="navigation"
-      aria-label="Navegação principal"
+      aria-label={t("ariaLabel")}
     >
       <div className="flex justify-between items-center px-6 md:px-8 max-w-7xl mx-auto">
         <a
-          href="/"
+          href={`/${locale}/`}
           className="text-xl font-bold tracking-tighter text-on-surface hover:text-primary transition-colors"
-          aria-label="Roberto Nicoletti — página inicial"
+          aria-label={t("ariaHome")}
         >
           Roberto Nicoletti
         </a>
@@ -75,11 +77,13 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
+          <LocaleSwitcher />
+
           {mounted && (
             <button
               onClick={toggleTheme}
               className="p-2 text-on-surface hover:bg-surface-container-high transition-all duration-300 rounded-lg cursor-pointer"
-              aria-label="Alternar tema"
+              aria-label={t("ariaTheme")}
             >
               {isDark ? (
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -96,7 +100,7 @@ export default function Navbar() {
           <button
             className="md:hidden p-2 text-on-surface"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Abrir menu mobile"
+            aria-label={t("ariaMobileOpen")}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
           >
@@ -112,7 +116,7 @@ export default function Navbar() {
       </div>
 
       {isMobileMenuOpen && (
-        <div id="mobile-menu" className="md:hidden bg-surface-container-highest backdrop-blur-xl py-4 px-6" role="menu" aria-label="Menu mobile">
+        <div id="mobile-menu" className="md:hidden bg-surface-container-highest backdrop-blur-xl py-4 px-6" role="menu" aria-label={t("ariaMobileMenu")}>
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -124,6 +128,9 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          <div className="pt-3 border-t border-outline-variant/20 mt-2">
+            <LocaleSwitcher />
+          </div>
         </div>
       )}
     </nav>

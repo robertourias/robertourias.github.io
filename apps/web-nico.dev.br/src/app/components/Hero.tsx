@@ -1,9 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import ChatCTAButton from "./ChatCTAButton";
 
 export default function Hero() {
+  const t = useTranslations("hero");
+
   return (
     <section
       id="hero"
@@ -18,7 +21,7 @@ export default function Hero() {
         <div className="w-32 h-32 md:w-40 md:h-40 mb-8 rounded-full overflow-hidden border-4 border-surface-container-high relative">
           <Image
             src="/roberto-nicoletti.png"
-            alt="Foto de Roberto Nicoletti, desenvolvedor Fullstack"
+            alt={t("imageAlt")}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 128px, 160px"
@@ -26,11 +29,11 @@ export default function Hero() {
         </div>
 
         <h1 className="font-display text-3xl md:text-5xl font-light text-primary-fixed-dim tracking-tight mb-4">
-          Fullstack Developer
+          {t("title")}
         </h1>
 
         <p className="text-on-surface-variant text-lg md:text-xl font-medium mb-12 max-w-2xl" role="subtitle">
-          React • Next.js • NestJS • LLMs • RAG • APIs de IA • Arquitetura de Software
+          {t("subtitle")}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-6">
@@ -43,7 +46,7 @@ export default function Hero() {
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
               <path d="M4 4l16 8-8 2-2 8z" />
             </svg>
-            Vamos Conversar
+            {t("ctaChat")}
           </a>
         </div>
       </div>

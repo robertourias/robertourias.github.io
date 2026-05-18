@@ -9,6 +9,50 @@ Para detalhes de implementação, veja os arquivos em `docs/features/`.
 
 ---
 
+## [0.9.0] — 2026-05-18
+
+### Adicionado
+- **Internacionalização completa com next-intl** (PT / EN / ES)
+  - Detecção automática de idioma via `Accept-Language` — fallback para inglês para qualquer língua que não seja PT ou ES
+  - Estrutura de rotas `app/[locale]/` com geração estática das 9 rotas (`/pt`, `/en`, `/es` + sub-rotas)
+  - Seletor de idioma `PT / EN / ES` na navbar (desktop e menu mobile) com troca preservando a rota atual
+  - Todos os textos de UI traduzidos: Navbar, Hero, About, Skills, FeaturedProjects, Contact, Footer, ChatCTAButton, ChatWidget
+  - Conteúdo do currículo traduzido: resumo profissional, cargos, bullets de experiência, diferenciais, grupos de habilidades, titulações acadêmicas
+  - Terminologia técnica mantida em inglês em todos os idiomas (React, Next.js, LLMs, RAG, etc.)
+  - `messages/pt.json`, `messages/en.json`, `messages/es.json` com seções `nav`, `hero`, `about`, `skills`, `projects`, `contact`, `footer`, `chat`, `resume`, `cv`
+  - Metadata de SEO traduzida por página e locale (`generateMetadata`)
+  - Middleware de detecção (Next.js 16 `proxy.ts`) com matcher excluindo `/api/`, `/_next/`, arquivos estáticos
+
+### Corrigido
+- Links de âncora no Navbar (`#hero`, `#about`, etc.) agora funcionam corretamente a partir de `/curriculo` e `/projetos`, redirecionando para `/{locale}/#section`
+- Logo "Roberto Nicoletti" e link "Currículo" na navbar usam locale atual em vez de caminhos absolutos
+- Validações do formulário de contato (Zod) traduzidas dinamicamente por locale
+
+### Dependências adicionadas
+- `next-intl@^4.12`
+
+---
+
+## [0.8.0] — 2026-05-18
+
+### Adicionado
+- Chat context enriquecido com novas informações de perfil:
+  - Situação profissional: trabalhando atualmente, disponibilidade de 7 dias
+  - Preferência de modalidade: home-office ou híbrido
+  - Conhecimento teórico em Java e C#
+  - Pretensão salarial: requer discussão via formulário de contato
+- Novas regras de comportamento no assistente de chat:
+  - Direcionamento para WhatsApp (+55 11 98092-7661) em perguntas sem resposta clara
+  - LinkedIn sempre exibido como link reduzido (`linkedin.com/in/robertourias`)
+  - Tom mais objetivo e educado nas respostas
+
+### Corrigido
+- Alinhamento vertical dos bullets na seção de Experiência Profissional do currículo (`items-center`)
+- Ajuste de espaçamento na lista de contatos do cabeçalho do currículo (`gap-3`, `space-y-2`)
+- CTAs "Ver Projetos" e "Currículo" movidos para a seção About (eram redundantes no Hero)
+
+---
+
 ## [0.7.0] — 2026-05-17
 
 ### Adicionado

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 import useEmblaCarousel from "embla-carousel-react"
 import { projects } from "../data/projects"
 import ProjectCard from "./ProjectCard"
@@ -9,6 +10,8 @@ import ProjectCard from "./ProjectCard"
 const ITEMS = projects.slice(0, 6)
 
 export default function FeaturedProjects() {
+  const t = useTranslations("projects")
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "start",
@@ -57,47 +60,43 @@ export default function FeaturedProjects() {
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 md:mb-16">
           <p className="font-display text-sm tracking-[0.2em] text-primary uppercase mb-4">
-            Portfólio
+            {t("tag")}
           </p>
           <h2
             id="projects-title"
             className="font-display text-3xl md:text-5xl font-bold text-on-surface"
           >
-            Projetos em Destaque
+            {t("title")}
           </h2>
         </div>
 
         <div className="relative">
-          {/* Prev — tablet and desktop only */}
           <button
             onClick={scrollPrev}
             className="hidden md:flex absolute left-0 top-1/2 -translate-y-[calc(50%+1.5rem)] -translate-x-5 z-10 w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors shadow items-center justify-center text-on-surface"
-            aria-label="Projetos anteriores"
+            aria-label={t("ariaPrev")}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
 
-          {/* Next — tablet and desktop only */}
           <button
             onClick={scrollNext}
             className="hidden md:flex absolute right-0 top-1/2 -translate-y-[calc(50%+1.5rem)] translate-x-5 z-10 w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors shadow items-center justify-center text-on-surface"
-            aria-label="Próximos projetos"
+            aria-label={t("ariaNext")}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
 
-          {/* Viewport */}
           <div
             ref={emblaRef}
             className="overflow-hidden"
             role="region"
-            aria-label="Carrossel de projetos em destaque"
+            aria-label={t("ariaCarousel")}
           >
-            {/* Track — negative margin compensates for the first slide's left padding */}
             <div className="flex -ml-4 md:-ml-5">
               {ITEMS.map((project) => (
                 <div
@@ -114,7 +113,6 @@ export default function FeaturedProjects() {
             </div>
           </div>
 
-          {/* Dots */}
           <div className="flex justify-center gap-2 mt-8">
             {scrollSnaps.map((_, i) => (
               <button
@@ -125,7 +123,7 @@ export default function FeaturedProjects() {
                     ? "w-8 h-2 bg-primary"
                     : "w-2 h-2 bg-outline-variant/50 hover:bg-outline-variant"
                 }`}
-                aria-label={`Página ${i + 1} de ${scrollSnaps.length}`}
+                aria-label={t("ariaPage", { current: i + 1, total: scrollSnaps.length })}
                 aria-current={selectedIndex === i ? "true" : undefined}
               />
             ))}
@@ -137,7 +135,7 @@ export default function FeaturedProjects() {
             href="/projetos"
             className="inline-flex items-center gap-2 text-primary hover:text-primary-container font-bold text-sm uppercase tracking-widest transition-colors"
           >
-            Ver todos os projetos
+            {t("viewAll")}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

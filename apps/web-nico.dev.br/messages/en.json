@@ -125,5 +125,82 @@
     "homeDesc": "Fullstack Developer focused on Applied Artificial Intelligence. React • Next.js • NestJS • LLMs • RAG",
     "ogTitle": "Roberto Nicoletti | Fullstack",
     "ogDesc": "Fullstack Developer focused on Applied Artificial Intelligence."
+  },
+  "cv": {
+    "title": "Senior Frontend / Product Engineer",
+    "summary": [
+      "Frontend/Fullstack Developer with over 10 years of experience building scalable digital products for major banks and e-commerce platforms.",
+      "Specialist in React, Next.js and frontend architecture, with a strong focus on performance, user experience and business impact. Works at the intersection of engineering and product, actively contributing to defining solutions that increase conversion, engagement and operational efficiency.",
+      "Solid experience in agile environments, scalable architecture (Clean Architecture, DDD) and building reusable Design Systems."
+    ],
+    "differentials": [
+      "Strong product orientation and business impact focus",
+      "Experience in large-scale projects (fintech, e-commerce)",
+      "Ability to connect technology, UX and business metrics",
+      "Track record in agile teams and high-performance environments"
+    ],
+    "skillGroupLabels": ["Frontend", "Backend & Infra", "Architecture & Quality", "Performance & Analytics"],
+    "experienceRoles": [
+      "Senior Frontend Engineer",
+      "Senior Frontend Engineer",
+      "Frontend Engineer",
+      "Frontend Developer",
+      "Senior Frontend Developer",
+      "Frontend Developer",
+      "Web Developer",
+      "Webmaster",
+      "Software Analyst"
+    ],
+    "experienceBullets": [
+      [
+        "Developed the insurance platform with a focus on performance, scalability and user experience.",
+        "Structured reusable component architecture with Design System and Storybook, increasing consistency and development speed.",
+        "Implemented modern interfaces with React and Next.js, optimizing rendering (SSR) and performance.",
+        "Worked on integration with microservices via GraphQL and NestJS.",
+        "Improved code quality through automated testing and code review practices."
+      ],
+      [
+        "Optimized the e-commerce experience, directly impacting usability and conversion.",
+        "Developed complex interfaces with React, Next.js and Styled Components.",
+        "Implemented tracking and monitoring with GTM for user behavior analysis.",
+        "Contributed to application stability with automated tests and best practices."
+      ],
+      [
+        "Developed administrative dashboards and internal tools, improving operational efficiency.",
+        "Worked on web application development with React and Next.js, including the institutional website and blog.",
+        "Worked with legacy systems (AngularJS, WordPress), ensuring continuous evolution.",
+        "Created webviews, landing pages and campaigns focused on conversion."
+      ],
+      [
+        "Developed applications with Angular, TypeScript and Bootstrap.",
+        "Created responsive and performant interfaces with HTML5, CSS3 and SASS."
+      ],
+      [
+        "Developed responsive and scalable web applications.",
+        "Structured frontend architecture focused on reusability and performance.",
+        "Worked with Vue.js, Angular and modern CSS tools."
+      ],
+      [
+        "Developed e-commerce interfaces focused on conversion and performance.",
+        "Worked with AngularJS, Razor and backend integration.",
+        "Implemented technical SEO strategies and performance optimizations."
+      ],
+      [
+        "Developed UI components for large-scale e-commerce.",
+        "Worked with JavaScript, Java and corporate architecture."
+      ],
+      [
+        "Developed interfaces for high-traffic portals.",
+        "Applied advanced SEO and performance techniques."
+      ],
+      [
+        "Developed internal systems and institutional portals.",
+        "Fullstack work with PHP, MySQL and JavaScript."
+      ]
+    ],
+    "educationDegrees": [
+      "Postgraduate in Software Engineering with Applied AI",
+      "Bachelor's Degree in Information Systems"
+    ]
   }
 }

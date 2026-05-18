@@ -125,5 +125,82 @@
     "homeDesc": "Desarrollador Fullstack con foco en Inteligencia Artificial aplicada. React • Next.js • NestJS • LLMs • RAG",
     "ogTitle": "Roberto Nicoletti | Fullstack",
     "ogDesc": "Desarrollador Fullstack con foco en Inteligencia Artificial aplicada."
+  },
+  "cv": {
+    "title": "Senior Frontend / Product Engineer",
+    "summary": [
+      "Desarrollador Frontend/Fullstack con más de 10 años de experiencia construyendo productos digitales escalables para bancos y e-commerces de gran escala.",
+      "Especialista en React, Next.js y arquitectura frontend, con fuerte enfoque en rendimiento, experiencia de usuario e impacto en el negocio. Trabaja en la intersección entre ingeniería y producto, contribuyendo activamente en la definición de soluciones que aumentan conversión, engagement y eficiencia operacional.",
+      "Experiencia sólida en entornos ágiles, arquitectura escalable (Clean Architecture, DDD) y construcción de Design Systems reutilizables."
+    ],
+    "differentials": [
+      "Fuerte orientación a producto e impacto en el negocio",
+      "Experiencia en proyectos a gran escala (fintech, e-commerce)",
+      "Capacidad de conectar tecnología, UX y métricas de negocio",
+      "Trayectoria en equipos ágiles y entornos de alto rendimiento"
+    ],
+    "skillGroupLabels": ["Frontend", "Backend & Infra", "Arquitectura & Calidad", "Rendimiento & Analytics"],
+    "experienceRoles": [
+      "Senior Frontend Engineer",
+      "Senior Frontend Engineer",
+      "Frontend Engineer",
+      "Frontend Developer",
+      "Senior Frontend Developer",
+      "Frontend Developer",
+      "Web Developer",
+      "Webmaster",
+      "Analista Programador"
+    ],
+    "experienceBullets": [
+      [
+        "Desarrollé la plataforma de seguros con foco en rendimiento, escalabilidad y experiencia de usuario.",
+        "Estructuré arquitectura de componentes reutilizables con Design System y Storybook, aumentando consistencia y velocidad de desarrollo.",
+        "Implementé interfaces modernas con React y Next.js, optimizando el renderizado (SSR) y el rendimiento.",
+        "Trabajé en la integración con microservicios vía GraphQL y NestJS.",
+        "Mejoré la calidad del código mediante pruebas automatizadas y prácticas de code review."
+      ],
+      [
+        "Optimicé la experiencia del e-commerce, impactando directamente la usabilidad y la conversión.",
+        "Desarrollé interfaces complejas con React, Next.js y Styled Components.",
+        "Implementé rastreo y monitoreo con GTM para análisis del comportamiento del usuario.",
+        "Contribuí a la estabilidad de la aplicación con pruebas automatizadas y buenas prácticas."
+      ],
+      [
+        "Desarrollé dashboards administrativos y herramientas internas, mejorando la eficiencia operacional.",
+        "Trabajé en el desarrollo de aplicaciones web con React y Next.js, incluyendo el sitio institucional y el blog.",
+        "Trabajé con sistemas legacy (AngularJS, WordPress), garantizando evolución continua.",
+        "Creé webviews, landing pages y campañas enfocadas en conversión."
+      ],
+      [
+        "Desarrollé aplicaciones con Angular, TypeScript y Bootstrap.",
+        "Creé interfaces responsivas y performáticas con HTML5, CSS3 y SASS."
+      ],
+      [
+        "Desarrollé aplicaciones web responsivas y escalables.",
+        "Estructuré arquitectura frontend con foco en reutilización y rendimiento.",
+        "Trabajé con Vue.js, Angular y herramientas modernas de CSS."
+      ],
+      [
+        "Desarrollé interfaces para e-commerce con foco en conversión y rendimiento.",
+        "Trabajé con AngularJS, Razor e integración con backend.",
+        "Implementé estrategias de SEO técnico y optimizaciones de rendimiento."
+      ],
+      [
+        "Desarrollé componentes de interfaz para e-commerce a gran escala.",
+        "Trabajé con JavaScript, Java y arquitectura corporativa."
+      ],
+      [
+        "Desarrollé interfaces para portales de alto tráfico.",
+        "Apliqué técnicas avanzadas de SEO y rendimiento."
+      ],
+      [
+        "Desarrollé sistemas internos y portales institucionales.",
+        "Trabajo fullstack con PHP, MySQL y JavaScript."
+      ]
+    ],
+    "educationDegrees": [
+      "Posgrado en Ingeniería de Software con IA Aplicada",
+      "Licenciatura en Sistemas de Información"
+    ]
   }
 }
