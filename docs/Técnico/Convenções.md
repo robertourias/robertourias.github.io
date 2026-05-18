@@ -1,0 +1,84 @@
+---
+tags: [técnico, convenções, padrões]
+---
+
+# Convenções
+
+> Padrões específicos deste projeto. Naming básico (PascalCase para tipos, camelCase para variáveis, snake_case para DB) segue os defaults da comunidade TypeScript/React/SQL — aqui ficam apenas desvios e decisões explícitas.
+
+---
+
+## Arquivos & Diretórios
+
+```
+kebab-case/          → diretórios e maioria dos arquivos
+PascalCase.tsx       → componentes React
+kebab-case.spec.ts   → testes backend
+PascalCase.test.tsx  → testes frontend
+```
+
+---
+
+## TypeScript
+
+- `IPrefix` para interfaces — **somente na camada de domínio** (ex: `IUsersRepository`). Nunca em application layer ou frontend.
+- `_prefixPrivate` para campos privados de classe no backend (onde `#private` quebra injeção de dependência).
+- **Named exports** preferidos — default exports apenas para `pages` e `layouts` do Next.js.
+- Evite `as` para type casting — use **type predicates** para narrowing em runtime.
+
+---
+
+## Ordem de Imports
+
+```ts
+// 1. Node built-ins
+// 2. Pacotes externos (npm)
+// 3. Pacotes internos do monorepo (@packages/*)
+// 4. Imports absolutos da aplicação (@/)
+// 5. Imports relativos
+```
+
+---
+
+## API Endpoints
+
+```
+/resources           → plural nouns para coleções
+/resources/:id       → recurso único
+/resources/:id/sub   → recursos aninhados
+kebab-case           → paths com múltiplas palavras (/user-profiles)
+```
+
+---
+
+## Git & PRs
+
+| Item | Padrão |
+|------|--------|
+| Branches | `feat/` `fix/` `chore/` `refactor/` `docs/` |
+| Commits | Conventional Commits (`feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, `test:`) |
+| PRs | Manter abaixo de 400 linhas — features grandes viram PRs sequenciais |
+
+---
+
+## Comentários no Código
+
+- Comente o **POR QUÊ**, não o QUÊ — o código mostra o quê; comentários explicam restrições ocultas e regras de negócio não-óbvias.
+- **TSDoc** apenas para APIs públicas de pacotes compartilhados (`packages/`).
+
+---
+
+## Linting & Quality Gates
+
+- ESLint configurado em `packages/config/eslint`
+- Prettier + Husky + lint-staged rodam no commit
+- CI bloqueia merge se lint ou type-check falhar
+- Nunca desabilite regras de ESLint sem comentário explicando o motivo
+
+---
+
+## Links
+
+- [[Stack Técnica]]
+- [[Decisões Frontend]]
+- [[Decisões Backend]]
