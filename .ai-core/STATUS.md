@@ -3,50 +3,52 @@
 > Memória de trabalho persistente. Atualizado pelo `/checkpoint`, lido pelo `/retomar`.
 > Não edite manualmente durante uma sessão ativa — use `/checkpoint` antes de fechar.
 
-**Última atualização:** 2026-05-16
-**Resumo da última sessão:** Implementado formulário de contato funcional com envio de e-mail via Resend, campo de telefone com máscara brasileira automática (fixo/celular) e migração do formulário para React Hook Form + Zod.
+**Última atualização:** 2026-05-17
+**Resumo da última sessão:** Carrossel de Projetos em Destaque refeito com Embla Carousel — loop infinito, responsividade por breakpoint, espaçamento entre cards, botões prev/next no tablet/desktop, 6 projetos exibidos.
 
 ---
 
 ## Feature em andamento
 
-**Spec ativo:** .ai-core/specs/2026-05-16-contact-form-resend.md (Status: approved — implementado e commitado)
-**Plano ativo:** .ai-core/plans/2026-05-16-contact-form-resend.md
+**Spec ativo:** .ai-core/specs/2026-05-17-carousel-responsive.md (Status: approved — implementado e commitado)
+**Plano ativo:** .ai-core/plans/2026-05-17-carousel-responsive.md
 
 ---
 
 ## Tasks
 
 ### ✅ Concluídas
-- Spec e plano técnico do formulário de contato com Resend
-- Instalação de `react-hook-form`, `zod`, `@hookform/resolvers`
-- API route `/api/contact` substituída: `mailto:` redirect → envio real via Resend SDK
-- `Contact.tsx` migrado para React Hook Form + Zod com campo de Telefone e máscara automática
-- Correção: `new Resend(...)` movido para dentro do handler (evita falha em build time)
-- Correção: `defaultValues` adicionados ao `useForm` (evita aviso de input não controlado)
-- CHANGELOG promovido para `[0.6.0]` com detalhes completos
+- Spec e plano técnico do carrossel responsivo
+- Implementação inicial com lógica manual (clone-based infinite loop)
+- Refatoração para Embla Carousel (`embla-carousel` + `embla-carousel-react`)
+  - Loop infinito nativo
+  - Responsividade CSS: `flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%]`
+  - Dots dinâmicos via `scrollSnapList()` + evento `reInit`
+  - Botões Anterior/Próximo (`hidden md:flex`) com SVG inline
+  - 6 projetos exibidos (era 5)
+  - Espaçamento com `pl-4 md:pl-5` nos slides e `-ml-4 md:-ml-5` no track
+- CHANGELOG promovido para `[0.7.0]`
 
 ### 🔄 Em progresso
 - (nenhuma)
 
 ### ⏭ Próximos passos
-1. Confirmar que `RESEND_API_KEY` está configurada nas variáveis de ambiente da Vercel (Settings → Environment Variables) e fazer o deploy de produção
-2. Verificar que o e-mail chega em `roberto.urias@gmail.com` após o deploy
-3. (Opcional) Verificar domínio `nico.dev.br` no painel do Resend para usar como remetente em vez de `onboarding@resend.dev`
-4. Usar `/spec` para próxima feature — sugestões: Blog, animações de entrada nas seções, seção de depoimentos
+1. Deploy de produção e verificar `RESEND_API_KEY` nas variáveis de ambiente da Vercel (pendente da sessão anterior)
+2. Verificar domínio `nico.dev.br` no painel do Resend para usar como remetente
+3. Usar `/spec` para próxima feature — sugestões: Blog, animações de entrada nas seções, seção de depoimentos
 
 ---
 
 ## Decisões desta sessão
 
-- **Resend instanciado dentro do handler:** `new Resend(process.env.RESEND_API_KEY)` no escopo do módulo falha em build time — Vercel não injeta variáveis de runtime durante o build
-- **`Controller` do RHF para o campo de telefone:** input controlado necessário para exibir a máscara em tempo real; `register` com `onChange` não atualiza o valor visível no DOM sem `value` prop
-- **`defaultValues` obrigatório no `useForm`:** sem valores iniciais, `Controller` começa com `undefined` e React lança aviso de input não controlado → controlado
-- **Remetente `onboarding@resend.dev`:** domínio de teste do Resend usado até `nico.dev.br` ser verificado no painel
+- **Embla Carousel em vez de implementação manual:** a biblioteca resolve natively o loop infinito (duplicação de slides internamente), drag/swipe, e breakpoints — elimina ~100 linhas de lógica frágil com refs e `transitionend`
+- **Responsividade via CSS (não JS):** `flex-[0_0_X%]` nos slides + `breakpoints.slidesToScroll` no Embla — sem `window.innerWidth` nem `useEffect` de resize para calcular layout
+- **Dots via `scrollSnapList()`:** Embla calcula automaticamente o número de snaps conforme breakpoint; `reInit` atualiza ao redimensionar
+- **Espaçamento padrão Embla:** `pl-4 md:pl-5` nos slides + `-ml-4 md:-ml-5` no track — evita padding externo visível nas bordas do container
 
 ---
 
 ## Bloqueadores / Perguntas abertas
 
 - `RESEND_API_KEY` precisa ser configurada no painel da Vercel antes do próximo deploy de produção
-- Domínio `nico.dev.br` não verificado no Resend — e-mails saem com remetente `onboarding@resend.dev` até a verificação
+- Domínio `nico.dev.br` não verificado no Resend — e-mails saem com remetente `onboarding@resend.dev`

@@ -9,6 +9,24 @@ Para detalhes de implementação, veja os arquivos em `docs/features/`.
 
 ---
 
+## [0.7.0] — 2026-05-17
+
+### Adicionado
+- Carrossel de Projetos em Destaque refeito com **Embla Carousel**
+  - Loop infinito nativo (sem clones manuais)
+  - Responsividade via CSS: 1 card/mobile · 2 cards/tablet · 3 cards/desktop
+  - Scroll de grupo por breakpoint: 1→2→3 slides por navegação
+  - Espaçamento entre cards com `pl-4 md:pl-5` nos slides e margem negativa no track (padrão Embla)
+  - Dots dinâmicos: 6/3/2 pontos conforme breakpoint, atualizados via evento `reInit`
+  - Botões Anterior/Próximo visíveis apenas em tablet e desktop
+  - Swipe/drag nativo do Embla (touch e mouse sem código extra)
+  - 6 projetos exibidos no carrossel (era 5)
+
+### Dependências adicionadas
+- `embla-carousel` e `embla-carousel-react`
+
+---
+
 ## [0.6.0] — 2026-05-16
 
 ### Adicionado

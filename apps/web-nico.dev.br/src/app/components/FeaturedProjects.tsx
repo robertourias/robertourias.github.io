@@ -1,41 +1,52 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Link from "next/link"
-import { projects, type Project } from "../data/projects"
+import useEmblaCarousel from "embla-carousel-react"
+import { projects } from "../data/projects"
 import ProjectCard from "./ProjectCard"
 
-const FEATURED_DESKTOP = projects.slice(0, 2)
-const FEATURED_MOBILE = projects.slice(0, 3)
+const ITEMS = projects.slice(0, 6)
 
 export default function FeaturedProjects() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [dragOffset, setDragOffset] = useState(0)
-  const [isDragging, setIsDragging] = useState(false)
-  const dragStartX = useRef<number | null>(null)
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "start",
+    slidesToScroll: 1,
+    breakpoints: {
+      "(min-width: 768px)": { slidesToScroll: 2 },
+      "(min-width: 1024px)": { slidesToScroll: 3 },
+    },
+  })
 
-  const handleDragStart = (clientX: number) => {
-    dragStartX.current = clientX
-    setIsDragging(true)
-  }
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
+  const [selectedIndex, setSelectedIndex] = useState(0)
 
-  const handleDragMove = (clientX: number) => {
-    if (!isDragging || dragStartX.current === null) return
-    setDragOffset(clientX - dragStartX.current)
-  }
+  useEffect(() => {
+    if (!emblaApi) return
 
-  const handleDragEnd = () => {
-    if (!isDragging) return
-    const threshold = 60
-    if (dragOffset < -threshold && currentIndex < FEATURED_MOBILE.length - 1) {
-      setCurrentIndex((prev) => prev + 1)
-    } else if (dragOffset > threshold && currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1)
+    const updateSnaps = () => setScrollSnaps(emblaApi.scrollSnapList())
+    const updateSelected = () => setSelectedIndex(emblaApi.selectedScrollSnap())
+
+    updateSnaps()
+    updateSelected()
+
+    emblaApi
+      .on("reInit", updateSnaps)
+      .on("reInit", updateSelected)
+      .on("select", updateSelected)
+
+    return () => {
+      emblaApi
+        .off("reInit", updateSnaps)
+        .off("reInit", updateSelected)
+        .off("select", updateSelected)
     }
-    setDragOffset(0)
-    setIsDragging(false)
-    dragStartX.current = null
-  }
+  }, [emblaApi])
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
+  const scrollTo = useCallback((i: number) => emblaApi?.scrollTo(i), [emblaApi])
 
   return (
     <section
@@ -56,63 +67,71 @@ export default function FeaturedProjects() {
           </h2>
         </div>
 
-        {/* Mobile: carrossel com 3 itens */}
-        <div
-          className="md:hidden overflow-hidden select-none"
-          aria-label="Carrossel de projetos em destaque"
-        >
-          <div
-            className={`flex ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
-            style={{
-              transform: `translateX(calc(${-currentIndex * 100}% + ${dragOffset}px))`,
-              transition: isDragging ? "none" : "transform 0.3s ease-out",
-              willChange: "transform",
-            }}
-            onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
-            onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
-            onTouchEnd={handleDragEnd}
-            onMouseDown={(e) => handleDragStart(e.clientX)}
-            onMouseMove={(e) => handleDragMove(e.clientX)}
-            onMouseUp={handleDragEnd}
-            onMouseLeave={handleDragEnd}
+        <div className="relative">
+          {/* Prev — tablet and desktop only */}
+          <button
+            onClick={scrollPrev}
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-[calc(50%+1.5rem)] -translate-x-5 z-10 w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors shadow items-center justify-center text-on-surface"
+            aria-label="Projetos anteriores"
           >
-            {FEATURED_MOBILE.map((project: Project) => (
-              <div key={project.id} className="shrink-0 w-full" draggable={false}>
-                <ProjectCard isCarousel project={project} sizes="100vw" />
-              </div>
-            ))}
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          {/* Next — tablet and desktop only */}
+          <button
+            onClick={scrollNext}
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-[calc(50%+1.5rem)] translate-x-5 z-10 w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors shadow items-center justify-center text-on-surface"
+            aria-label="Próximos projetos"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          {/* Viewport */}
+          <div
+            ref={emblaRef}
+            className="overflow-hidden"
+            role="region"
+            aria-label="Carrossel de projetos em destaque"
+          >
+            {/* Track — negative margin compensates for the first slide's left padding */}
+            <div className="flex -ml-4 md:-ml-5">
+              {ITEMS.map((project) => (
+                <div
+                  key={project.id}
+                  className="min-w-0 flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] pl-4 md:pl-5"
+                >
+                  <ProjectCard
+                    isCarousel
+                    project={project}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Dots para mobile */}
+          {/* Dots */}
           <div className="flex justify-center gap-2 mt-8">
-            {FEATURED_MOBILE.map((_, index) => (
+            {scrollSnaps.map((_, i) => (
               <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
+                key={i}
+                onClick={() => scrollTo(i)}
                 className={`transition-all duration-300 rounded-full ${
-                  currentIndex === index
+                  selectedIndex === i
                     ? "w-8 h-2 bg-primary"
                     : "w-2 h-2 bg-outline-variant/50 hover:bg-outline-variant"
                 }`}
-                aria-label={`Ir para projeto ${index + 1}`}
-                aria-current={currentIndex === index ? "true" : undefined}
+                aria-label={`Página ${i + 1} de ${scrollSnaps.length}`}
+                aria-current={selectedIndex === i ? "true" : undefined}
               />
             ))}
           </div>
         </div>
 
-        {/* Desktop: grid estático 2 colunas */}
-        <div className="hidden md:grid md:grid-cols-2 gap-8">
-          {FEATURED_DESKTOP.map((project: Project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              sizes="(max-width: 1024px) 50vw, 40vw"
-            />
-          ))}
-        </div>
-
-        {/* CTA: Ver todos */}
         <div className="mt-12 text-center">
           <Link
             href="/projetos"
