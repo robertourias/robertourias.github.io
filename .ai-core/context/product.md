@@ -37,7 +37,8 @@ Site pessoal e portfólio profissional de Roberto Nicoletti. Organizado como um 
 
 > Critical business logic that AI agents must never violate. These are non-negotiable constraints.
 
-- Sem regras críticas definidas neste momento.
+- **Design system obrigatório:** Todo app frontend criado em `apps/` deve usar `packages/ui` como biblioteca de componentes. Nunca instale uma biblioteca de componentes alternativa (MUI, Chakra, shadcn standalone, etc.) dentro de um app — a extensão do design system deve acontecer em `packages/ui`, não nos apps.
+- **Sem regras de negócio críticas adicionais definidas neste momento.**
 
 ## Domain Glossary
 

@@ -3,40 +3,35 @@
 > Memória de trabalho persistente. Atualizado pelo `/checkpoint`, lido pelo `/retomar`.
 > Não edite manualmente durante uma sessão ativa — use `/checkpoint` antes de fechar.
 
-**Última atualização:** 2026-05-18
-**Resumo da última sessão:** Design system entregue e corrigido — Tailwind v4 fix no Storybook (`@source` para escanear workspace symlinks), CHANGELOG promovido para [0.10.0].
+**Última atualização:** 2026-05-19
+**Resumo da última sessão:** Documentação e governança do design system — READMEs de `packages/ui` e `apps/storybook`, protocolo pré-commit no workflow, business rule de `packages/ui` obrigatório, e `/init-project` atualizado.
 
 ---
 
 ## Feature em andamento
 
-**Spec ativo:** .ai-core/specs/2026-05-18-design-system.md (Status: approved — **entregue e fechado**)
-**Plano ativo:** .ai-core/plans/2026-05-18-design-system.md
+**Spec ativo:** (nenhum — aguardando próxima feature)
+**Plano ativo:** (nenhum)
 
 ---
 
 ## Tasks
 
 ### ✅ Concluídas
-- Spec e plano técnico do design system
-- Tokens sincronizados com Pencil (colors, typography, radius, globals.css)
-- 9 deps Radix UI + react-day-picker + date-fns instaladas
-- 19 famílias de componentes em `packages/ui` (TypeScript clean)
-- 19 stories no Storybook
-- CONTRIBUTING.md + .ai-core/ atualizados
-- Fix Tailwind v4: `@source "./components/**/*.tsx"` em globals.css
-- Fix radius circular var() no `@theme inline`
-- Fix `"use client"` removido de calendar.tsx e date-picker.tsx
-- CHANGELOG promovido para [0.10.0]
+- Design system completo: 19 componentes, 19 stories, tokens Pencil [0.10.0]
+- `packages/ui/README.md` — documentação completa do design system
+- `apps/storybook/README.md` — documentação do Storybook
+- Protocolo pré-commit adicionado ao workflow (conventions.md + checkpoint.md)
+- Business rule de `packages/ui` obrigatório em product.md
+- `/init-project` atualizado para fixar `packages/ui` no Bloco 4
 
 ### 🔄 Em progresso
 - (nenhuma)
 
 ### ⏭ Próximos passos
-1. Verificar Storybook visualmente: `pnpm dev --filter @nico.dev/storybook` → http://localhost:6006
-2. Configurar `RESEND_API_KEY` no painel da Vercel (pendente desde sessão do formulário de contato)
-3. Verificar domínio `nico.dev.br` no Resend (e-mails saem com `onboarding@resend.dev`)
-4. Próxima feature via `/spec` — sugestões:
+1. Configurar `RESEND_API_KEY` no painel da Vercel (pendente desde sessão do formulário de contato)
+2. Verificar domínio `nico.dev.br` no Resend (e-mails saem com `onboarding@resend.dev`)
+3. Próxima feature via `/spec` — sugestões:
    - Migrar `apps/web` para usar `@nico.dev/ui` nos componentes existentes
    - Blog
    - Animações de entrada nas seções
@@ -53,6 +48,4 @@
 
 ## Bloqueadores / Perguntas abertas
 
-- `RESEND_API_KEY` precisa ser configurada no painel da Vercel antes do próximo deploy de produção
-- Domínio `nico.dev.br` não verificado no Resend — e-mails saem com remetente `onboarding@resend.dev`
 - `apps/web` ainda não migrado para `@nico.dev/ui` — componentes existentes foram criados antes do design system

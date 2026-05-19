@@ -7,6 +7,16 @@ Para detalhes de implementação, veja os arquivos em `docs/features/`.
 
 ## [Unreleased]
 
+### Adicionado
+- `packages/ui/README.md` — documentação do design system: como usar, componentes, tokens, adicionar componentes e sincronizar com o Pencil
+- `apps/storybook/README.md` — documentação do Storybook: como rodar, como adicionar stories, convenções e configuração
+
+### Alterado
+- `.ai-core/context/conventions.md` — protocolo pré-commit obrigatório: atualizar CHANGELOG e STATUS antes de qualquer commit
+- `.ai-core/commands/checkpoint.md` — incluído passo de atualização do CHANGELOG no fluxo de checkpoint
+- `.ai-core/context/product.md` — business rule: `packages/ui` é o design system obrigatório para todos os apps em `apps/`
+- `.ai-core/commands/init-project.md` — Bloco 4 atualizado para registrar `packages/ui` como biblioteca de componentes fixa (sem perguntar)
+
 ---
 
 ## [0.10.0] — 2026-05-18

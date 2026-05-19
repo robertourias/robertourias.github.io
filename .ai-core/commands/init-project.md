@@ -55,19 +55,20 @@ Preencha `.ai-core/decisions/backend.md` com as escolhas coletadas. Remova TODOs
 
 ### Bloco 4 — Frontend (preenche `decisions/frontend.md` e `context/ui-guidelines.md`)
 
+> **Regra fixa deste monorepo:** Todo app frontend em `apps/` usa `packages/ui` como design system. Não pergunte sobre biblioteca de componentes — registre `packages/ui` como definido. Pergunte apenas os itens abaixo.
+
 Faça as perguntas nesta ordem, uma por vez:
 
-1. Qual a solução de estilização? (Tailwind CSS / CSS Modules / styled-components / outra)
-2. Qual a biblioteca de componentes? (shadcn/ui / Radix UI / MUI / Chakra / custom / nenhuma)
-3. Qual o gerenciamento de estado global, se houver? (Zustand / Redux / Jotai / Context API / nenhum por enquanto)
-4. Qual a solução de formulários? (React Hook Form + Zod / Formik / nenhuma por enquanto)
-5. Qual o data fetching no cliente, se houver? (TanStack Query / SWR / fetch manual / nenhum por enquanto)
-6. Qual a biblioteca de ícones? (Lucide React / Heroicons / Phosphor / outra)
-7. Há design tokens definidos? (cores principais, fontes) — pode ser "a definir"
+1. Qual a solução de estilização? (Tailwind CSS v4 é o padrão de `packages/ui` — confirme ou informe se o app usa outra)
+2. Qual o gerenciamento de estado global, se houver? (Zustand / Redux / Jotai / Context API / nenhum por enquanto)
+3. Qual a solução de formulários? (React Hook Form + Zod / Formik / nenhuma por enquanto)
+4. Qual o data fetching no cliente, se houver? (TanStack Query / SWR / fetch manual / nenhum por enquanto)
+5. Qual a biblioteca de ícones? (Lucide React é o padrão de `packages/ui` — confirme ou informe se será diferente)
+6. Há design tokens adicionais além dos definidos em `packages/ui`? (cores extras, fontes customizadas) — pode ser "a definir"
 
 Após coletar todas as respostas do Bloco 4:
-- Preencha `.ai-core/decisions/frontend.md` com as escolhas reais. Remova TODOs e aviso de status.
-- Preencha `.ai-core/context/ui-guidelines.md` com o design system (component library, styling, ícones, tokens se informados). Remova TODOs.
+- Preencha `.ai-core/decisions/frontend.md` com as escolhas reais. Registre `packages/ui` como a biblioteca de componentes. Remova TODOs e aviso de status.
+- Preencha `.ai-core/context/ui-guidelines.md` referenciando `packages/ui` como design system central, com styling, ícones e tokens adicionais. Remova TODOs.
 
 Informe os dois caminhos preenchidos antes de continuar.
 
