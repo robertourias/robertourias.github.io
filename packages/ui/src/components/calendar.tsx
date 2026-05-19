@@ -5,6 +5,22 @@ import { cn } from "../lib/utils";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
+/**
+ * Calendário interativo para seleção de datas ou intervalos, construído sobre
+ * `react-day-picker`. Suporta todos os modos: `"single"`, `"multiple"` e `"range"`.
+ * Para uma experiência de picker inline com input, use `DatePicker`.
+ *
+ * @example
+ * ```tsx
+ * // Seleção de data única
+ * const [date, setDate] = React.useState<Date>();
+ * <Calendar mode="single" selected={date} onSelect={setDate} />
+ *
+ * // Seleção de intervalo
+ * const [range, setRange] = React.useState<DateRange>();
+ * <Calendar mode="range" selected={range} onSelect={setRange} />
+ * ```
+ */
 function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
   return (
     <DayPicker

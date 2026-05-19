@@ -4,7 +4,7 @@
 > Não edite manualmente durante uma sessão ativa — use `/checkpoint` antes de fechar.
 
 **Última atualização:** 2026-05-19
-**Resumo da última sessão:** Documentação e governança do design system — READMEs de `packages/ui` e `apps/storybook`, protocolo pré-commit no workflow, business rule de `packages/ui` obrigatório, e `/init-project` atualizado.
+**Resumo da última sessão:** Storybook improvements completos — addon-a11y, dark mode toggle, showcase de tokens (cores/tipo/spacing), JSDoc nos 19 componentes, stories compostas com play functions e viewport stories.
 
 ---
 
@@ -19,20 +19,25 @@
 
 ### ✅ Concluídas
 - Design system completo: 19 componentes, 19 stories, tokens Pencil [0.10.0]
-- `packages/ui/README.md` — documentação completa do design system
-- `apps/storybook/README.md` — documentação do Storybook
-- Protocolo pré-commit adicionado ao workflow (conventions.md + checkpoint.md)
-- Business rule de `packages/ui` obrigatório em product.md
-- `/init-project` atualizado para fixar `packages/ui` no Bloco 4
+- READMEs de `packages/ui` e `apps/storybook`
+- Protocolo pré-commit + business rule de `packages/ui` obrigatório
+- Storybook improvements (spec 2026-05-19):
+  - `@storybook/addon-a11y` instalado e configurado
+  - Dark mode toggle na toolbar (globalTypes + decorator)
+  - Stories `Tokens/Colors`, `Tokens/Typography`, `Tokens/Spacing`
+  - JSDoc completo nos 19 componentes de `packages/ui`
+  - Stories compostas `Formulários/Compostos` com play functions
+  - Viewport stories Mobile/Desktop em Card, FormGroup e AvatarGroup
 
 ### 🔄 Em progresso
 - (nenhuma)
 
 ### ⏭ Próximos passos
-1. Configurar `RESEND_API_KEY` no painel da Vercel (pendente desde sessão do formulário de contato)
-2. Verificar domínio `nico.dev.br` no Resend (e-mails saem com `onboarding@resend.dev`)
-3. Próxima feature via `/spec` — sugestões:
-   - Migrar `apps/web` para usar `@nico.dev/ui` nos componentes existentes
+1. Verificar Storybook visualmente: `pnpm dev --filter @nico.dev/storybook` → http://localhost:6006
+2. Configurar `RESEND_API_KEY` no painel da Vercel (pendente)
+3. Verificar domínio `nico.dev.br` no Resend
+4. Próxima feature via `/spec`:
+   - Migrar `apps/web` para usar `@nico.dev/ui`
    - Blog
    - Animações de entrada nas seções
 

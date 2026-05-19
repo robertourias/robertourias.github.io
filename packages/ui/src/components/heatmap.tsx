@@ -2,14 +2,23 @@ import * as React from "react";
 import { cn } from "../lib/utils";
 
 export interface HeatmapEntry {
+  /** Data no formato `"YYYY-MM-DD"`. */
   date: string;
+  /** Valor numérico da atividade. Zero representa ausência de atividade. */
   value: number;
 }
 
 export interface HeatmapProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Array de entradas de atividade. Cada entrada representa um dia. */
   data: HeatmapEntry[];
+  /** Título exibido acima do heatmap. Padrão: `"Contribution Activity"`. */
   title?: string;
+  /** Exibe legenda "Less/More" abaixo do heatmap. Padrão: `true`. */
   showLegend?: boolean;
+  /**
+   * Escala de 5 cores CSS para os níveis de intensidade (0=sem atividade, 4=máximo).
+   * Padrão: gradiente do token `primary` com transparência.
+   */
   colorScale?: [string, string, string, string, string];
 }
 
@@ -44,6 +53,22 @@ function buildWeekColumns(data: HeatmapEntry[]): HeatmapEntry[][] {
   return columns;
 }
 
+/**
+ * Visualização de atividade no estilo GitHub contribution graph. Exibe dados diários
+ * agrupados em colunas semanais com intensidade de cor proporcional ao valor.
+ * Ideal para exibir histórico de contribuições, frequência de uso ou qualquer
+ * métrica com granularidade diária ao longo de semanas.
+ *
+ * @example
+ * ```tsx
+ * const data = Array.from({ length: 91 }, (_, i) => ({
+ *   date: new Date(Date.now() - i * 86400000).toISOString().slice(0, 10),
+ *   value: Math.floor(Math.random() * 10),
+ * }));
+ *
+ * <Heatmap data={data} title="Atividade recente" />
+ * ```
+ */
 function Heatmap({
   data,
   title = "Contribution Activity",

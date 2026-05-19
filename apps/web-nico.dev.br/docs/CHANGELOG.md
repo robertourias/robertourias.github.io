@@ -7,6 +7,21 @@ Para detalhes de implementação, veja os arquivos em `docs/features/`.
 
 ## [Unreleased]
 
+### Adicionado (Storybook improvements)
+- `@storybook/addon-a11y@^8.6.18` — painel de acessibilidade (axe-core) em todas as stories
+- Dark mode toggle na toolbar global do Storybook (aplica/remove `.dark` via `globalTypes` + decorator)
+- Viewports customizados `mobile375` (375px) e `desktop` (1280px) em `preview.tsx`
+- Stories `Tokens/Colors` — showcase de todas as variáveis CSS semânticas light e dark lado a lado
+- Stories `Tokens/Typography` — escala xs→4xl nas fontes Inter e JetBrains Mono
+- Stories `Tokens/Spacing` — grid de 4px com blocos visuais
+- Story `Formulários/Compostos/Formulário de Contato` — formulário completo com estados idle/loading/sucesso e play function
+- Story `Formulários/Compostos/Formulário com Validação` — validação por campo com estados de erro e play function
+- Viewport stories Mobile/Desktop em `Card.stories.tsx`, `FormGroup.stories.tsx` e `Avatar.stories.tsx`
+
+### Alterado (Storybook improvements)
+- JSDoc completo adicionado aos 19 componentes de `packages/ui` — descrição, props TSDoc e `@example` por componente
+- `preview.tsx` refatorado: decorator de dark mode + viewports customizados
+
 ### Adicionado
 - `packages/ui/README.md` — documentação do design system: como usar, componentes, tokens, adicionar componentes e sincronizar com o Pencil
 - `apps/storybook/README.md` — documentação do Storybook: como rodar, como adicionar stories, convenções e configuração

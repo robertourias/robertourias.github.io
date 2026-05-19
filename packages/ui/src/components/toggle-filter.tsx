@@ -2,9 +2,22 @@ import * as React from "react";
 import { cn } from "../lib/utils";
 
 export interface ToggleFilterProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Estado ativo do filtro. Aplica fundo primary quando `true`. */
   active?: boolean;
 }
 
+/**
+ * Botão de filtro individual em formato pill. Geralmente usado dentro de um
+ * `ToggleFilterGroup`. Quando standalone, controle `active` externamente.
+ *
+ * @example
+ * ```tsx
+ * // Standalone
+ * <ToggleFilter active={selected} onClick={() => setSelected(!selected)}>
+ *   React
+ * </ToggleFilter>
+ * ```
+ */
 const ToggleFilter = React.forwardRef<HTMLButtonElement, ToggleFilterProps>(
   ({ className, active, children, ...props }, ref) => (
     <button
@@ -27,12 +40,33 @@ const ToggleFilter = React.forwardRef<HTMLButtonElement, ToggleFilterProps>(
 ToggleFilter.displayName = "ToggleFilter";
 
 export interface ToggleFilterGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Valor atualmente ativo (controlado). */
   value?: string;
+  /** Valor ativo inicial (não-controlado). */
   defaultValue?: string;
+  /** Callback chamado quando o valor ativo muda. */
   onValueChange?: (value: string) => void;
+  /**
+   * Modo de seleção.
+   * - `"single"` — apenas um filtro ativo por vez (deseleciona o anterior)
+   * - `"multiple"` — múltiplos filtros podem estar ativos simultaneamente
+   */
   mode?: "single" | "multiple";
 }
 
+/**
+ * Container gerenciador de `ToggleFilter`. Controla qual filtro está ativo e
+ * propaga o valor via `onValueChange`. Suporta modo single (padrão) e multiple.
+ *
+ * @example
+ * ```tsx
+ * <ToggleFilterGroup defaultValue="all" onValueChange={setFilter}>
+ *   <ToggleFilter value="all">Todos</ToggleFilter>
+ *   <ToggleFilter value="react">React</ToggleFilter>
+ *   <ToggleFilter value="next">Next.js</ToggleFilter>
+ * </ToggleFilterGroup>
+ * ```
+ */
 const ToggleFilterGroup = React.forwardRef<HTMLDivElement, ToggleFilterGroupProps>(
   ({ className, value, defaultValue, onValueChange, mode = "single", children, ...props }, ref) => {
     const [internalValue, setInternalValue] = React.useState<string>(defaultValue ?? value ?? "");

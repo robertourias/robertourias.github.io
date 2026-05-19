@@ -5,9 +5,13 @@ import { cn } from "../lib/utils";
 const skeletonVariants = cva("animate-pulse rounded-md bg-muted", {
   variants: {
     variant: {
+      /** Barra de texto de largura total. Para títulos e parágrafos. */
       line: "h-3 w-full",
+      /** Barra de texto com metade da largura. Para última linha de parágrafo. */
       "line-short": "h-3 w-1/2",
+      /** Círculo para avatar ou ícone. */
       circle: "h-10 w-10 rounded-full",
+      /** Card completo com avatar, linhas de texto e botão. */
       card: "",
     },
   },
@@ -16,8 +20,34 @@ const skeletonVariants = cva("animate-pulse rounded-md bg-muted", {
 
 export interface SkeletonProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof skeletonVariants> {}
+    VariantProps<typeof skeletonVariants> {
+  /**
+   * Forma do esqueleto de carregamento.
+   * - `"line"` — barra larga (título ou texto)
+   * - `"line-short"` — barra meia-largura (fim de parágrafo)
+   * - `"circle"` — círculo (avatar)
+   * - `"card"` — card composto com avatar + linhas + botão
+   */
+  variant?: "line" | "line-short" | "circle" | "card";
+}
 
+/**
+ * Placeholder animado para indicar carregamento de conteúdo. Prefira sobre spinners
+ * em áreas de conteúdo — reduz o deslocamento de layout (CLS) e melhora a percepção
+ * de velocidade.
+ *
+ * @example
+ * ```tsx
+ * // Linha de texto
+ * <Skeleton variant="line" />
+ *
+ * // Avatar
+ * <Skeleton variant="circle" />
+ *
+ * // Card completo
+ * <Skeleton variant="card" className="w-64" />
+ * ```
+ */
 function Skeleton({ className, variant, ...props }: SkeletonProps) {
   if (variant === "card") {
     return (

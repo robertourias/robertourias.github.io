@@ -3,6 +3,22 @@ import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { Check } from "lucide-react";
 import { cn } from "../lib/utils";
 
+/**
+ * Caixa de seleção binária acessível construída sobre Radix UI. Suporta estados
+ * `checked`, `unchecked` e `indeterminate`. Sempre associe a um `Label` via `id`/`htmlFor`
+ * ou use dentro de um `FormGroup`.
+ *
+ * @example
+ * ```tsx
+ * <div className="flex items-center gap-2">
+ *   <Checkbox id="terms" />
+ *   <Label htmlFor="terms">Aceito os termos de uso</Label>
+ * </div>
+ *
+ * // Controlado
+ * <Checkbox checked={accepted} onCheckedChange={setAccepted} />
+ * ```
+ */
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>

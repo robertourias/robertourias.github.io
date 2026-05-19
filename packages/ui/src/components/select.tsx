@@ -3,10 +3,34 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import { ChevronDown, ChevronUp, Check } from "lucide-react";
 import { cn } from "../lib/utils";
 
+/**
+ * Menu suspenso para seleção de uma opção em uma lista. Construído sobre Radix UI
+ * com acessibilidade completa. Use quando há muitas opções (> 5) ou quando o espaço
+ * é limitado. Para poucos itens visíveis, considere `RadioGroup`.
+ *
+ * @example
+ * ```tsx
+ * <Select>
+ *   <SelectTrigger className="w-48">
+ *     <SelectValue placeholder="Selecione um país" />
+ *   </SelectTrigger>
+ *   <SelectContent>
+ *     <SelectItem value="br">Brasil</SelectItem>
+ *     <SelectItem value="us">Estados Unidos</SelectItem>
+ *     <SelectItem value="pt">Portugal</SelectItem>
+ *   </SelectContent>
+ * </Select>
+ * ```
+ */
 const Select = SelectPrimitive.Root;
+
+/** Agrupador lógico de itens dentro do SelectContent. Use com `SelectLabel` para nomear grupos. */
 const SelectGroup = SelectPrimitive.Group;
+
+/** Exibe o valor selecionado ou o `placeholder` quando nenhuma opção está escolhida. */
 const SelectValue = SelectPrimitive.Value;
 
+/** Botão que abre o dropdown. Sempre inclua um `SelectValue` dentro. */
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
@@ -55,6 +79,7 @@ const SelectScrollDownButton = React.forwardRef<
 ));
 SelectScrollDownButton.displayName = "SelectScrollDownButton";
 
+/** Painel dropdown com as opções. Renderizado em portal para evitar overflow. */
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
@@ -87,6 +112,7 @@ const SelectContent = React.forwardRef<
 ));
 SelectContent.displayName = "SelectContent";
 
+/** Rótulo não-selecionável para nomear grupos de opções. */
 const SelectLabel = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Label>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
@@ -99,6 +125,7 @@ const SelectLabel = React.forwardRef<
 ));
 SelectLabel.displayName = "SelectLabel";
 
+/** Opção selecionável. O `value` é o que será retornado; o conteúdo filho é o que é exibido. */
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
@@ -121,6 +148,7 @@ const SelectItem = React.forwardRef<
 ));
 SelectItem.displayName = "SelectItem";
 
+/** Separador visual horizontal entre grupos de opções. */
 const SelectSeparator = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>

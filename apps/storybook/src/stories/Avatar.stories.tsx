@@ -64,3 +64,68 @@ export const Group: Story = {
     />
   ),
 };
+
+export const GroupMobile: Story = {
+  name: "Group — Mobile",
+  render: () => (
+    <div className="p-4 space-y-4">
+      <p className="text-xs text-muted-foreground uppercase font-semibold tracking-wide">
+        Participantes do projeto
+      </p>
+      <AvatarGroup
+        size="md"
+        items={[
+          { fallback: "RU" },
+          { fallback: "AB" },
+          { fallback: "JD" },
+          { fallback: "MK" },
+          { fallback: "TS" },
+        ]}
+        max={4}
+      />
+    </div>
+  ),
+  parameters: {
+    viewport: { defaultViewport: "mobile375" },
+    layout: "fullscreen",
+  },
+};
+
+export const GroupDesktop: Story = {
+  name: "Group — Desktop",
+  render: () => (
+    <div className="p-8 flex items-center gap-8">
+      <div>
+        <p className="text-xs text-muted-foreground mb-2">Equipe pequena</p>
+        <AvatarGroup
+          size="md"
+          items={[
+            { fallback: "RU" },
+            { fallback: "AB" },
+            { fallback: "JD" },
+          ]}
+        />
+      </div>
+      <div>
+        <p className="text-xs text-muted-foreground mb-2">Equipe grande (max 5)</p>
+        <AvatarGroup
+          size="lg"
+          items={[
+            { fallback: "RU" },
+            { fallback: "AB" },
+            { fallback: "JD" },
+            { fallback: "MK" },
+            { fallback: "TS" },
+            { fallback: "PL" },
+            { fallback: "XY" },
+          ]}
+          max={5}
+        />
+      </div>
+    </div>
+  ),
+  parameters: {
+    viewport: { defaultViewport: "desktop" },
+    layout: "fullscreen",
+  },
+};

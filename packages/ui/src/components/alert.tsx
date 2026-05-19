@@ -8,9 +8,13 @@ const alertVariants = cva(
   {
     variants: {
       variant: {
+        /** Fundo accent neutro com ícone de informação. Para mensagens informativas gerais. */
         default: "bg-accent border-border text-accent-foreground",
+        /** Fundo verde suave com ícone de check. Para confirmações e operações bem-sucedidas. */
         success: "bg-badge-success-bg border-success text-success",
+        /** Fundo vermelho suave com ícone de alerta. Para erros e falhas críticas. */
         destructive: "bg-badge-destructive-bg border-destructive text-destructive",
+        /** Fundo amarelo suave com ícone de triângulo. Para avisos que requerem atenção. */
         warning: "bg-badge-warning-bg border-warning text-warning",
       },
     },
@@ -29,8 +33,35 @@ const alertIconMap = {
 
 export interface AlertProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof alertVariants> {}
+    VariantProps<typeof alertVariants> {
+  /**
+   * Tom semântico do alerta. Determina cor de fundo, borda e ícone automaticamente.
+   * - `"default"` — informação neutra
+   * - `"success"` — operação concluída com sucesso
+   * - `"destructive"` — erro ou falha crítica
+   * - `"warning"` — atenção requerida antes de continuar
+   */
+  variant?: "default" | "success" | "destructive" | "warning";
+}
 
+/**
+ * Mensagem de feedback contextual com ícone automático baseado na variante.
+ * Compose com `AlertTitle` e `AlertDescription` para estrutura semântica completa.
+ * Possui `role="alert"` embutido para leitores de tela.
+ *
+ * @example
+ * ```tsx
+ * <Alert variant="success">
+ *   <AlertTitle>Salvo!</AlertTitle>
+ *   <AlertDescription>Suas alterações foram salvas com sucesso.</AlertDescription>
+ * </Alert>
+ *
+ * <Alert variant="destructive">
+ *   <AlertTitle>Erro</AlertTitle>
+ *   <AlertDescription>Não foi possível conectar ao servidor.</AlertDescription>
+ * </Alert>
+ * ```
+ */
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   ({ className, variant = "default", children, ...props }, ref) => {
     const Icon = alertIconMap[variant ?? "default"];
@@ -49,6 +80,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
 );
 Alert.displayName = "Alert";
 
+/** Título em negrito dentro do Alert. */
 const AlertTitle = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLHeadingElement>
@@ -61,6 +93,7 @@ const AlertTitle = React.forwardRef<
 ));
 AlertTitle.displayName = "AlertTitle";
 
+/** Texto descritivo complementar ao AlertTitle. */
 const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>

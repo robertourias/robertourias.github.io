@@ -61,3 +61,50 @@ export const WithTextarea: Story = {
     </div>
   ),
 };
+
+export const Mobile: Story = {
+  render: () => (
+    <div className="space-y-4 p-4">
+      <FormGroup label="Full name" htmlFor="m-name" required>
+        <Input id="m-name" placeholder="Roberto Nicoletti" />
+      </FormGroup>
+      <FormGroup label="Email address" htmlFor="m-email" required>
+        <Input id="m-email" type="email" placeholder="you@example.com" />
+      </FormGroup>
+      <FormGroup label="Message" htmlFor="m-msg" hint="Max 500 characters.">
+        <Textarea id="m-msg" placeholder="Type your message here..." />
+      </FormGroup>
+    </div>
+  ),
+  parameters: {
+    viewport: { defaultViewport: "mobile375" },
+    layout: "fullscreen",
+  },
+};
+
+export const Desktop: Story = {
+  render: () => (
+    <div className="grid grid-cols-2 gap-6 p-8 max-w-2xl">
+      <FormGroup label="First name" htmlFor="d-fname" required>
+        <Input id="d-fname" placeholder="Roberto" />
+      </FormGroup>
+      <FormGroup label="Last name" htmlFor="d-lname" required>
+        <Input id="d-lname" placeholder="Nicoletti" />
+      </FormGroup>
+      <div className="col-span-2">
+        <FormGroup label="Email address" htmlFor="d-email" required>
+          <Input id="d-email" type="email" placeholder="you@example.com" />
+        </FormGroup>
+      </div>
+      <div className="col-span-2">
+        <FormGroup label="Message" htmlFor="d-msg">
+          <Textarea id="d-msg" placeholder="Type your message here..." />
+        </FormGroup>
+      </div>
+    </div>
+  ),
+  parameters: {
+    viewport: { defaultViewport: "desktop" },
+    layout: "fullscreen",
+  },
+};

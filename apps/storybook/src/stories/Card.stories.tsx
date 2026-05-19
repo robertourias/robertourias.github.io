@@ -56,6 +56,59 @@ export const WithFooter: Story = {
   ),
 };
 
+export const Mobile: Story = {
+  render: () => (
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle>Project Overview</CardTitle>
+        <CardDescription>Last updated 3 hours ago</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-foreground">
+          This project is currently in active development with 3 contributors.
+        </p>
+      </CardContent>
+      <CardFooter className="gap-2">
+        <Button size="sm">View details</Button>
+        <Button size="sm" variant="outline">Share</Button>
+      </CardFooter>
+    </Card>
+  ),
+  parameters: {
+    viewport: { defaultViewport: "mobile375" },
+    layout: "fullscreen",
+  },
+  decorators: [
+    (Story) => (
+      <div className="p-4">
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+export const Desktop: Story = {
+  render: () => (
+    <div className="grid grid-cols-3 gap-4 p-8">
+      {[1, 2, 3].map((i) => (
+        <Card key={i}>
+          <CardHeader>
+            <CardTitle>Card {i}</CardTitle>
+            <CardDescription>Description for card {i}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-foreground">Content goes here.</p>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  ),
+  parameters: {
+    viewport: { defaultViewport: "desktop" },
+    layout: "fullscreen",
+  },
+};
+
 export const WithBadge: Story = {
   render: () => (
     <Card className="w-80">

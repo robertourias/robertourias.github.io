@@ -7,14 +7,36 @@ import { Calendar } from "./calendar";
 import { cn } from "../lib/utils";
 
 export interface DatePickerProps {
+  /** Data selecionada (controlado). */
   value?: Date;
+  /** Callback chamado quando o usuário seleciona uma data. Recebe `undefined` ao limpar. */
   onChange?: (date: Date | undefined) => void;
+  /** Texto exibido no botão quando nenhuma data está selecionada. */
   placeholder?: string;
+  /** Locale para formatação da data e textos do calendário. Padrão: `ptBR`. */
   locale?: Locale;
+  /** Desabilita o picker quando `true`. */
   disabled?: boolean;
+  /** Classe CSS adicional para o container. */
   className?: string;
 }
 
+/**
+ * Input de data com calendário suspenso. Formata a data selecionada como `dd/MM/yyyy`
+ * e fecha o calendário automaticamente ao selecionar uma data ou clicar fora.
+ * Para seleção de intervalos ou calendário sempre visível, use `Calendar` diretamente.
+ *
+ * @example
+ * ```tsx
+ * const [date, setDate] = React.useState<Date>();
+ *
+ * <DatePicker
+ *   value={date}
+ *   onChange={setDate}
+ *   placeholder="Selecione uma data"
+ * />
+ * ```
+ */
 function DatePicker({
   value,
   onChange,

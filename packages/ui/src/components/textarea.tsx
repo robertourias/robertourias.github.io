@@ -7,7 +7,9 @@ const textareaVariants = cva(
   {
     variants: {
       variant: {
+        /** Borda neutra padrão. */
         default: "border-input",
+        /** Borda e anel vermelhos para indicar erro de validação. */
         error: "border-destructive focus-visible:ring-destructive",
       },
     },
@@ -19,8 +21,24 @@ const textareaVariants = cva(
 
 export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-    VariantProps<typeof textareaVariants> {}
+    VariantProps<typeof textareaVariants> {
+  /** Estilo visual do textarea. Use `"error"` quando houver falha de validação. */
+  variant?: "default" | "error";
+}
 
+/**
+ * Campo de texto multilinha com redimensionamento vertical. Use para entradas longas
+ * como descrições, mensagens e comentários. Sempre use dentro de um `FormGroup`
+ * para garantir label e mensagem de erro acessíveis.
+ *
+ * @example
+ * ```tsx
+ * <Textarea placeholder="Descreva seu projeto..." rows={4} />
+ *
+ * // Com estado de erro
+ * <Textarea variant="error" value={value} onChange={onChange} />
+ * ```
+ */
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, variant, ...props }, ref) => (
     <textarea

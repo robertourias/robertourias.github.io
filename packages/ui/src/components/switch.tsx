@@ -2,6 +2,22 @@ import * as React from "react";
 import * as SwitchPrimitive from "@radix-ui/react-switch";
 import { cn } from "../lib/utils";
 
+/**
+ * Toggle binário de liga/desliga construído sobre Radix UI. Use para configurações
+ * que têm efeito imediato sem necessidade de confirmar (ex: notificações, dark mode).
+ * Para escolhas em formulários com submit, prefira `Checkbox`.
+ *
+ * @example
+ * ```tsx
+ * <div className="flex items-center gap-2">
+ *   <Switch id="notifications" />
+ *   <Label htmlFor="notifications">Notificações</Label>
+ * </div>
+ *
+ * // Controlado
+ * <Switch checked={enabled} onCheckedChange={setEnabled} />
+ * ```
+ */
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>

@@ -2,6 +2,25 @@ import * as React from "react";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { cn } from "../lib/utils";
 
+/**
+ * Grupo de botões de rádio para seleção única. Construído sobre Radix UI com
+ * navegação por teclado completa. Use quando o usuário deve escolher exatamente
+ * uma opção de um conjunto pequeno (2-5 itens). Para listas longas, use `Select`.
+ *
+ * @example
+ * ```tsx
+ * <RadioGroup defaultValue="monthly">
+ *   <div className="flex items-center gap-2">
+ *     <RadioGroupItem value="monthly" id="monthly" />
+ *     <Label htmlFor="monthly">Mensal</Label>
+ *   </div>
+ *   <div className="flex items-center gap-2">
+ *     <RadioGroupItem value="annual" id="annual" />
+ *     <Label htmlFor="annual">Anual</Label>
+ *   </div>
+ * </RadioGroup>
+ * ```
+ */
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
@@ -14,6 +33,7 @@ const RadioGroup = React.forwardRef<
 ));
 RadioGroup.displayName = "RadioGroup";
 
+/** Item individual do RadioGroup. Deve ter `value` único e um `Label` associado via `id`/`htmlFor`. */
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>

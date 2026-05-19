@@ -7,7 +7,9 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
+        /** Borda neutra padrão. */
         default: "border-input",
+        /** Borda e anel vermelhos para indicar erro de validação. */
         error: "border-destructive focus-visible:ring-destructive",
       },
     },
@@ -19,8 +21,24 @@ const inputVariants = cva(
 
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,
-    VariantProps<typeof inputVariants> {}
+    VariantProps<typeof inputVariants> {
+  /** Estilo visual do input. Use `"error"` quando houver falha de validação. */
+  variant?: "default" | "error";
+}
 
+/**
+ * Campo de texto de linha única. Suporta todos os tipos nativos de `<input>`
+ * (text, email, password, number, etc.) e dois estados visuais: padrão e erro.
+ * Sempre use dentro de um `FormGroup` para garantir label e mensagem de erro acessíveis.
+ *
+ * @example
+ * ```tsx
+ * <Input placeholder="seu@email.com" type="email" />
+ *
+ * // Com estado de erro
+ * <Input variant="error" value={value} onChange={onChange} />
+ * ```
+ */
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, variant, type, ...props }, ref) => (
     <input
