@@ -1,90 +1,132 @@
 @import "tailwindcss";
 
+/* Scan packages/ui component source so Tailwind generates all utility classes.
+   Path is relative to this file (apps/tools/src/app/ → repo root → packages/ui). */
+@source "../../../../packages/ui/src/**/*.tsx";
+
+/* ─── Design Tokens — Light (Pencil, source of truth: docs/nico.dev.br.pen) ─── */
+
 :root {
-  --surface: #f8f5ff;
-  --surface-container: #e8e6ff;
-  --surface-container-high: #e1dfff;
-  --surface-container-highest: #dbd9ff;
-  --surface-container-low: #f2efff;
-  --surface-container-lowest: #ffffff;
+  --background: #F8F9FF;
+  --foreground: #0A0C1A;
 
-  --primary: #044ae5;
-  --primary-container: #829bff;
-  --primary-fixed-dim: #6e8cff;
-  --on-primary: #f2f1ff;
-  --on-primary-container: #001a63;
+  --surface: #FFFFFF;
+  --surface-raised: #F0F1FA;
+  --surface-overlay: #E4E6F8;
 
-  --secondary-container: #cecdff;
-  --on-secondary-container: #3939a1;
+  --primary: #5546E8;
+  --primary-foreground: #FFFFFF;
+  --primary-hover: #4032D6;
 
-  --tertiary-container: #fc96e9;
-  --on-tertiary-container: #640d5d;
+  --secondary: #8B5CF6;
+  --secondary-foreground: #FFFFFF;
 
-  --on-surface: #2a2b51;
-  --on-surface-variant: #575881;
+  --muted: #F0F1FA;
+  --muted-foreground: #64658A;
 
-  --outline: #73739e;
-  --outline-variant: #a9a9d7;
+  --accent: #EBE9FF;
+  --accent-foreground: #4032D6;
 
-  --background: #f8f5ff;
+  --destructive: #CF2E2E;
+  --destructive-foreground: #FFFFFF;
+
+  --success: #0F7A41;
+  --success-foreground: #FFFFFF;
+
+  --warning: #C96D00;
+  --warning-foreground: #FFFFFF;
+
+  --border: #DDE0F5;
+  --input: #DDE0F5;
+  --ring: #5546E8;
+
+  --badge-destructive-bg: #FFE4E4;
+  --badge-success-bg: #DCFCE7;
+  --badge-warning-bg: #FEF3C7;
 }
 
-:root.dark {
-  --surface: #0b1326;
-  --surface-container: #171f33;
-  --surface-container-high: #222a3d;
-  --surface-container-highest: #2d3449;
-  --surface-container-low: #131b2e;
-  --surface-container-lowest: #060e20;
+/* ─── Design Tokens — Dark ─────────────────────────────────────────────────── */
 
-  --primary: #c3f5ff;
-  --primary-container: #00e5ff;
-  --primary-fixed-dim: #00daf3;
-  --on-primary: #00363d;
-  --on-primary-container: #00626e;
+.dark {
+  --background: #080A12;
+  --foreground: #EEEEF8;
 
-  --secondary-container: #6200ea;
-  --on-secondary-container: #cfbcff;
+  --surface: #0F1120;
+  --surface-raised: #171A2E;
+  --surface-overlay: #20243C;
 
-  --tertiary-container: #fec931;
-  --on-tertiary-container: #6f5500;
+  --primary: #6B5CF8;
+  --primary-foreground: #FFFFFF;
+  --primary-hover: #8073FF;
 
-  --on-surface: #dae2fd;
-  --on-surface-variant: #bac9cc;
+  --secondary: #BF81FF;
+  --secondary-foreground: #080A12;
 
-  --outline: #849396;
-  --outline-variant: #3b494c;
+  --muted: #171A2E;
+  --muted-foreground: #7B7E9E;
 
-  --background: #0b1326;
+  --accent: #1B1E38;
+  --accent-foreground: #A89BFF;
+
+  --destructive: #FF4444;
+  --destructive-foreground: #FFFFFF;
+
+  --success: #1ED97A;
+  --success-foreground: #080A12;
+
+  --warning: #FFAA20;
+  --warning-foreground: #080A12;
+
+  --border: #1E2240;
+  --input: #1E2240;
+  --ring: #6B5CF8;
+
+  --badge-destructive-bg: #220808;
+  --badge-success-bg: #0C2218;
+  --badge-warning-bg: #231800;
 }
+
+/* ─── Tailwind Theme Bridge ─────────────────────────────────────────────────── */
 
 @theme inline {
-  --color-surface: var(--surface);
-  --color-surface-container: var(--surface-container);
-  --color-surface-container-high: var(--surface-container-high);
-  --color-surface-container-highest: var(--surface-container-highest);
-  --color-surface-container-low: var(--surface-container-low);
-  --color-surface-container-lowest: var(--surface-container-lowest);
-
-  --color-primary: var(--primary);
-  --color-primary-container: var(--primary-container);
-  --color-primary-fixed-dim: var(--primary-fixed-dim);
-  --color-on-primary: var(--on-primary);
-  --color-on-primary-container: var(--on-primary-container);
-
-  --color-secondary-container: var(--secondary-container);
-  --color-on-secondary-container: var(--on-secondary-container);
-
-  --color-tertiary-container: var(--tertiary-container);
-  --color-on-tertiary-container: var(--on-tertiary-container);
-
-  --color-on-surface: var(--on-surface);
-  --color-on-surface-variant: var(--on-surface-variant);
   --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-badge-destructive-bg: var(--badge-destructive-bg);
+  --color-badge-success-bg: var(--badge-success-bg);
+  --color-badge-warning-bg: var(--badge-warning-bg);
 
-  --color-outline: var(--outline);
-  --color-outline-variant: var(--outline-variant);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
+
+/* ─── Base Styles ───────────────────────────────────────────────────────────── */
 
 html {
   scroll-behavior: smooth;
@@ -97,10 +139,16 @@ html {
 }
 
 body {
-  background: var(--surface);
-  color: var(--on-surface);
-  font-family: var(--font-sans, system-ui, sans-serif);
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
+}
+
+*,
+*::before,
+*::after {
+  border-color: var(--border);
 }
