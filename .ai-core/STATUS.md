@@ -32,7 +32,7 @@
 ### 🔄 Em progresso
 - Calculadora CLT vs PJ (`apps/tools/src/app/clt-pj/`)
   - [x] Tarefa 1: @nico.dev/ui integrado + tokens Pencil + home page atualizada
-  - [ ] Tarefa 2: lógica de cálculo (`src/lib/salary-calculator.ts`)
+  - [x] Tarefa 2: lógica de cálculo (`src/lib/salary-calculator.ts`)
   - [ ] Tarefa 3: componente ToolPageHeader
   - [ ] Tarefa 4: página /clt-pj completa
   - [ ] Tarefa 5: ativar card na home (já feito junto com Tarefa 1)
