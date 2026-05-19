@@ -7,25 +7,52 @@ Para detalhes de implementação, veja os arquivos em `docs/features/`.
 
 ## [Unreleased]
 
-### Monorepo
+---
 
-- **Scaffold `packages/ui` — Design System** com tokens redesenhados do zero
-  - Color system: paleta primitiva (neutral, indigo, violet, red, green, amber) + tokens semânticos light/dark (background, surface, primary, secondary, muted, accent, destructive, success, warning, border)
-  - Typography, spacing, border radius e motion tokens (Framer Motion variants + transitions)
-  - `globals.css` com CSS custom properties + `@theme inline` para Tailwind v4
-  - `Button` component com 6 variantes (default, secondary, outline, ghost, destructive, link) e 4 tamanhos via CVA + shadcn/ui pattern
-  - `cn()` utility (clsx + tailwind-merge)
-  - Stack: shadcn/ui pattern + Radix UI Slot + Framer Motion + Tailwind v4
+## [0.10.0] — 2026-05-18
 
-- **Scaffold `apps/storybook`** — Storybook 8 com Next.js framework
-  - `Button.stories.tsx` com stories para todas as variantes e tamanhos
-  - Preview com decorador de tema e import automático do `globals.css` do design system
-  - Dev server na porta 6006 — `pnpm --filter @nico.dev/storybook dev`
+### Monorepo — Design System completo (`packages/ui` + Storybook)
 
-- **Scaffold `apps/tools`** — novo subprojeto `tools.nico.dev` com 8 ferramentas planejadas para devs (dashboard de clima, debugger de código com IA, leitor inteligente de documentos, buscador semântico, classificador de conteúdo, analisador de texto, mercado financeiro e calculadora CLT vs PJ)
-  - Next.js 16 + App Router, Tailwind v4, Anthropic Claude SDK
-  - Design tokens e configs de ESLint/TypeScript herdados de `@nico.dev/config`
-  - Dev server na porta 3001 — `pnpm --filter @nico.dev/tools dev`
+#### Tokens sincronizados com o Pencil (`docs/nico.dev.br.pen`)
+- **Pencil como fonte da verdade**: todos os tokens de `packages/ui` refletem exatamente os valores do arquivo Pencil
+- Color system redesenhado: paleta indigo-violeta (`primary: #5546E8`, `secondary: #8B5CF6`) com modo claro e escuro
+- Novos tokens de badge (`badge-destructive-bg`, `badge-success-bg`, `badge-warning-bg`)
+- Tipografia: `Inter` (sans) + `JetBrains Mono` (mono); escala xs=11px → 4xl=30px
+- Radius com valores absolutos: sm=4px, md=6px, lg=8px, xl=12px, 2xl=16px
+- Dark mode via seletor `.dark` (corrigido de `:root.dark`)
+- Fix: `@source "./components/**/*.tsx"` em `globals.css` para Tailwind v4 escanear os componentes via symlink de workspace pnpm
+
+#### 19 famílias de componentes implementadas em `packages/ui`
+| Categoria | Componentes |
+|-----------|-------------|
+| Formulários | `Button` (atualizado), `Input`, `Label`, `Textarea`, `Checkbox`, `RadioGroup`, `Switch`, `Select`, `FormGroup` |
+| Feedback | `Badge` (default/success/destructive/warning), `Alert` (default/success/warning/destructive) |
+| Layout | `Card` (`CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`) |
+| Navegação | `Tabs` (pill/underline), `ToggleFilter` + `ToggleFilterGroup` |
+| Identidade | `Avatar` (sm/md/lg/xl), `AvatarWithStatus`, `AvatarGroup` |
+| Dados | `Calendar`, `DatePicker`, `Heatmap` |
+| Estado | `Skeleton` (line/line-short/circle/card) |
+
+- Stack: CVA + Radix UI (Label, Checkbox, RadioGroup, Switch, Select, Tabs, Avatar) + react-day-picker + date-fns
+- TypeScript: zero erros (`tsc --noEmit`)
+
+#### Storybook (`apps/storybook`)
+- Migrado de `@storybook/nextjs` → `@storybook/react-vite` (Storybook 8)
+- 19 stories criadas — uma por família de componente, com variantes e estados (default, error, disabled, etc.)
+- Fix Tailwind v4: classes dos componentes agora geradas corretamente via `@source`
+
+#### Documentação e workflow
+- `CONTRIBUTING.md` criado na raiz: como usar, adicionar e sincronizar componentes com o Pencil
+- `.ai-core/decisions/frontend.md`: regras do design system adicionadas
+- `.ai-core/agents/frontend.agent.md`: checagem obrigatória de `@nico.dev/ui` antes de criar qualquer elemento visual
+- `.ai-core/context/ui-guidelines.md`: reescrito com lista de componentes, tokens e padrões
+
+#### Dependências adicionadas
+- `@radix-ui/react-{label,checkbox,radio-group,switch,select,tabs,avatar}`
+- `react-day-picker`, `date-fns`
+
+### Adicionado anteriormente (scaffolds)
+- **`apps/tools`** — subprojeto `tools.nico.dev` (Next.js 16, Tailwind v4, Claude SDK) — porta 3001
 
 ---
 
