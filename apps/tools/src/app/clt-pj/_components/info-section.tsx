@@ -11,14 +11,16 @@ export default function InfoSection() {
             <h3 className="text-base font-semibold text-foreground mb-3">Regime CLT</h3>
             <div className="space-y-2 text-sm text-muted-foreground">
               <p>
-                <strong className="text-foreground">INSS progressivo:</strong> calculado por faixas
-                — 7,5% até R$ 1.518, 9% até R$ 2.793,88, 12% até R$ 4.190,83 e 14% até o teto de
-                R$ 8.157,41. Cada faixa incide apenas sobre o valor dentro dela.
+                <strong className="text-foreground">INSS progressivo 2026:</strong> calculado por faixas
+                — 7,5% até R$ 1.621, 9% até R$ 2.902,84, 12% até R$ 4.354,27 e 14% até o teto de
+                R$ 8.475,55. Cada faixa incide apenas sobre o valor dentro dela.
               </p>
               <p>
-                <strong className="text-foreground">IRRF:</strong> calculado sobre o salário bruto
-                menos o INSS e a dedução por dependente (R$ 189,59/dependente). Também é progressivo,
-                com isenção até R$ 2.259,20.
+                <strong className="text-foreground">IRRF 2026 — nova isenção até R$ 5.000:</strong>{" "}
+                calculado sobre o salário bruto menos o INSS e a dedução por dependente
+                (R$ 189,59/dependente). A partir de 2026, aplica-se um desconto progressivo que
+                zera o imposto para bases de cálculo equivalentes a ~R$ 5.000 bruto, com redução
+                parcial até R$ 7.350. Acima disso, a tabela progressiva padrão se aplica normalmente.
               </p>
               <p>
                 <strong className="text-foreground">Benefícios não contabilizados no líquido:</strong>{" "}
@@ -52,8 +54,9 @@ export default function InfoSection() {
                 O IRRF do sócio incide sobre o pró-labore líquido de INSS.
               </p>
               <p>
-                <strong className="text-foreground">MEI:</strong> valor fixo de R$ 75,90/mês.
-                Faturamento máximo de R$ 81.000/ano (R$ 6.750/mês).
+                <strong className="text-foreground">MEI 2026:</strong> DAS fixo de R$ 86,05/mês
+                para serviços (R$ 81,05 de INSS + R$ 5,00 de ISS). Faturamento máximo de
+                R$ 81.000/ano (R$ 6.750/mês).
               </p>
             </div>
           </div>
@@ -77,7 +80,8 @@ export default function InfoSection() {
       </div>
 
       <p className="text-xs text-muted-foreground border-t border-border pt-4">
-        <strong>Aviso:</strong> Este cálculo é uma estimativa baseada nas tabelas vigentes de 2025.
+        <strong>Aviso:</strong> Este cálculo é uma estimativa baseada nas tabelas vigentes de 2026
+        (INSS: Portaria MPS, teto R$ 8.475,55; IRRF: nova tabela com isenção até ~R$ 5.000 bruto).
         Alíquotas do Simples Nacional variam conforme o faturamento acumulado dos últimos 12 meses.
         Consulte um contador para decisões financeiras importantes.
       </p>

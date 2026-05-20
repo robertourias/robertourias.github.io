@@ -37,28 +37,33 @@ export interface PJResult {
   netValue: number
 }
 
-// ─── Tax Tables (2025) ────────────────────────────────────────────────────────
+// ─── Tax Tables (2026) ────────────────────────────────────────────────────────
 
-// Portaria MPS / tabela INSS 2025 — alíquotas progressivas
+// Portaria MPS — tabela INSS 2026 (salário mínimo R$ 1.621, teto R$ 8.475,55)
 const INSS_BRACKETS = [
-  { limit: 1518.0, rate: 0.075 },
-  { limit: 2793.88, rate: 0.09 },
-  { limit: 4190.83, rate: 0.12 },
-  { limit: 8157.41, rate: 0.14 },
+  { limit: 1621.0, rate: 0.075 },
+  { limit: 2902.84, rate: 0.09 },
+  { limit: 4354.27, rate: 0.12 },
+  { limit: 8475.55, rate: 0.14 },
 ] as const
 
-const INSS_SALARY_CEILING = 8157.41
+const INSS_SALARY_CEILING = 8475.55
 
-// Tabela IRRF 2025 — alíquotas e parcelas a deduzir
+// Tabela IRRF 2026 — alíquotas e parcelas a deduzir
+// A partir de 2026, aplica-se também o mecanismo de redução progressiva (ver calculateIRRF):
+// isenção efetiva para base ≤ ~R$4.593 (equivalente a ~R$5.000 bruto) e redução parcial até R$7.350
 const IRRF_BRACKETS = [
-  { limit: 2259.2, rate: 0, deduction: 0 },
-  { limit: 2826.65, rate: 0.075, deduction: 169.44 },
-  { limit: 3751.05, rate: 0.15, deduction: 381.44 },
-  { limit: 4664.68, rate: 0.225, deduction: 662.77 },
-  { limit: Infinity, rate: 0.275, deduction: 896.0 },
+  { limit: 2428.8, rate: 0, deduction: 0 },
+  { limit: 2826.65, rate: 0.075, deduction: 182.16 },
+  { limit: 3751.05, rate: 0.15, deduction: 394.16 },
+  { limit: 4664.68, rate: 0.225, deduction: 675.49 },
+  { limit: Infinity, rate: 0.275, deduction: 908.73 },
 ] as const
 
 const IRRF_DEDUCTION_PER_DEPENDENT = 189.59
+// Redução 2026: max(0, 978.62 − 0.133145 × base); zera quando base ≥ R$7.350
+const IRRF_REDUCTION_CONSTANT = 978.62
+const IRRF_REDUCTION_RATE = 0.133145
 
 // PJ tax rates by regime (1st bracket / base estimate — see note in spec)
 const REGIME_RATES: Record<TaxRegime, number | "mei"> = {
@@ -68,12 +73,12 @@ const REGIME_RATES: Record<TaxRegime, number | "mei"> = {
   "lucro-presumido": 0.17, // IRPJ + CSLL + PIS + COFINS + ISS (presunção 32%)
 }
 
-const MEI_FIXED_MONTHLY_TAX = 75.9
+const MEI_FIXED_MONTHLY_TAX = 86.05 // 5% do SM (R$81,05 INSS) + ISS R$5,00 — serviços (2026)
 const INSS_PROLABORE_RATE = 0.11
 
 // ─── Public constants ─────────────────────────────────────────────────────────
 
-export const DEFAULT_PROLABORE = 1518.0 // salário mínimo 2025
+export const DEFAULT_PROLABORE = 1621.0 // salário mínimo 2026
 export const MEI_MONTHLY_REVENUE_LIMIT = 6750 // R$ 81k/ano ÷ 12
 
 export const TAX_REGIME_LABELS: Record<TaxRegime, string> = {
@@ -84,7 +89,7 @@ export const TAX_REGIME_LABELS: Record<TaxRegime, string> = {
 }
 
 export const TAX_REGIME_DESCRIPTIONS: Record<TaxRegime, string> = {
-  "mei": "Alíquota fixa R$ 75,90/mês. Faturamento máximo R$ 6.750/mês",
+  "mei": "DAS fixo R$ 86,05/mês (serviços). Faturamento máximo R$ 6.750/mês",
   "simples-iii": "TI, consultoria e atividades correlatas — alíquota efetiva ~6%",
   "simples-v": "Serviços profissionais intensivos em capital — alíquota efetiva ~15,5%",
   "lucro-presumido": "IRPJ + CSLL + PIS + COFINS + ISS — carga total ~17%",
@@ -109,12 +114,19 @@ export function calculateINSS(grossSalary: number): number {
 
 export function calculateIRRF(base: number): number {
   if (base <= 0) return 0
+
+  let regularIRRF = 0
   for (const bracket of IRRF_BRACKETS) {
     if (base <= bracket.limit) {
-      return round(Math.max(0, base * bracket.rate - bracket.deduction))
+      regularIRRF = Math.max(0, base * bracket.rate - bracket.deduction)
+      break
     }
   }
-  return 0
+
+  // 2026: desconto progressivo que garante isenção efetiva até ~R$5.000 bruto.
+  // A redução usa a base de cálculo (após INSS e dependentes) e zera em base = R$7.350.
+  const reduction = Math.max(0, IRRF_REDUCTION_CONSTANT - IRRF_REDUCTION_RATE * base)
+  return round(Math.max(0, regularIRRF - reduction))
 }
 
 export function calculateCLT(input: CLTInput): CLTResult {
