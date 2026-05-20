@@ -4,55 +4,50 @@
 > Não edite manualmente durante uma sessão ativa — use `/checkpoint` antes de fechar.
 
 **Última atualização:** 2026-05-19
-**Resumo da última sessão:** Calculadora CLT vs PJ completa em apps/tools — formulário com CLT/PJ, cálculo progressivo INSS/IRRF 2025, estimativa bidirecional, tabelas de resultado e seção educativa. Build passa limpo.
+**Resumo da última sessão:** Calculadora CLT vs PJ entregue do zero — spec aprovado, 5 tarefas implementadas e pushas: integração @nico.dev/ui, lógica de cálculo 2025, página /clt-pj completa com formulário bidirecional, tabelas de resultado e seção educativa.
 
 ---
 
 ## Feature em andamento
 
-**Spec ativo:** `.ai-core/specs/2026-05-19-clt-pj-calculator.md` (approved)
-**Plano ativo:** `.ai-core/plans/2026-05-19-clt-pj-calculator.md`
+**Spec ativo:** (nenhum — calculadora CLT vs PJ concluída)
+**Plano ativo:** (nenhum)
 
 ---
 
 ## Tasks
 
 ### ✅ Concluídas
-- Design system completo: 19 componentes, 19 stories, tokens Pencil [0.10.0]
-- READMEs de `packages/ui` e `apps/storybook`
-- Protocolo pré-commit + business rule de `packages/ui` obrigatório
-- Storybook improvements (spec 2026-05-19):
-  - `@storybook/addon-a11y` instalado e configurado
-  - Dark mode toggle na toolbar (globalTypes + decorator)
-  - Stories `Tokens/Colors`, `Tokens/Typography`, `Tokens/Spacing`
-  - JSDoc completo nos 19 componentes de `packages/ui`
-  - Stories compostas `Formulários/Compostos` com play functions
-  - Viewport stories Mobile/Desktop em Card, FormGroup e AvatarGroup
+- Spec e plano da calculadora CLT vs PJ (`2026-05-19-clt-pj-calculator`)
+- Tarefa 1: `@nico.dev/ui` integrado em `apps/tools` + tokens migrados para Pencil + `@source` configurado
+- Tarefa 2: `apps/tools/src/lib/salary-calculator.ts` — tabelas INSS/IRRF 2025, 4 regimes PJ, busca binária para equivalências
+- Tarefa 3: `apps/tools/src/components/tool-page-header.tsx` — header reutilizável com breadcrumb
+- Tarefa 4: página `/clt-pj` completa — formulário, tabelas lado a lado, badge "Equivalente estimado", seção educativa
+- Tarefa 5: card CLT vs PJ na home ativado como link (feito na Tarefa 1)
+- Push para `main` no GitHub
 
 ### 🔄 Em progresso
-- Calculadora CLT vs PJ (`apps/tools/src/app/clt-pj/`)
-  - [x] Tarefa 1: @nico.dev/ui integrado + tokens Pencil + home page atualizada
-  - [x] Tarefa 2: lógica de cálculo (`src/lib/salary-calculator.ts`)
-  - [x] Tarefa 3: componente ToolPageHeader
-  - [x] Tarefa 4: página /clt-pj completa
-  - [x] Tarefa 5: ativar card na home (feito na Tarefa 1)
+- (nenhuma)
 
 ### ⏭ Próximos passos
-1. Verificar calculadora visualmente: `pnpm dev --filter @nico.dev/tools` → http://localhost:3001/clt-pj
-2. Configurar `RESEND_API_KEY` no painel da Vercel (pendente)
-3. Verificar domínio `nico.dev.br` no Resend
-4. Próxima feature: `/spec [blog | migração apps/web para @nico.dev/ui | animações]`
+1. Verificar calculadora visualmente: `pnpm --filter @nico.dev/tools dev` → http://localhost:3001/clt-pj
+2. Próxima feature via `/spec`: blog, migração `apps/web` para `@nico.dev/ui`, ou animações de entrada
+3. Configurar `RESEND_API_KEY` no painel da Vercel (pendente)
+4. Verificar domínio `nico.dev.br` no Resend
 
 ---
 
 ## Decisões desta sessão
 
-- **`@source` no globals.css:** Tailwind v4 + `@tailwindcss/vite` não segue symlinks de workspace pnpm em `node_modules` — `@source "./components/**/*.tsx"` é necessário para gerar todas as classes dos componentes
-- **Radius com valores absolutos no `@theme inline`:** `var(--radius-sm)` dentro do `@theme inline` criava referência circular — substituído por `4px`, `6px`, etc. diretamente
-- **`"use client"` removido dos componentes:** diretiva só faz sentido em Next.js (RSC boundary) — desnecessária em pacote compartilhado consumido pelo Vite/Storybook
+- **Tokens CSS migrados de Material You para Pencil:** `apps/tools` usava tokens `--color-on-surface`, `--color-primary` etc. — substituídos pelos tokens Pencil do design system (`--foreground`, `--primary`, `--border`, etc.) para viabilizar o uso de `@nico.dev/ui`
+- **Teto INSS 2025 calculado: R$ 951,63:** O spec mencionava R$ 908,86 (valor 2024). A implementação usa as tabelas 2025 corretas — teto salarial R$ 8.157,41, contribuição máxima ~R$ 951,63
+- **`@source` relativo no globals.css:** `../../../../packages/ui/src/**/*.tsx` (relativo ao arquivo CSS) necessário para o Tailwind v4 escanear os componentes do workspace sem seguir symlinks
+- **Estimativa bidirecional zerando despesas:** Ao estimar o equivalente PJ para um salário CLT, as despesas fixas são zeradas — responde "quanto preciso faturar para ter o mesmo líquido", desconsiderando custos operacionais do PJ
+- **Tarefa 5 antecipada para Tarefa 1:** O card da home foi ativado junto com a migração de tokens, evitando um commit separado desnecessário
 
 ---
 
 ## Bloqueadores / Perguntas abertas
 
 - `apps/web` ainda não migrado para `@nico.dev/ui` — componentes existentes foram criados antes do design system
+- Dependabot reporta 29 vulnerabilidades no repositório (16 high, 9 moderate, 4 low) — pré-existentes, não relacionadas às mudanças desta sessão
