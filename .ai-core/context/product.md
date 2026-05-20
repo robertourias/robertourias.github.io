@@ -31,7 +31,8 @@ Site pessoal e portfólio profissional de Roberto Nicoletti. Organizado como um 
 | Currículo | Página de CV com experiência, habilidades e histórico profissional | Em andamento |
 | Formulário de contato | Canal direto de contato para oportunidades e colaborações | Em andamento |
 | Subprojetos no monorepo | Aplicações independentes com deploy em subdomínios (ex: projeto.nico.dev) | Planejado |
-| tools.nico.dev | Coleção de ferramentas web para devs (clima, debugger IA, OCR, busca semântica, mercado financeiro, CLT vs PJ…) | Planejado |
+| tools.nico.dev | Coleção de ferramentas web para devs (clima, debugger IA, OCR, busca semântica, mercado financeiro, CLT vs PJ…) | Em andamento |
+| challenges.nico.dev | Portfólio visual de desafios técnicos por empresa — cards com preview, descrição, link de deploy e repositório. Dados carregados automaticamente do GitHub via API. | Planejado |
 
 ## Business Rules
 
@@ -47,6 +48,8 @@ Site pessoal e portfólio profissional de Roberto Nicoletti. Organizado como um 
 | Term | Definition |
 |------|-----------|
 | Subprojeto | Aplicação separada dentro do monorepo Turborepo, com deploy próprio em um subdomínio de nico.dev (ex: `projeto.nico.dev`) |
+| Desafio técnico | Teste técnico entregue para uma empresa durante processo seletivo, disponibilizado em `robertourias/testes-tecnicos` com código, README e deploy |
+| Link Final | Seção do README de cada desafio técnico que contém a URL do projeto publicado. Padrão: `## Link Final` seguido de uma URL. |
 | Monorepo | Repositório único gerenciado com Turborepo contendo o site principal e todos os subprojetos |
 
 ## User Journeys
