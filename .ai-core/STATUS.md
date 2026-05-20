@@ -4,7 +4,7 @@
 > Não edite manualmente durante uma sessão ativa — use `/checkpoint` antes de fechar.
 
 **Última atualização:** 2026-05-19
-**Resumo da última sessão:** Iniciada feature calculadora CLT vs PJ em apps/tools — Tarefa 1 concluída: @nico.dev/ui integrado, tokens migrados para Pencil, home page atualizada com link ativo para /clt-pj.
+**Resumo da última sessão:** Calculadora CLT vs PJ completa em apps/tools — formulário com CLT/PJ, cálculo progressivo INSS/IRRF 2025, estimativa bidirecional, tabelas de resultado e seção educativa. Build passa limpo.
 
 ---
 
@@ -33,16 +33,15 @@
 - Calculadora CLT vs PJ (`apps/tools/src/app/clt-pj/`)
   - [x] Tarefa 1: @nico.dev/ui integrado + tokens Pencil + home page atualizada
   - [x] Tarefa 2: lógica de cálculo (`src/lib/salary-calculator.ts`)
-  - [ ] Tarefa 3: componente ToolPageHeader
-  - [ ] Tarefa 4: página /clt-pj completa
-  - [ ] Tarefa 5: ativar card na home (já feito junto com Tarefa 1)
+  - [x] Tarefa 3: componente ToolPageHeader
+  - [x] Tarefa 4: página /clt-pj completa
+  - [x] Tarefa 5: ativar card na home (feito na Tarefa 1)
 
 ### ⏭ Próximos passos
-1. `/front Tarefa 2 — lógica de cálculo salary-calculator.ts`
-2. `/front Tarefa 3 — ToolPageHeader`
-3. `/front Tarefa 4 — página /clt-pj`
-4. Configurar `RESEND_API_KEY` no painel da Vercel (pendente)
-5. Verificar domínio `nico.dev.br` no Resend
+1. Verificar calculadora visualmente: `pnpm dev --filter @nico.dev/tools` → http://localhost:3001/clt-pj
+2. Configurar `RESEND_API_KEY` no painel da Vercel (pendente)
+3. Verificar domínio `nico.dev.br` no Resend
+4. Próxima feature: `/spec [blog | migração apps/web para @nico.dev/ui | animações]`
 
 ---
 
