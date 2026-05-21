@@ -1,6 +1,1 @@
-@import "tailwindcss";
-@import "@nico.dev/ui/tokens.css";
-
-/* Scan @nico.dev/ui components so Tailwind generates all utility classes.
-   Tailwind auto-discovery skips node_modules symlinks; explicit @source overrides that. */
-@source "@nico.dev/ui/src/**/*.tsx";
+@import "@nico.dev/ui/globals.css";
