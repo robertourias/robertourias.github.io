@@ -3,53 +3,59 @@
 > Memória de trabalho persistente. Atualizado pelo `/checkpoint`, lido pelo `/retomar`.
 > Não edite manualmente durante uma sessão ativa — use `/checkpoint` antes de fechar.
 
-**Última atualização:** 2026-05-20
-**Resumo da última sessão:** Spec, plano e implementação completa do `ItemCard` no design system — componente adicionado a `packages/ui`, 6 stories no Storybook, cards de `apps/tools` e `apps/challenges` migrados para usar `ItemCard`. Também adicionado botão "Visualizar" em challenges via coluna Preview do README principal do repositório `testes-tecnicos`.
+**Última atualização:** 2026-05-21
+**Resumo da última sessão:** Evolução completa da calculadora CLT vs PJ em `apps/tools`: campos de benefícios, cálculo de renda efetiva com FGTS/13º/férias, painel de equivalência corrigido (busca binária sobre effectiveIncome), header global com toggle de tema dark/light.
 
 ---
 
 ## Feature em andamento
 
-**Spec ativo:** (nenhum — ItemCard concluído)
-**Plano ativo:** (nenhum)
+**Spec ativo:** `.ai-core/specs/2026-05-21-tools-clt-pj-benefits.md` (Status: approved — **totalmente implementado**)
+**Plano ativo:** (nenhum — entregue no commit 7e3fac3)
 
 ---
 
 ## Tasks
 
 ### ✅ Concluídas
-- Fix: `github.ts` filtra diretórios que começam com `.`
-- Fix: `formatName` trata `--` como separador empresa/projeto (`hurb--projeto` → `Hurb - Projeto`)
-- Spec `2026-05-20-item-card.md` criado e aprovado
-- Plano `2026-05-20-item-card-plan.md` criado
-- Tarefa 1: `ItemCard` criado em `packages/ui/src/components/item-card.tsx` + exportado no barrel
-- Tarefa 2: `ItemCard.stories.tsx` criado no Storybook (6 stories)
-- Tarefa 3: Home de `apps/tools` migrada para usar `ItemCard` (badge "Em breve" mantido via wrapper)
-- Tarefa 4: `ChallengeCard` em `apps/challenges` refatorado para usar `ItemCard`
-- Feat: campo `visualizarUrl` adicionado ao `Challenge` + `parsePreviewLinks()` + botão "Visualizar" no card
+- Auto-mirror de valor bruto entre CLT e PJ ao preencher apenas um campo
+- Card informativo pré-cálculo com equivalência (renda efetiva)
+- Spec `2026-05-21-tools-clt-pj-benefits.md` criado e aprovado
+- Campos CLT: Vale Alimentação, Vale Transporte, Outros Benefícios (opcionais)
+- Campo PJ: Outros Benefícios (opcional)
+- Cálculo de renda efetiva CLT: `netSalary + va + vt + otherBenefits + fgts + decimoTerceiro + abonoFerias`
+- Cálculo de renda efetiva PJ: `netValue + otherBenefits`
+- Função `estimateCLTEffectiveEquivalent` — busca binária sobre `effectiveIncome` (não `netSalary`)
+- Painel de equivalência nos resultados: single-source e both-filled (mostra equivalente para o loser)
+- Seção de vantagens/desvantagens CLT vs PJ em `info-section.tsx` (4 cards, ícones Lucide)
+- Header global (`SiteHeader`) com toggle de tema Sun/Moon
+- Dark mode como padrão (inline script no `layout.tsx`)
+- Informativo de plano de saúde médio SP no formulário PJ
+- Commit `7e3fac3` com todas as mudanças
 
 ### 🔄 Em progresso
 - (nenhuma)
 
 ### ⏭ Próximos passos
-1. Verificar visualmente os cards em `apps/tools` e `apps/challenges`: `pnpm --filter @nico.dev/tools dev` e `pnpm --filter @nico.dev/challenges dev`
-2. Fazer build de produção para validar: `pnpm --filter @nico.dev/tools build && pnpm --filter @nico.dev/challenges build`
-3. Próxima feature via `/spec`: blog, migração `apps/web` para `@nico.dev/ui`, ou animações de entrada
-4. Configurar `RESEND_API_KEY` no painel da Vercel (pendente de sessão anterior)
+1. Verificar visualmente a calculadora no dev server (`pnpm --filter @nico.dev/tools dev`)
+2. Fazer build de produção para validar: `pnpm --filter @nico.dev/tools build`
+3. Próxima feature: deploy no Vercel, ou nova ferramenta em `apps/tools`
+4. Criar `apps/web-nico.dev.br/docs/CHANGELOG.md` para seguir o protocolo pré-commit
 
 ---
 
 ## Decisões desta sessão
 
-- **`ItemCard` sem `"use client"`:** Server Component puro; lógica de estado (fallback de imagem) fica no wrapper do app consumidor
-- **`ChallengeCard` mantido como wrapper fino:** isola o `"use client"` + `useState` do fallback sem poluir `page.tsx`
-- **Badge "Em breve" fora do `ItemCard`:** posicionado absolutamente via wrapper `relative` em `apps/tools` — componente permanece genérico (Opção B do spec)
-- **`visualizarUrl` via README principal:** `parsePreviewLinks()` extrai coluna "Preview" da tabela do README de `robertourias/testes-tecnicos` — fetch único antes do `Promise.all`, silencioso em caso de falha
+- **`estimateCLTEffectiveEquivalent` separado de `estimateCLTEquivalent`:** a função antiga busca por `netSalary`, a nova por `effectiveIncome`; coexistem para não quebrar o fallback do path morto (`else if hasCLT` apenas)
+- **FGTS/13º/abono automáticos:** sempre computados e exibidos no card CLT — são benefícios estatutários que tornam o comparativo CLT vs PJ mais justo
+- **Abono de férias = netSalary / 3 / 12:** 1/3 do salário líquido mensal, rateado em 12 meses
+- **Painel de equivalência both-filled:** usa `pjConfig` completo (com despesas fixas e plano) ao calcular equivalente PJ; usa `cltConfig` real ao calcular equivalente CLT
+- **Dark mode padrão:** script inline só usa light se `localStorage.theme === 'light'`; qualquer outro valor (null, ausente) resulta em dark
 
 ---
 
 ## Bloqueadores / Perguntas abertas
 
-- `apps/web` ainda não migrado para `@nico.dev/ui` — componentes existentes foram criados antes do design system
-- Dependabot reporta 29 vulnerabilidades no repositório (16 high, 9 moderate, 4 low) — pré-existentes
-- `RESEND_API_KEY` e domínio `nico.dev.br` no Resend ainda pendentes de configuração na Vercel
+- `apps/web` ainda não migrado para `@nico.dev/ui`
+- `apps/web-nico.dev.br/docs/CHANGELOG.md` não existe — protocolo pré-commit referencia um arquivo ausente
+- `RESEND_API_KEY` e domínio `nico.dev.br` no Resend pendentes na Vercel
