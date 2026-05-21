@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { ItemCard } from "@ui"
 
 const tools = [
   {
@@ -76,34 +77,39 @@ export default function HomePage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {tools.map((tool) => {
           const isActive = tool.status === "active"
-          const content = (
-            <div
-              className={`rounded-2xl p-6 bg-surface border border-border transition-colors ${
-                isActive
-                  ? "hover:border-primary/50 cursor-pointer"
-                  : "opacity-60 cursor-not-allowed"
-              }`}
-            >
-              <span className="text-3xl mb-4 block">{tool.icon}</span>
-              <h2 className="font-semibold text-foreground mb-1">{tool.name}</h2>
-              <p className="text-sm text-muted-foreground mb-4">{tool.description}</p>
-              {!isActive && (
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-muted text-muted-foreground">
-                  Em breve
-                </span>
-              )}
-            </div>
+          const media = (
+            <span className="text-3xl block px-5 pt-5" aria-hidden="true">
+              {tool.icon}
+            </span>
           )
 
           if (isActive && "href" in tool) {
             return (
               <Link key={tool.slug} href={tool.href}>
-                {content}
+                <ItemCard
+                  media={media}
+                  title={tool.name}
+                  description={tool.description}
+                  className="hover:border-primary/50 transition-colors cursor-pointer h-full"
+                />
               </Link>
             )
           }
 
-          return <div key={tool.slug}>{content}</div>
+          return (
+            <div key={tool.slug} className="relative opacity-60 cursor-not-allowed">
+              <ItemCard
+                media={media}
+                title={tool.name}
+                description={tool.description}
+              />
+              <div className="absolute top-3 right-3">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-muted text-muted-foreground">
+                  Em breve
+                </span>
+              </div>
+            </div>
+          )
         })}
       </div>
     </main>

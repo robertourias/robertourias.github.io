@@ -9,6 +9,7 @@ export interface Challenge {
   previewUrl: string
   repoUrl: string
   projectUrl: string | null
+  visualizarUrl: string | null
 }
 
 function formatName(slug: string): string {
@@ -64,6 +65,24 @@ export function extractProjectUrl(markdown: string): string | null {
   return null
 }
 
+// Parses the main README table to extract the "Preview" column URL for each slug.
+// Table format: | Empresa | Desafio | [slug](./slug/README.md) | [Link](https://url) |
+export function parsePreviewLinks(markdown: string): Map<string, string> {
+  const links = new Map<string, string>()
+  for (const line of markdown.split("\n")) {
+    const trimmed = line.trim()
+    if (!trimmed.startsWith("|")) continue
+    const cols = trimmed.split("|").map((c) => c.trim()).filter(Boolean)
+    if (cols.length < 4) continue
+    const slugMatch = cols[2].match(/\[([^\]]+)\]\(\.\/[^)]+\)/)
+    if (!slugMatch) continue
+    const urlMatch = cols[3].match(/\[.*?\]\((https?:\/\/[^)]+)\)/)
+    if (!urlMatch) continue
+    links.set(slugMatch[1], urlMatch[1])
+  }
+  return links
+}
+
 interface GitHubContentItem {
   name: string
   type: string
@@ -100,6 +119,22 @@ export async function fetchChallenges(): Promise<Challenge[]> {
     .filter((item) => item.type === "dir" && !item.name.startsWith("."))
     .map((item) => item.name)
 
+  // Fetch main README once to extract "Preview" column links from the table
+  let previewLinks = new Map<string, string>()
+  try {
+    const mainReadmeRes = await fetch(`${BASE_URL}/readme`, {
+      headers,
+      next: { revalidate: 86400 },
+    })
+    if (mainReadmeRes.ok) {
+      const data: GitHubReadme = await mainReadmeRes.json()
+      const markdown = Buffer.from(data.content, "base64").toString("utf-8")
+      previewLinks = parsePreviewLinks(markdown)
+    }
+  } catch {
+    // silently skip — visualizarUrl will be null for all challenges
+  }
+
   const challenges = await Promise.all(
     dirs.map(async (slug): Promise<Challenge> => {
       const previewUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${slug}/preview.png`
@@ -124,7 +159,7 @@ export async function fetchChallenges(): Promise<Challenge[]> {
         // Network error on individual readme → silently skip
       }
 
-      return { slug, name: formatName(slug), description, previewUrl, repoUrl, projectUrl }
+      return { slug, name: formatName(slug), description, previewUrl, repoUrl, projectUrl, visualizarUrl: previewLinks.get(slug) ?? null }
     })
   )
 

@@ -15,6 +15,7 @@ export * from "./components/alert";
 
 // Components — Layout
 export * from "./components/card";
+export * from "./components/item-card";
 
 // Components — Navigation
 export * from "./components/tabs";

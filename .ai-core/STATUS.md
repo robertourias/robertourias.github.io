@@ -3,14 +3,14 @@
 > Memória de trabalho persistente. Atualizado pelo `/checkpoint`, lido pelo `/retomar`.
 > Não edite manualmente durante uma sessão ativa — use `/checkpoint` antes de fechar.
 
-**Última atualização:** 2026-05-19
-**Resumo da última sessão:** Calculadora CLT vs PJ entregue do zero — spec aprovado, 5 tarefas implementadas e pushas: integração @nico.dev/ui, lógica de cálculo 2025, página /clt-pj completa com formulário bidirecional, tabelas de resultado e seção educativa.
+**Última atualização:** 2026-05-20
+**Resumo da última sessão:** Spec, plano e implementação completa do `ItemCard` no design system — componente adicionado a `packages/ui`, 6 stories no Storybook, cards de `apps/tools` e `apps/challenges` migrados para usar `ItemCard`. Também adicionado botão "Visualizar" em challenges via coluna Preview do README principal do repositório `testes-tecnicos`.
 
 ---
 
 ## Feature em andamento
 
-**Spec ativo:** (nenhum — calculadora CLT vs PJ concluída)
+**Spec ativo:** (nenhum — ItemCard concluído)
 **Plano ativo:** (nenhum)
 
 ---
@@ -18,36 +18,38 @@
 ## Tasks
 
 ### ✅ Concluídas
-- Spec e plano da calculadora CLT vs PJ (`2026-05-19-clt-pj-calculator`)
-- Tarefa 1: `@nico.dev/ui` integrado em `apps/tools` + tokens migrados para Pencil + `@source` configurado
-- Tarefa 2: `apps/tools/src/lib/salary-calculator.ts` — tabelas INSS/IRRF 2025, 4 regimes PJ, busca binária para equivalências
-- Tarefa 3: `apps/tools/src/components/tool-page-header.tsx` — header reutilizável com breadcrumb
-- Tarefa 4: página `/clt-pj` completa — formulário, tabelas lado a lado, badge "Equivalente estimado", seção educativa
-- Tarefa 5: card CLT vs PJ na home ativado como link (feito na Tarefa 1)
-- Push para `main` no GitHub
+- Fix: `github.ts` filtra diretórios que começam com `.`
+- Fix: `formatName` trata `--` como separador empresa/projeto (`hurb--projeto` → `Hurb - Projeto`)
+- Spec `2026-05-20-item-card.md` criado e aprovado
+- Plano `2026-05-20-item-card-plan.md` criado
+- Tarefa 1: `ItemCard` criado em `packages/ui/src/components/item-card.tsx` + exportado no barrel
+- Tarefa 2: `ItemCard.stories.tsx` criado no Storybook (6 stories)
+- Tarefa 3: Home de `apps/tools` migrada para usar `ItemCard` (badge "Em breve" mantido via wrapper)
+- Tarefa 4: `ChallengeCard` em `apps/challenges` refatorado para usar `ItemCard`
+- Feat: campo `visualizarUrl` adicionado ao `Challenge` + `parsePreviewLinks()` + botão "Visualizar" no card
 
 ### 🔄 Em progresso
 - (nenhuma)
 
 ### ⏭ Próximos passos
-1. Verificar calculadora visualmente: `pnpm --filter @nico.dev/tools dev` → http://localhost:3001/clt-pj
-2. Próxima feature via `/spec`: blog, migração `apps/web` para `@nico.dev/ui`, ou animações de entrada
-3. Configurar `RESEND_API_KEY` no painel da Vercel (pendente)
-4. Verificar domínio `nico.dev.br` no Resend
+1. Verificar visualmente os cards em `apps/tools` e `apps/challenges`: `pnpm --filter @nico.dev/tools dev` e `pnpm --filter @nico.dev/challenges dev`
+2. Fazer build de produção para validar: `pnpm --filter @nico.dev/tools build && pnpm --filter @nico.dev/challenges build`
+3. Próxima feature via `/spec`: blog, migração `apps/web` para `@nico.dev/ui`, ou animações de entrada
+4. Configurar `RESEND_API_KEY` no painel da Vercel (pendente de sessão anterior)
 
 ---
 
 ## Decisões desta sessão
 
-- **Tokens CSS migrados de Material You para Pencil:** `apps/tools` usava tokens `--color-on-surface`, `--color-primary` etc. — substituídos pelos tokens Pencil do design system (`--foreground`, `--primary`, `--border`, etc.) para viabilizar o uso de `@nico.dev/ui`
-- **Teto INSS 2025 calculado: R$ 951,63:** O spec mencionava R$ 908,86 (valor 2024). A implementação usa as tabelas 2025 corretas — teto salarial R$ 8.157,41, contribuição máxima ~R$ 951,63
-- **`@source` relativo no globals.css:** `../../../../packages/ui/src/**/*.tsx` (relativo ao arquivo CSS) necessário para o Tailwind v4 escanear os componentes do workspace sem seguir symlinks
-- **Estimativa bidirecional zerando despesas:** Ao estimar o equivalente PJ para um salário CLT, as despesas fixas são zeradas — responde "quanto preciso faturar para ter o mesmo líquido", desconsiderando custos operacionais do PJ
-- **Tarefa 5 antecipada para Tarefa 1:** O card da home foi ativado junto com a migração de tokens, evitando um commit separado desnecessário
+- **`ItemCard` sem `"use client"`:** Server Component puro; lógica de estado (fallback de imagem) fica no wrapper do app consumidor
+- **`ChallengeCard` mantido como wrapper fino:** isola o `"use client"` + `useState` do fallback sem poluir `page.tsx`
+- **Badge "Em breve" fora do `ItemCard`:** posicionado absolutamente via wrapper `relative` em `apps/tools` — componente permanece genérico (Opção B do spec)
+- **`visualizarUrl` via README principal:** `parsePreviewLinks()` extrai coluna "Preview" da tabela do README de `robertourias/testes-tecnicos` — fetch único antes do `Promise.all`, silencioso em caso de falha
 
 ---
 
 ## Bloqueadores / Perguntas abertas
 
 - `apps/web` ainda não migrado para `@nico.dev/ui` — componentes existentes foram criados antes do design system
-- Dependabot reporta 29 vulnerabilidades no repositório (16 high, 9 moderate, 4 low) — pré-existentes, não relacionadas às mudanças desta sessão
+- Dependabot reporta 29 vulnerabilidades no repositório (16 high, 9 moderate, 4 low) — pré-existentes
+- `RESEND_API_KEY` e domínio `nico.dev.br` no Resend ainda pendentes de configuração na Vercel
