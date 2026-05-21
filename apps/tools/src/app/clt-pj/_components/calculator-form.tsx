@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
+import { Info } from "lucide-react"
 import {
   Button,
   Input,
@@ -22,7 +23,9 @@ import {
   calculateCLT,
   calculatePJ,
   estimateCLTEquivalent,
+  estimateCLTEffectiveEquivalent,
   estimatePJEquivalent,
+  formatBRL,
   isMEIOverLimit,
   DEFAULT_PROLABORE,
   TAX_REGIME_LABELS,
@@ -39,6 +42,9 @@ interface CalculationResult {
   pj: PJResult
   cltIsEstimate: boolean
   pjIsEstimate: boolean
+  cltIsSource: boolean
+  pjIsSource: boolean
+  equivalentGross: number | null
 }
 
 export default function CalculatorForm() {
@@ -46,11 +52,20 @@ export default function CalculatorForm() {
   const [cltDependents, setCltDependents] = useState("0")
   const [cltOtherDeductions, setCltOtherDeductions] = useState("")
 
+  const [cltVa, setCltVa] = useState("")
+  const [cltVt, setCltVt] = useState("")
+  const [cltOtherBenefits, setCltOtherBenefits] = useState("")
+
   const [pjRevenue, setPjRevenue] = useState("")
   const [pjRegime, setPjRegime] = useState<TaxRegime>("simples-iii")
   const [pjProlabore, setPjProlabore] = useState(String(DEFAULT_PROLABORE))
   const [pjExpenses, setPjExpenses] = useState("")
   const [pjHealthInsurance, setPjHealthInsurance] = useState("")
+  const [pjOtherBenefits, setPjOtherBenefits] = useState("")
+
+  // Tracks which field was the user's manual entry (the other is auto-mirrored)
+  const [cltIsSource, setCltIsSource] = useState(false)
+  const [pjIsSource, setPjIsSource] = useState(false)
 
   const [result, setResult] = useState<CalculationResult | null>(null)
   const [formError, setFormError] = useState("")
@@ -58,6 +73,65 @@ export default function CalculatorForm() {
   const hasCLT = parseFloat(cltGross) > 0
   const hasPJ = parseFloat(pjRevenue) > 0
   const canCalculate = hasCLT || hasPJ
+
+  // Auto-mirror: when one field is filled and the other hasn't been manually set,
+  // copy the same gross value so both fields reflect identical starting points.
+  function handleCltGrossChange(value: string) {
+    const hasValue = value !== "" && parseFloat(value) > 0
+    setCltGross(value)
+    setCltIsSource(hasValue)
+    if (!pjIsSource) {
+      setPjRevenue(hasValue ? value : "")
+    }
+  }
+
+  function handlePjRevenueChange(value: string) {
+    const hasValue = value !== "" && parseFloat(value) > 0
+    setPjRevenue(value)
+    setPjIsSource(hasValue)
+    if (!cltIsSource) {
+      setCltGross(hasValue ? value : "")
+    }
+  }
+
+  // Live equivalence hint: shown before calculation, below the Calcular button.
+  // Uses effectiveIncome (net + benefits) so the equivalence accounts for all compensation.
+  const equivalenceHint = useMemo(() => {
+    const gross = parseFloat(cltGross) || 0
+    const revenue = parseFloat(pjRevenue) || 0
+    const deps = parseInt(cltDependents) || 0
+    const otherDed = parseFloat(cltOtherDeductions) || 0
+    const prolabore = parseFloat(pjProlabore) || DEFAULT_PROLABORE
+    const vaVal = parseFloat(cltVa) || 0
+    const vtVal = parseFloat(cltVt) || 0
+    const cltOtherBen = parseFloat(cltOtherBenefits) || 0
+    const pjOtherBen = parseFloat(pjOtherBenefits) || 0
+
+    if (cltIsSource && !pjIsSource && gross > 0) {
+      const cltResult = calculateCLT({ grossSalary: gross, dependents: deps, otherDeductions: otherDed, va: vaVal, vt: vtVal, otherBenefits: cltOtherBen })
+      // Target PJ net = CLT effective income minus PJ benefits (so total effective incomes match)
+      const targetPJNet = cltResult.effectiveIncome - pjOtherBen
+      const equiv = estimatePJEquivalent(targetPJNet, { regime: pjRegime, prolabore, fixedExpenses: 0, healthInsurance: 0 })
+      return { source: "clt" as const, sourceEffective: cltResult.effectiveIncome, equivalentGross: equiv.revenue }
+    }
+
+    if (pjIsSource && !cltIsSource && revenue > 0) {
+      const pjResult = calculatePJ({
+        revenue,
+        regime: pjRegime,
+        prolabore,
+        fixedExpenses: parseFloat(pjExpenses) || 0,
+        healthInsurance: parseFloat(pjHealthInsurance) || 0,
+        otherBenefits: pjOtherBen,
+      })
+      // Find CLT gross where effectiveIncome (including FGTS, 13th, vacation) equals PJ effective
+      const cltConfig = { dependents: deps, otherDeductions: otherDed, va: vaVal, vt: vtVal, otherBenefits: cltOtherBen }
+      const equiv = estimateCLTEffectiveEquivalent(pjResult.effectiveIncome, cltConfig)
+      return { source: "pj" as const, sourceEffective: pjResult.effectiveIncome, equivalentGross: equiv.gross }
+    }
+
+    return null
+  }, [cltGross, pjRevenue, cltIsSource, pjIsSource, cltDependents, cltOtherDeductions, cltVa, cltVt, cltOtherBenefits, pjRegime, pjProlabore, pjExpenses, pjHealthInsurance, pjOtherBenefits])
 
   function handleCalculate() {
     if (!canCalculate) {
@@ -75,12 +149,17 @@ export default function CalculatorForm() {
     const prolabore = parseFloat(pjProlabore) || DEFAULT_PROLABORE
     const expenses = parseFloat(pjExpenses) || 0
     const health = parseFloat(pjHealthInsurance) || 0
+    const vaVal = parseFloat(cltVa) || 0
+    const vtVal = parseFloat(cltVt) || 0
+    const cltOtherBen = parseFloat(cltOtherBenefits) || 0
+    const pjOtherBen = parseFloat(pjOtherBenefits) || 0
 
     const pjConfig = {
       regime: pjRegime,
       prolabore,
       fixedExpenses: expenses,
       healthInsurance: health,
+      otherBenefits: pjOtherBen,
     }
 
     let cltResult: CLTResult
@@ -89,38 +168,62 @@ export default function CalculatorForm() {
     let pjIsEstimate = false
 
     if (hasCLT && hasPJ) {
-      cltResult = calculateCLT({ grossSalary: gross, dependents: deps, otherDeductions: otherDed })
+      cltResult = calculateCLT({ grossSalary: gross, dependents: deps, otherDeductions: otherDed, va: vaVal, vt: vtVal, otherBenefits: cltOtherBen })
       pjResult = calculatePJ({ revenue, ...pjConfig })
     } else if (hasCLT) {
-      cltResult = calculateCLT({ grossSalary: gross, dependents: deps, otherDeductions: otherDed })
-      // Estimate PJ equivalent: uses form regime/prolabore, but zeroes expenses for a clean "what should I charge" answer
-      const equiv = estimatePJEquivalent(cltResult.netSalary, {
-        ...pjConfig,
-        fixedExpenses: 0,
-        healthInsurance: 0,
-      })
+      cltResult = calculateCLT({ grossSalary: gross, dependents: deps, otherDeductions: otherDed, va: vaVal, vt: vtVal, otherBenefits: cltOtherBen })
+      const equiv = estimatePJEquivalent(cltResult.netSalary, { ...pjConfig, fixedExpenses: 0, healthInsurance: 0 })
       pjResult = equiv.result
       pjIsEstimate = true
     } else {
       pjResult = calculatePJ({ revenue, ...pjConfig })
-      // Estimate CLT equivalent: baseline (0 dependents, 0 other deductions)
       const equiv = estimateCLTEquivalent(pjResult.netValue)
       cltResult = equiv.result
       cltIsEstimate = true
     }
 
-    setResult({ clt: cltResult, pj: pjResult, cltIsEstimate, pjIsEstimate })
+    // Compute equivalent gross for the results panel
+    let equivalentGross: number | null = null
+    const cltConfig = { dependents: deps, otherDeductions: otherDed, va: vaVal, vt: vtVal, otherBenefits: cltOtherBen }
+
+    if (cltIsSource && !pjIsSource) {
+      // Single source CLT → find PJ gross for same effective income (no fixed expenses for clean answer)
+      const targetPJNet = cltResult.effectiveIncome - pjOtherBen
+      equivalentGross = estimatePJEquivalent(targetPJNet, { ...pjConfig, fixedExpenses: 0, healthInsurance: 0 }).revenue
+    } else if (pjIsSource && !cltIsSource) {
+      // Single source PJ → find CLT gross for same effective income
+      equivalentGross = estimateCLTEffectiveEquivalent(pjResult.effectiveIncome, cltConfig).gross
+    } else if (cltIsSource && pjIsSource) {
+      // Both filled → find equivalent gross for the loser
+      const diff = pjResult.effectiveIncome - cltResult.effectiveIncome
+      if (diff > 0) {
+        // PJ wins: show what CLT gross would match PJ effective income
+        equivalentGross = estimateCLTEffectiveEquivalent(pjResult.effectiveIncome, cltConfig).gross
+      } else if (diff < 0) {
+        // CLT wins: show what PJ gross would match CLT effective income (using full config)
+        const targetPJNet = cltResult.effectiveIncome - pjOtherBen
+        equivalentGross = estimatePJEquivalent(targetPJNet, pjConfig).revenue
+      }
+    }
+
+    setResult({ clt: cltResult, pj: pjResult, cltIsEstimate, pjIsEstimate, cltIsSource, pjIsSource, equivalentGross })
   }
 
   function handleReset() {
     setCltGross("")
     setCltDependents("0")
     setCltOtherDeductions("")
+    setCltVa("")
+    setCltVt("")
+    setCltOtherBenefits("")
     setPjRevenue("")
     setPjRegime("simples-iii")
     setPjProlabore(String(DEFAULT_PROLABORE))
     setPjExpenses("")
     setPjHealthInsurance("")
+    setPjOtherBenefits("")
+    setCltIsSource(false)
+    setPjIsSource(false)
     setResult(null)
     setFormError("")
   }
@@ -148,7 +251,7 @@ export default function CalculatorForm() {
                     id="clt-gross"
                     placeholder="0,00"
                     value={cltGross}
-                    onChange={setCltGross}
+                    onChange={handleCltGrossChange}
                   />
                 </FormGroup>
 
@@ -179,6 +282,50 @@ export default function CalculatorForm() {
                     onChange={setCltOtherDeductions}
                   />
                 </FormGroup>
+
+                <div className="border-t border-border/50 pt-4">
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-3">Benefícios (opcionais)</p>
+                  <div className="space-y-4">
+                    <FormGroup
+                      label="Vale alimentação"
+                      htmlFor="clt-va"
+                      hint="Valor líquido que você recebe mensalmente"
+                    >
+                      <CurrencyInput
+                        id="clt-va"
+                        placeholder="0,00"
+                        value={cltVa}
+                        onChange={setCltVa}
+                      />
+                    </FormGroup>
+
+                    <FormGroup
+                      label="Vale transporte"
+                      htmlFor="clt-vt"
+                      hint="Valor efetivo recebido (desconto do colaborador já deduzido)"
+                    >
+                      <CurrencyInput
+                        id="clt-vt"
+                        placeholder="0,00"
+                        value={cltVt}
+                        onChange={setCltVt}
+                      />
+                    </FormGroup>
+
+                    <FormGroup
+                      label="Outros benefícios"
+                      htmlFor="clt-other-benefits"
+                      hint="Gym pass, auxílio home office, etc."
+                    >
+                      <CurrencyInput
+                        id="clt-other-benefits"
+                        placeholder="0,00"
+                        value={cltOtherBenefits}
+                        onChange={setCltOtherBenefits}
+                      />
+                    </FormGroup>
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
@@ -197,7 +344,7 @@ export default function CalculatorForm() {
                     id="pj-revenue"
                     placeholder="0,00"
                     value={pjRevenue}
-                    onChange={setPjRevenue}
+                    onChange={handlePjRevenueChange}
                   />
                 </FormGroup>
 
@@ -262,6 +409,23 @@ export default function CalculatorForm() {
                     onChange={setPjHealthInsurance}
                   />
                 </FormGroup>
+                <div className="flex items-start gap-2 rounded-lg bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
+                  <Info className="mt-0.5 size-3 shrink-0" aria-hidden="true" />
+                  <span>Média individual em SP: <strong className="text-foreground">R$ 400 – R$ 700/mês</strong> (plano básico a intermediário, 2025)</span>
+                </div>
+
+                <FormGroup
+                  label="Outros benefícios"
+                  htmlFor="pj-other-benefits"
+                  hint="Gym pass, equipamentos, auxílio home office, etc."
+                >
+                  <CurrencyInput
+                    id="pj-other-benefits"
+                    placeholder="0,00"
+                    value={pjOtherBenefits}
+                    onChange={setPjOtherBenefits}
+                  />
+                </FormGroup>
               </CardContent>
             </Card>
           </div>
@@ -281,6 +445,31 @@ export default function CalculatorForm() {
           >
             Calcular
           </Button>
+
+          {equivalenceHint !== null && (
+            <Card className="border-primary/25 bg-primary/5">
+              <CardContent className="flex items-start gap-3 pt-4 pb-4">
+                <Info className="size-4 mt-0.5 text-primary shrink-0" aria-hidden="true" />
+                <div className="space-y-1">
+                  <p className="text-sm text-foreground">
+                    {equivalenceHint.source === "clt" ? (
+                      <>Para receber a mesma renda efetiva de <strong>{formatBRL(equivalenceHint.sourceEffective)}</strong> como PJ, você precisaria faturar:</>
+                    ) : (
+                      <>Para receber a mesma renda efetiva de <strong>{formatBRL(equivalenceHint.sourceEffective)}</strong> como CLT, você precisaria de um salário bruto de:</>
+                    )}
+                  </p>
+                  <p className="text-2xl font-bold text-primary font-mono tabular-nums">
+                    {formatBRL(equivalenceHint.equivalentGross)}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {equivalenceHint.source === "clt"
+                      ? `Estimado com ${TAX_REGIME_LABELS[pjRegime]}, sem despesas fixas`
+                      : "Estimado sem dependentes e sem outros descontos"}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       )}
 
@@ -302,6 +491,9 @@ export default function CalculatorForm() {
             cltIsEstimate={result.cltIsEstimate}
             pjIsEstimate={result.pjIsEstimate}
             pjRegime={pjRegime}
+            cltIsSource={result.cltIsSource}
+            pjIsSource={result.pjIsSource}
+            equivalentGross={result.equivalentGross}
           />
 
           <Button variant="outline" onClick={handleReset}>

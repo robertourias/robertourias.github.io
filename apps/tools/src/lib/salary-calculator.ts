@@ -6,6 +6,9 @@ export interface CLTInput {
   grossSalary: number
   dependents: number
   otherDeductions: number
+  va?: number
+  vt?: number
+  otherBenefits?: number
 }
 
 export interface CLTResult {
@@ -14,6 +17,13 @@ export interface CLTResult {
   irrf: number
   otherDeductions: number
   netSalary: number
+  va: number
+  vt: number
+  otherBenefits: number
+  fgts: number           // 8% of gross, deposited by employer monthly
+  decimoTerceiro: number // 1/12 of net salary (one extra salary per year)
+  abonoFerias: number    // 1/36 of net salary (vacation bonus = 1/3 of 1 monthly)
+  effectiveIncome: number
 }
 
 export interface PJConfig {
@@ -21,6 +31,7 @@ export interface PJConfig {
   prolabore: number
   fixedExpenses: number
   healthInsurance: number
+  otherBenefits?: number
 }
 
 export interface PJInput extends PJConfig {
@@ -35,6 +46,8 @@ export interface PJResult {
   fixedExpenses: number
   healthInsurance: number
   netValue: number
+  otherBenefits: number
+  effectiveIncome: number
 }
 
 // ─── Tax Tables (2026) ────────────────────────────────────────────────────────
@@ -130,17 +143,21 @@ export function calculateIRRF(base: number): number {
 }
 
 export function calculateCLT(input: CLTInput): CLTResult {
-  const { grossSalary, dependents, otherDeductions } = input
+  const { grossSalary, dependents, otherDeductions, va = 0, vt = 0, otherBenefits = 0 } = input
   const inss = calculateINSS(grossSalary)
   const dependentDeduction = dependents * IRRF_DEDUCTION_PER_DEPENDENT
   const irrfBase = Math.max(0, grossSalary - inss - dependentDeduction)
   const irrf = calculateIRRF(irrfBase)
   const netSalary = round(grossSalary - inss - irrf - otherDeductions)
-  return { grossSalary, inss, irrf, otherDeductions, netSalary }
+  const fgts = round(grossSalary * 0.08)
+  const decimoTerceiro = round(netSalary / 12)
+  const abonoFerias = round(netSalary / 3 / 12)
+  const effectiveIncome = round(netSalary + va + vt + otherBenefits + fgts + decimoTerceiro + abonoFerias)
+  return { grossSalary, inss, irrf, otherDeductions, netSalary, va, vt, otherBenefits, fgts, decimoTerceiro, abonoFerias, effectiveIncome }
 }
 
 export function calculatePJ(input: PJInput): PJResult {
-  const { revenue, regime, prolabore, fixedExpenses, healthInsurance } = input
+  const { revenue, regime, prolabore, fixedExpenses, healthInsurance, otherBenefits = 0 } = input
 
   const rateOrFixed = REGIME_RATES[regime]
   const taxOnRevenue =
@@ -156,8 +173,9 @@ export function calculatePJ(input: PJInput): PJResult {
   const netValue = round(
     revenue - taxOnRevenue - inss - irrf - fixedExpenses - healthInsurance
   )
+  const effectiveIncome = round(netValue + otherBenefits)
 
-  return { revenue, taxOnRevenue, inss, irrf, fixedExpenses, healthInsurance, netValue }
+  return { revenue, taxOnRevenue, inss, irrf, fixedExpenses, healthInsurance, netValue, otherBenefits, effectiveIncome }
 }
 
 // ─── Equivalence estimation (binary search) ──────────────────────────────────
@@ -184,6 +202,30 @@ export function estimateCLTEquivalent(targetNet: number): {
 
   const gross = (low + high) / 2
   return { gross: round(gross), result: calculateCLT({ grossSalary: gross, ...baseInput }) }
+}
+
+// Finds CLT gross salary that yields an effectiveIncome equal to targetEffective.
+// Uses the full CLT input (including benefits) so the equivalence accounts for FGTS,
+// 13th salary, vacation bonus, and any entered benefits.
+export function estimateCLTEffectiveEquivalent(
+  targetEffective: number,
+  config: Omit<CLTInput, "grossSalary">
+): { gross: number; result: CLTResult } {
+  let low = 0
+  let high = targetEffective * 3
+
+  for (let i = 0; i < 60; i++) {
+    const mid = (low + high) / 2
+    const result = calculateCLT({ grossSalary: mid, ...config })
+    if (Math.abs(result.effectiveIncome - targetEffective) < 0.01) {
+      return { gross: round(mid), result }
+    }
+    if (result.effectiveIncome < targetEffective) low = mid
+    else high = mid
+  }
+
+  const gross = (low + high) / 2
+  return { gross: round(gross), result: calculateCLT({ grossSalary: gross, ...config }) }
 }
 
 // Finds PJ revenue that yields a net equal to targetNet with the given config.
