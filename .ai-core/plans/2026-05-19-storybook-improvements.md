@@ -293,5 +293,5 @@ parameters: {
 - [ ] Tarefa 4 concluída — JSDoc nos 19 componentes, `tsc --noEmit` limpo
 - [ ] Tarefa 5 concluída — 2 stories compostas com play functions passando
 - [ ] Tarefa 6 concluída — viewport stories em Card, FormGroup e AvatarGroup
-- [ ] CHANGELOG atualizado em `apps/web-nico.dev.br/docs/CHANGELOG.md`
+- [ ] CHANGELOG atualizado em `.ai-core/CHANGELOG.md`
 - [ ] `STATUS.md` atualizado

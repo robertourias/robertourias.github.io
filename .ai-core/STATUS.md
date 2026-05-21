@@ -40,7 +40,7 @@
 1. Verificar visualmente a calculadora no dev server (`pnpm --filter @nico.dev/tools dev`)
 2. Fazer build de produção para validar: `pnpm --filter @nico.dev/tools build`
 3. Próxima feature: deploy no Vercel, ou nova ferramenta em `apps/tools`
-4. Criar `apps/web-nico.dev.br/docs/CHANGELOG.md` para seguir o protocolo pré-commit
+4. Criar `.ai-core/CHANGELOG.md` para seguir o protocolo pré-commit
 
 ---
 

@@ -64,12 +64,12 @@ Reescreva `.ai-core/STATUS.md` com o seguinte conteúdo preenchido:
 
 ## Passo 3 — Atualizar CHANGELOG
 
-Abra `apps/web-nico.dev.br/docs/CHANGELOG.md` e adicione ou complemente a entrada na seção `[Unreleased]` com o que foi feito nesta sessão (siga o formato do `workflows/documentation.md`).
+Abra `.ai-core/CHANGELOG.md` e adicione ou complemente a entrada na seção `[Unreleased]` com o que foi feito nesta sessão (siga o formato do `workflows/documentation.md`).
 
 ## Passo 4 — Commit
 
 ```bash
-git add .ai-core/STATUS.md apps/web-nico.dev.br/docs/CHANGELOG.md
+git add .ai-core/STATUS.md .ai-core/CHANGELOG.md
 git commit -m "chore: checkpoint — [resumo em uma linha do que foi feito]"
 ```
 

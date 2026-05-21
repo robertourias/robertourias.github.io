@@ -47,9 +47,9 @@ kebab-case           paths com múltiplas palavras (/user-profiles)
 
 Antes de qualquer commit, sempre nesta ordem:
 
-1. **Atualizar `apps/web-nico.dev.br/docs/CHANGELOG.md`** — adicionar ou completar a entrada na seção `[Unreleased]` com o que está sendo commitado (feat, fix, chore, etc.)
+1. **Atualizar `.ai-core/CHANGELOG.md`** — adicionar ou completar a entrada na seção `[Unreleased]` com o que está sendo commitado (feat, fix, chore, etc.)
 2. **Atualizar `.ai-core/STATUS.md`** — refletir o estado atual: o que foi feito, o que está em progresso, próximos passos
-3. **Incluir ambos no commit** — `git add apps/web-nico.dev.br/docs/CHANGELOG.md .ai-core/STATUS.md` junto com os demais arquivos
+3. **Incluir ambos no commit** — `git add .ai-core/CHANGELOG.md .ai-core/STATUS.md` junto com os demais arquivos
 
 Não pule este protocolo mesmo para commits pequenos ou de chore.
 
