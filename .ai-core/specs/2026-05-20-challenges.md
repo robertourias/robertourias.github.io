@@ -1,6 +1,6 @@
 # Spec: challenges.nico.dev — Portfólio de Desafios Técnicos
 
-**Status:** draft
+**Status:** approved
 **Data:** 2026-05-20
 **Autor:** planner-agent
 
@@ -71,7 +71,7 @@ Os desafios técnicos resolvidos por Roberto Nicoletti estão no GitHub (`robert
   https://raw.githubusercontent.com/robertourias/testes-tecnicos/main/{dir}/preview.png
   ```
 
-- **FR-009:** ISR — a função `fetchChallenges` deve ser chamada em um Server Component com `export const revalidate = 86400` (24 horas).
+- **FR-009:** ISR — a função `fetchChallenges` deve ser chamada em um Server Component com `export const revalidate = 864000` (240 horas).
 
 ### Tipo `Challenge`
 

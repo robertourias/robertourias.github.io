@@ -17,7 +17,7 @@ import {
   Alert,
   AlertTitle,
   AlertDescription,
-} from "@nico.dev/ui"
+} from "@ui"
 import {
   calculateCLT,
   calculatePJ,

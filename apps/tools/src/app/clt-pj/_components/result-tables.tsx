@@ -1,4 +1,4 @@
-import { Badge } from "@nico.dev/ui"
+import { Badge } from "@ui"
 import { formatBRL, type CLTResult, type PJResult, type TaxRegime, TAX_REGIME_LABELS } from "@/lib/salary-calculator"
 
 interface ResultTablesProps {
