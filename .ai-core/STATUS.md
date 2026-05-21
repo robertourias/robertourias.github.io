@@ -57,5 +57,3 @@
 ## Bloqueadores / Perguntas abertas
 
 - `apps/web` ainda não migrado para `@nico.dev/ui`
-- `apps/web-nico.dev.br/docs/CHANGELOG.md` não existe — protocolo pré-commit referencia um arquivo ausente
-- `RESEND_API_KEY` e domínio `nico.dev.br` no Resend pendentes na Vercel
