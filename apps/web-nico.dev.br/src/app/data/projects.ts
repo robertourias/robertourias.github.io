@@ -20,6 +20,16 @@ export const projects: Project[] = [
     repoUrl: "https://github.com/robertourias/hairday-template",
   },
   {
+    id: 12,
+    title: "Scaffold de projetos com IA",
+    description:
+      "Configuração agnóstica de IA para projetos com stack Next.js + NestJS + Turborepo.",
+    category: "Dev",
+    image: "/projects/scaffold.png",
+
+    repoUrl: "https://github.com/robertourias/scaffold-ia-projetos",
+  },
+  {
     id: 2,
     title: "Sorteia Números",
     description:
@@ -97,7 +107,8 @@ export const projects: Project[] = [
     category: "SaaS",
     image: "/projects/projects (8).png",
     demoUrl: "https://assinaturas.nico.dev.br/",
-    repoUrl: "https://github.com/robertourias/landing-animations-clube-assinatura",
+    repoUrl:
+      "https://github.com/robertourias/landing-animations-clube-assinatura",
   },
   {
     id: 10,
