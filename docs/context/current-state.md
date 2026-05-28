@@ -26,7 +26,7 @@
 - Auto-mirror de valor bruto entre CLT e PJ + calculadora CLT vs PJ implementada
 - **Init subprojeto metronome:** product.md, architecture/overview.md, decisions.md e conventions.md atualizados
 - **Reorganização docs distribuída:** cada app/package passou a ter seu próprio `docs/context/`, `docs/plans/`, `docs/specs/`; `ui-guidelines.md` movido para `packages/ui/docs/context/`; `architecture/frontend.md` movido para `apps/web-nico.dev.br/docs/architecture/`; CLAUDE.md atualizado
-- **Escopo de app nos commands:** `back`, `front`, `plan`, `review`, `retomar` passam a aceitar `apps/<app>` ou `packages/<pkg>` como primeiro argumento para carregar contexto específico + determinar onde salvar artefatos
+- **Escopo de app nos commands:** `back`, `front`, `plan`, `review`, `retomar`, `commit` passam a aceitar `apps/<app>` ou `packages/<pkg>` como primeiro argumento para carregar contexto específico + determinar onde salvar artefatos e com qual escopo fazer commit (`tipo(scope): descrição`)
 
 ### 🔄 Em progresso
 - Subprojeto metronome: documentação criada, implementação ainda não iniciada
