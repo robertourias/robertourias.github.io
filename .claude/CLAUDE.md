@@ -18,7 +18,7 @@ docs/workflows/feature-delivery.md
 ```
 docs/skills/frontend.md
 docs/context/conventions.md
-docs/context/ui-guidelines.md
+packages/ui/docs/context/ui-guidelines.md
 docs/context/decisions.md
 docs/agents/frontend.agent.md
 ```
@@ -39,10 +39,26 @@ docs/context/decisions.md
 docs/agents/reviewer.agent.md
 ```
 
+## Contexto por app ou package
+
+Ao trabalhar em um app ou package específico, leia também o `docs/context/` local:
+
+```
+apps/web-nico.dev.br/docs/context/   ← site principal nico.dev
+apps/tools/docs/context/             ← tools.nico.dev
+apps/challenges/docs/context/        ← challenges.nico.dev
+apps/storybook/docs/context/         ← design system reference
+apps/metronome/docs/context/         ← metronome.nico.dev
+packages/ui/docs/context/            ← @nico.dev/ui (inclui ui-guidelines.md)
+packages/config/docs/context/        ← @nico.dev/config
+```
+
+Specs e plans de cada app ficam em `[app]/docs/specs/` e `[app]/docs/plans/`.
+
 ## Carregue sob demanda (não por padrão)
 ```
-docs/context/current-state.md    ← estado atual do projeto (use /retomar)
-docs/context/product.md          ← regras de negócio (se não for PLANNER)
+docs/context/current-state.md        ← estado atual do projeto (use /retomar)
+docs/context/product.md              ← regras de negócio (se não for PLANNER)
 docs/workflows/release-process.md
 ```
 
@@ -51,16 +67,27 @@ docs/workflows/release-process.md
 ## Estrutura do monorepo
 ```
 apps/
-  web/        → Next.js (App Router) — site principal nico.dev
-  api/        → NestJS
-  tools/      → tools.nico.dev
-  challenges/ → challenges.nico.dev
-  storybook/  → Design system reference
+  web-nico.dev.br/ → Next.js (App Router) — site principal nico.dev
+  api/             → NestJS
+  tools/           → tools.nico.dev
+  challenges/      → challenges.nico.dev
+  metronome/       → metronome.nico.dev
+  storybook/       → Design system reference
 packages/
-  ui/         → Biblioteca de componentes compartilhada (@nico.dev/ui)
-  config/     → ESLint, TypeScript, Tailwind configs
-  types/      → Tipos TypeScript compartilhados
-  utils/      → Funções utilitárias compartilhadas
+  ui/              → Biblioteca de componentes compartilhada (@nico.dev/ui)
+  config/          → ESLint, TypeScript, Tailwind configs
+  types/           → Tipos TypeScript compartilhados
+  utils/           → Funções utilitárias compartilhadas
+```
+
+## Estrutura de docs por app/package
+```
+[app ou package]/
+  docs/
+    context/       ← decisões e contexto específicos do app
+    architecture/  ← arquitetura específica (se houver)
+    plans/         ← planos técnicos de features
+    specs/         ← especificações funcionais
 ```
 
 ## Slash commands disponíveis
@@ -82,5 +109,5 @@ Referência completa: `docs/commands/README.md`
 ## Princípios-chave
 1. Clean Architecture — dependências apontam para dentro, domínio sem dependências de framework
 2. Testes junto com a implementação, não depois
-3. Toda decisão deve ser rastreável a um arquivo em `docs/`
+3. Toda decisão deve ser rastreável a um arquivo em `docs/` (global) ou `[app]/docs/` (específico)
 4. Em caso de dúvida: pergunte antes de assumir

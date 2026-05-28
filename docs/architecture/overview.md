@@ -45,6 +45,7 @@ apps/
   api/          → NestJS backend (quando necessário)
   tools/        → tools.nico.dev — ferramentas web para devs
   challenges/   → challenges.nico.dev — portfólio de desafios técnicos
+  metronome/    → metronome.nico.dev — metrônomo online audiovisual para músicos
   storybook/    → Storybook do design system
   [subproject]/ → Aplicações independentes com deploy em subdomínio
 packages/
@@ -60,6 +61,7 @@ packages/
 - **Blog**: Artigos técnicos (planejado)
 - **Contact**: Formulário de contato
 - **Subprojects**: Cada subprojeto é um contexto isolado no monorepo
+- **Metronome**: App puramente frontend — Web Audio API para som, animações CSS/React para visual. Sem backend, sem banco, sem auth.
 
 ## Modelo de domínio (site principal)
 
@@ -86,7 +88,9 @@ BlogPost ──── Tag
 | ORM | Prisma (MVPs) + Drizzle (perf) | 2026-05 | Pragmatismo: Prisma para agilidade, Drizzle para performance em projetos maduros |
 | Deploy | Subdomínios por subprojeto | 2026-05 | Isolamento de deploy, cada app independente |
 | UI | @nico.dev/ui obrigatório | 2026-05 | Consistência visual entre todos os apps do monorepo |
+| Metronome | Pure frontend (Next.js + Web Audio API) | 2026-05 | Sem backend/DB/auth — app stateless de tempo real |
 | Docs | Migração .ai-core/ → docs/ | 2026-05-23 | Novo padrão com skills separadas, changelog por data, commands agnósticos |
+| Docs | Modelo distribuído de docs | 2026-05-28 | Cada app/package tem docs/ próprio; root docs/ mantém apenas contexto global |
 
 ## Constraints conhecidos
 

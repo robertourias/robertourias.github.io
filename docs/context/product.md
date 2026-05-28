@@ -33,6 +33,41 @@ Site pessoal e portfólio profissional de Roberto Nicoletti. Organizado como um 
 | Subprojetos no monorepo | Aplicações independentes com deploy em subdomínios (ex: projeto.nico.dev) | Planejado |
 | tools.nico.dev | Coleção de ferramentas web para devs (clima, debugger IA, OCR, busca semântica, mercado financeiro, CLT vs PJ…) | Em andamento |
 | challenges.nico.dev | Portfólio visual de desafios técnicos por empresa — cards com preview, descrição, link de deploy e repositório. Dados carregados automaticamente do GitHub via API. | Planejado |
+| metronome.nico.dev | Metrônomo online com marcação de tempo audiovisual para músicos — controle de BPM, beats, timer, stress no primeiro tempo e subdivisões | Planejado |
+
+## Subproject: Metronome (metronome.nico.dev)
+
+**Nome:** Metronome
+**Tagline:** Metrônomo online com marcação de tempo audiovisual
+**Estágio:** Ideia
+
+### Usuário primário
+- **Quem:** Músico buscando um metrônomo acessível para qualquer ocasião
+- **Objetivo:** Praticar com marcação de tempo precisa, visual e sonora
+- **Problema:** Falta de ferramentas gratuitas, rápidas e acessíveis sem instalação
+
+### Features do Metrônomo
+
+| Feature | Descrição | Status |
+|---------|-----------|--------|
+| Controle de BPM | Define a velocidade do metrônomo em batidas por minuto | Planejado |
+| Beats (compassos) | Configura o número de batidas por compasso | Planejado |
+| Timer | Define duração da sessão de prática com contagem regressiva | Planejado |
+| Stress first beat | Ênfase sonora e visual no primeiro tempo do compasso | Planejado |
+| Subdivisions | Subdivisões rítmicas dentro de cada tempo (ex: colcheias, tercinas) | Planejado |
+| Feedback audiovisual | Clique sonoro sincronizado com animação visual a cada batida | Planejado |
+
+### Regras de negócio
+- Sem regras críticas definidas neste momento.
+
+### Glossário do domínio
+- **BPM (Beats Per Minute):** Velocidade do metrônomo em batidas por minuto
+- **Beat:** Unidade de tempo fundamental do compasso
+- **Compasso:** Agrupamento regular de beats (ex: 4/4, 3/4)
+- **Stress first beat:** Acento mais forte no primeiro tempo de cada compasso
+- **Subdivision:** Divisão de cada beat em unidades menores (ex: 2 colcheias por beat = subdivisão binária)
+
+---
 
 ## Business Rules
 

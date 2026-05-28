@@ -60,6 +60,20 @@ Use `/commit` para executar este protocolo de forma assistida.
 - Comente o **POR QUÊ**, não o QUÊ — o código mostra o quê; comentários explicam restrições ocultas e regras de negócio não-óbvias.
 - TSDoc apenas para APIs públicas de pacotes compartilhados.
 
+## Glossário de Domínio — Metronome
+
+Termos musicais usados no subprojeto `apps/metronome`. Use estas definições consistentemente em código, comentários e documentação.
+
+| Termo | Definição |
+|-------|-----------|
+| **BPM** | Beats Per Minute — velocidade do metrônomo em batidas por minuto. Faixa típica: 20–300 BPM. |
+| **Beat** | Unidade de tempo fundamental do compasso. Cada tick do metrônomo corresponde a um beat. |
+| **Compasso (Time Signature)** | Agrupamento regular de beats. Exemplo: 4/4 = 4 beats por compasso; 3/4 = 3 beats por compasso (valsa). |
+| **Stress First Beat** | Acento — ênfase sonora e visual mais forte no primeiro tempo (beat 1) de cada compasso, diferenciando-o dos demais beats. |
+| **Subdivision** | Divisão de cada beat em unidades menores. Exemplo: subdivisão binária = 2 colcheias por beat; ternária = 3 tercinas por beat. |
+| **Tick** | Evento individual do metrônomo — pode ser um beat ou uma subdivisão. |
+| **AudioContext** | Interface da Web Audio API usada para criar e gerenciar o clock de áudio de alta precisão do metrônomo. |
+
 ## Linting
 
 - ESLint: configurado em `packages/config/eslint`
