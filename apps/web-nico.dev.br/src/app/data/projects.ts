@@ -10,14 +10,14 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 1,
-    title: "Hair Day",
+    id: 13,
+    title: "Metrônomo",
     description:
-      "Landing page elegante para salão de beleza, barbearia ou serviços de cuidados capilares.",
-    category: "Beleza",
-    image: "/projects/projects (11).png",
-    demoUrl: "https://hairday.nico.dev.br/",
-    repoUrl: "https://github.com/robertourias/hairday-template",
+      "Aplicativo web completo para músicos e entusiastas de música, com funcionalidades de metrônomo e gerenciamento de batidas.",
+    category: "Utilitários",
+    image: "/projects/metronomo.png",
+    demoUrl: "https://metronomo.nico.dev.br/",
+    repoUrl: "https://github.com/robertourias/nico.dev.br/tree/main/apps/metronome",
   },
   {
     id: 12,
@@ -38,6 +38,16 @@ export const projects: Project[] = [
     image: "/projects/projects (1).png",
     demoUrl: "https://sorteianumeros.nico.dev.br/",
     repoUrl: "https://github.com/robertourias/sort-number-js",
+  },
+  {
+    id: 1,
+    title: "Hair Day",
+    description:
+      "Landing page elegante para salão de beleza, barbearia ou serviços de cuidados capilares.",
+    category: "Beleza",
+    image: "/projects/projects (11).png",
+    demoUrl: "https://hairday.nico.dev.br/",
+    repoUrl: "https://github.com/robertourias/hairday-template",
   },
   {
     id: 3,
