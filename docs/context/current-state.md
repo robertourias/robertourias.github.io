@@ -4,7 +4,7 @@
 > Não edite manualmente durante uma sessão ativa — use `/checkpoint` antes de fechar.
 
 **Última atualização:** 2026-05-28
-**Resumo da última sessão:** Suporte a escopo de app/package nos commands (`/front apps/metronome`, `/back apps/api`, etc.) — back, front, plan, review, retomar e README atualizados.
+**Resumo da última sessão:** Implementação completa do app metronome — scaffolding Next.js, Web Audio API engine, hooks e 8 componentes de UI. Verificado via Playwright.
 
 ---
 
@@ -28,15 +28,16 @@
 - **Reorganização docs distribuída:** cada app/package passou a ter seu próprio `docs/context/`, `docs/plans/`, `docs/specs/`; `ui-guidelines.md` movido para `packages/ui/docs/context/`; `architecture/frontend.md` movido para `apps/web-nico.dev.br/docs/architecture/`; CLAUDE.md atualizado
 - **Escopo de app nos commands:** `back`, `front`, `plan`, `review`, `retomar`, `commit` passam a aceitar `apps/<app>` ou `packages/<pkg>` como primeiro argumento para carregar contexto específico + determinar onde salvar artefatos e com qual escopo fazer commit (`tipo(scope): descrição`)
 
+- **[metronome] Implementação completa:** scaffolding, useMetronome (Web Audio API + lookahead scheduler), useTapBpm, 8 componentes de UI, página composta e verificada
+
 ### 🔄 Em progresso
-- Subprojeto metronome: documentação criada, implementação ainda não iniciada
+- (nenhuma)
 
 ### ⏭ Próximos passos
-1. Criar spec do metrônomo: `/spec Metrônomo — controle de BPM, beats, timer, stress first beat e subdivisões`
-2. Criar o app `apps/metronome/` com Next.js
-3. Implementar o metrônomo com Web Audio API
-4. Verificar calculadora CLT vs PJ no dev server: `pnpm --filter @nico.dev/tools dev`
-5. `apps/web` ainda não migrado para `@nico.dev/ui`
+1. Testar metronome em mobile / iOS Safari (`AudioContext.resume()`)
+2. Deploy metronome no Vercel como `metronome.nico.dev`
+3. Verificar calculadora CLT vs PJ no dev server: `pnpm --filter @nico.dev/tools dev`
+4. `apps/web` ainda não migrado para `@nico.dev/ui`
 
 ---
 
