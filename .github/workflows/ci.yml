@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   push:
@@ -7,10 +7,50 @@ on:
     branches: [main, master]
 
 jobs:
-  ci:
-    name: Build & Lint
+  # ── 1. Detecta quais apps tiveram alterações ─────────────────────────────
+  detect-changes:
+    name: Detect Changes
     runs-on: ubuntu-latest
+    outputs:
+      web:        ${{ steps.filter.outputs.web }}
+      tools:      ${{ steps.filter.outputs.tools }}
+      challenges: ${{ steps.filter.outputs.challenges }}
+      metronome:  ${{ steps.filter.outputs.metronome }}
+      storybook:  ${{ steps.filter.outputs.storybook }}
+    steps:
+      - uses: actions/checkout@v4
 
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            web:
+              - 'apps/web-nico.dev.br/**'
+              - 'packages/**'
+              - 'pnpm-lock.yaml'
+            tools:
+              - 'apps/tools/**'
+              - 'packages/**'
+              - 'pnpm-lock.yaml'
+            challenges:
+              - 'apps/challenges/**'
+              - 'packages/**'
+              - 'pnpm-lock.yaml'
+            metronome:
+              - 'apps/metronome/**'
+              - 'packages/**'
+              - 'pnpm-lock.yaml'
+            storybook:
+              - 'apps/storybook/**'
+              - 'packages/**'
+              - 'pnpm-lock.yaml'
+
+  # ── 2. web-nico.dev.br ───────────────────────────────────────────────────
+  deploy-web:
+    name: "web-nico.dev.br — Build & Deploy"
+    needs: detect-changes
+    if: needs.detect-changes.outputs.web == 'true'
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -27,7 +67,171 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: pnpm turbo lint
+        run: pnpm turbo lint --filter=@nico.dev/web-nico.dev.br
 
       - name: Build
-        run: pnpm turbo build
+        run: pnpm turbo build --filter=@nico.dev/web-nico.dev.br
+
+      # Secrets necessários: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_WEB
+      # Configure em: github.com/<org>/<repo>/settings/secrets/actions
+      - name: Deploy to Vercel (production)
+        if: github.event_name == 'push'
+        run: |
+          npx vercel pull --yes --environment=production --cwd=apps/web-nico.dev.br --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel build --prod --cwd=apps/web-nico.dev.br --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel deploy --prebuilt --prod --cwd=apps/web-nico.dev.br --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_WEB }}
+
+  # ── 3. tools.nico.dev ───────────────────────────────────────────────────
+  deploy-tools:
+    name: "tools — Build & Deploy"
+    needs: detect-changes
+    if: needs.detect-changes.outputs.tools == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm turbo lint --filter=@nico.dev/tools
+
+      - name: Build
+        run: pnpm turbo build --filter=@nico.dev/tools
+
+      # Secrets necessários: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_TOOLS
+      - name: Deploy to Vercel (production)
+        if: github.event_name == 'push'
+        run: |
+          npx vercel pull --yes --environment=production --cwd=apps/tools --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel build --prod --cwd=apps/tools --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel deploy --prebuilt --prod --cwd=apps/tools --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_TOOLS }}
+
+  # ── 4. challenges.nico.dev ──────────────────────────────────────────────
+  deploy-challenges:
+    name: "challenges — Build & Deploy"
+    needs: detect-changes
+    if: needs.detect-changes.outputs.challenges == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm turbo lint --filter=@nico.dev/challenges
+
+      - name: Build
+        run: pnpm turbo build --filter=@nico.dev/challenges
+
+      # Secrets necessários: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_CHALLENGES
+      - name: Deploy to Vercel (production)
+        if: github.event_name == 'push'
+        run: |
+          npx vercel pull --yes --environment=production --cwd=apps/challenges --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel build --prod --cwd=apps/challenges --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel deploy --prebuilt --prod --cwd=apps/challenges --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_CHALLENGES }}
+
+  # ── 5. metronome.nico.dev ───────────────────────────────────────────────
+  deploy-metronome:
+    name: "metronome — Build & Deploy"
+    needs: detect-changes
+    if: needs.detect-changes.outputs.metronome == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm turbo lint --filter=@nico.dev/metronome
+
+      - name: Build
+        run: pnpm turbo build --filter=@nico.dev/metronome
+
+      # Secrets necessários: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_METRONOME
+      - name: Deploy to Vercel (production)
+        if: github.event_name == 'push'
+        run: |
+          npx vercel pull --yes --environment=production --cwd=apps/metronome --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel build --prod --cwd=apps/metronome --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel deploy --prebuilt --prod --cwd=apps/metronome --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_METRONOME }}
+
+  # ── 6. storybook ────────────────────────────────────────────────────────
+  deploy-storybook:
+    name: "storybook — Build & Deploy"
+    needs: detect-changes
+    if: needs.detect-changes.outputs.storybook == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm turbo lint --filter=@nico.dev/storybook
+
+      - name: Build
+        run: pnpm turbo build --filter=@nico.dev/storybook
+
+      # Secrets necessários: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_STORYBOOK
+      - name: Deploy to Vercel (production)
+        if: github.event_name == 'push'
+        run: |
+          npx vercel pull --yes --environment=production --cwd=apps/storybook --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel build --prod --cwd=apps/storybook --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel deploy --prebuilt --prod --cwd=apps/storybook --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_STORYBOOK }}

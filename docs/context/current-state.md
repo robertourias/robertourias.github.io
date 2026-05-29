@@ -34,7 +34,7 @@
 
 ### ⏭ Próximos passos
 1. Testar metronome em mobile / iOS Safari — confirmar `AudioContext.resume()` funciona no toggle
-2. Deploy: configurar `metronome.nico.dev` no Vercel como subdomínio
+2. Deploy: configurar cada app no Vercel e adicionar os secrets no GitHub (VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_*)
 3. Avaliar destaque visual do beat 1 (stress first beat) — tamanho maior pode não ser suficiente; considerar cor distinta
 4. Testar auto-stop do timer com duração curta (ex: 0:05) manualmente
 5. Verificar calculadora CLT vs PJ: `pnpm --filter @nico.dev/tools dev`
