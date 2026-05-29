@@ -3,6 +3,7 @@
 import { BeatIndicators } from "@/components/beat-indicators";
 import { BeatsControl } from "@/components/beats-control";
 import { BpmDisplay } from "@/components/bpm-display";
+import { BpmPresets } from "@/components/bpm-presets";
 import { BpmSlider } from "@/components/bpm-slider";
 import { MetronomeControls } from "@/components/metronome-controls";
 import { StressFirstBeat } from "@/components/stress-first-beat";
@@ -20,11 +21,18 @@ export default function MetronomePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-start px-4 py-10">
       <div className="w-full max-w-md flex flex-col items-center gap-7">
-        {/* BPM display */}
-        <BpmDisplay bpm={metronome.bpm} tempoName={tempoName} />
+        {/* BPM display — clique para editar */}
+        <BpmDisplay
+          bpm={metronome.bpm}
+          tempoName={tempoName}
+          onChange={metronome.setBpm}
+        />
 
         {/* BPM slider */}
         <BpmSlider bpm={metronome.bpm} onChange={metronome.setBpm} />
+
+        {/* BPM presets */}
+        <BpmPresets bpm={metronome.bpm} onChange={metronome.setBpm} />
 
         {/* Beat dots */}
         <BeatIndicators
