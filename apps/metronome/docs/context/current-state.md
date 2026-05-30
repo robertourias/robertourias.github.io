@@ -1,7 +1,7 @@
 # Status — Metronome (apps/metronome)
 
-**Última atualização:** 2026-05-28
-**Resumo:** Implementação completa da página do metrônomo — scaffolding, engine de áudio, hooks e todos os componentes de UI.
+**Última atualização:** 2026-05-30
+**Resumo:** Melhorias no TimerControl (presets de duração + input controlado) e ajuste de volume do click.
 
 ---
 
@@ -21,15 +21,19 @@
 - T-04: Componentes de UI — BpmDisplay, BpmSlider, BeatIndicators, MetronomeControls, BeatsControl, StressFirstBeat, TimerControl, SubdivisionPicker
 - T-05: Página principal — composição final, verificação em browser (Playwright)
 
+### ✅ Concluídas (2026-05-30)
+- TimerControl: 5 presets de duração (1m, 3m, 5m, 10m, 15m) como botões pill com estado `aria-pressed`
+- TimerControl: input convertido para controlado com `draft` local (evita re-render erático)
+- audio-engine: gain do click aumentado de 0.8 para 0.92
+
 ### 🔄 Em progresso
 - (nenhuma)
 
 ### ⏭ Próximos passos
 1. Testar em mobile (iOS Safari — AudioContext.resume())
-2. Avaliar tamanho/contraste do beat 1 (stress first beat pode ter destaque adicional de cor)
+2. Avaliar destaque visual do beat 1 (considerar cor distinta além do tamanho)
 3. Testar auto-stop do timer manualmente com timer curto (ex: 0:05)
-4. Adicionar metrônomo à página de portfólio (product.md)
-5. Deploy no Vercel como subdomínio `metronome.nico.dev`
+4. Deploy no Vercel como subdomínio `metronome.nico.dev`
 
 ---
 

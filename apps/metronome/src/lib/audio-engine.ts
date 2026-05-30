@@ -17,7 +17,7 @@ export function createClick(
     osc.frequency.value = freq;
 
     gain.gain.setValueAtTime(0, time);
-    gain.gain.linearRampToValueAtTime(0.8, time + 0.001);
+    gain.gain.linearRampToValueAtTime(0.92, time + 0.001);
     gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
 
     osc.connect(gain);
