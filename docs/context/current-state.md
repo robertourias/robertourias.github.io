@@ -3,42 +3,36 @@
 > Memória de trabalho persistente. Atualizado pelo `/checkpoint`, lido pelo `/retomar`.
 > Não edite manualmente durante uma sessão ativa — use `/checkpoint` antes de fechar.
 
-**Última atualização:** 2026-05-28
-**Resumo da última sessão:** Subprojeto metronome criado do zero — spec, plano técnico e implementação completa (Web Audio API, 8 componentes, página). Também reorganizados os docs em modelo distribuído (cada app/package tem seu próprio `docs/`) e todos os commands atualizados com suporte a escopo de app.
+**Última atualização:** 2026-05-30
+**Resumo da última sessão:** Rebalanceamento de paleta de cores do design system (packages/ui), correção de contraste no Alert dark mode, melhorias no TimerControl do metronome (presets + gain).
 
 ---
 
 ## Feature em andamento
 
-**Spec ativo:** apps/metronome/docs/specs/2026-05-28-metronome-page.md (Status: approved — implementado)
-**Plano ativo:** apps/metronome/docs/plans/2026-05-28-metronome-page.md (todas as tasks concluídas)
+**Spec ativo:** packages/ui/docs/specs/2026-05-30-palette-rebalance.md (Status: approved — implementado)
+**Plano ativo:** packages/ui/docs/plans/2026-05-30-palette-rebalance.md (tasks 1–3 concluídas; task 4 = validação Storybook pendente)
 
 ---
 
 ## Tasks
 
 ### ✅ Concluídas (esta sessão)
-- Init subprojeto metronome em `docs/context/product.md`, `docs/architecture/overview.md`, `docs/context/decisions.md`, `docs/context/conventions.md`
-- Reorganização docs distribuída: cada app/package (`web`, `tools`, `challenges`, `storybook`, `metronome`, `packages/ui`, `packages/config`) tem seu próprio `docs/context/`, `docs/plans/`, `docs/specs/`
-- `ui-guidelines.md` movido para `packages/ui/docs/context/`
-- `architecture/frontend.md` movido para `apps/web-nico.dev.br/docs/architecture/`
-- Commands `back`, `front`, `plan`, `review`, `retomar`, `commit` atualizados com suporte a escopo de app/package
-- T-01 metronome: scaffolding Next.js no monorepo (package.json, tsconfig, postcss, eslint, layout)
-- T-02 metronome: `useMetronome` — Web Audio API + lookahead scheduler (25ms + 100ms), timer, iOS fix
-- T-03 metronome: `useTapBpm` — média de 8 taps, reset 3s, clamp [20, 300]
-- T-04 metronome: 8 componentes de UI (BpmDisplay, BpmSlider, BeatIndicators, MetronomeControls, BeatsControl, StressFirstBeat, TimerControl, SubdivisionPicker)
-- T-05 metronome: página principal composta e verificada via Playwright
+- packages/ui: rebalanceamento de paleta dark/light — `tokens.css` e `colors.ts` atualizados
+- packages/ui: correção de contraste Alert dark mode (borda + fundo nas 4 variantes)
+- apps/storybook: `Colors.stories.tsx` atualizado com novos hex da paleta
+- apps/metronome: TimerControl refatorado com presets de duração (1m/3m/5m/10m/15m) + input controlado
+- apps/metronome: `audio-engine.ts` gain do click ajustado de 0.8 → 0.92
 
 ### 🔄 Em progresso
-- (nenhuma — sessão encerrada com tudo commitado)
+- Validação visual da paleta no Storybook (task 4 do plan palette-rebalance)
 
 ### ⏭ Próximos passos
-1. Testar metronome em mobile / iOS Safari — confirmar `AudioContext.resume()` funciona no toggle
-2. Deploy: configurar cada app no Vercel e adicionar os secrets no GitHub (VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_*)
-3. Avaliar destaque visual do beat 1 (stress first beat) — tamanho maior pode não ser suficiente; considerar cor distinta
-4. Testar auto-stop do timer com duração curta (ex: 0:05) manualmente
-5. Verificar calculadora CLT vs PJ: `pnpm --filter @nico.dev/tools dev`
-6. Migrar `apps/web-nico.dev.br` para `@nico.dev/ui` (pendente há várias sessões)
+1. Validar paleta no Storybook: `pnpm dev --filter @nico.dev/storybook`
+2. Testar metronome em mobile / iOS Safari — confirmar `AudioContext.resume()` funciona no toggle
+3. Deploy: configurar cada app no Vercel e adicionar os secrets no GitHub (VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_*)
+4. Avaliar destaque visual do beat 1 (stress first beat) — considerar cor distinta além do tamanho
+5. Migrar `apps/web-nico.dev.br` para `@nico.dev/ui` (pendente há várias sessões)
 
 ---
 

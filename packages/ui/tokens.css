@@ -5,10 +5,10 @@
 
 :root {
   --background: #F8F9FF;
-  --foreground: #0A0C1A;
+  --foreground: #252742;
 
   --surface: #FFFFFF;
-  --surface-raised: #F0F1FA;
+  --surface-raised: #EDEDF8;
   --surface-overlay: #E4E6F8;
 
   --primary: #5546E8;
@@ -18,8 +18,8 @@
   --secondary: #8B5CF6;
   --secondary-foreground: #FFFFFF;
 
-  --muted: #F0F1FA;
-  --muted-foreground: #64658A;
+  --muted: #EDEDF8;
+  --muted-foreground: #5A5C82;
 
   --accent: #EBE9FF;
   --accent-foreground: #4032D6;
@@ -45,42 +45,42 @@
 /* ─── Dark ───────────────────────────────────────────────────────── */
 
 .dark {
-  --background: #080A12;
-  --foreground: #EEEEF8;
+  --background: #12131F;
+  --foreground: #E6E7F4;
 
-  --surface: #0F1120;
-  --surface-raised: #171A2E;
-  --surface-overlay: #20243C;
+  --surface: #191A2C;
+  --surface-raised: #21233A;
+  --surface-overlay: #2C2F52;
 
   --primary: #6B5CF8;
   --primary-foreground: #FFFFFF;
   --primary-hover: #8073FF;
 
   --secondary: #BF81FF;
-  --secondary-foreground: #080A12;
+  --secondary-foreground: #12131F;
 
-  --muted: #171A2E;
-  --muted-foreground: #7B7E9E;
+  --muted: #191A2C;
+  --muted-foreground: #8A8CB0;
 
-  --accent: #1B1E38;
+  --accent: #1D2040;
   --accent-foreground: #A89BFF;
 
   --destructive: #FF4444;
   --destructive-foreground: #FFFFFF;
 
   --success: #1ED97A;
-  --success-foreground: #080A12;
+  --success-foreground: #12131F;
 
   --warning: #FFAA20;
-  --warning-foreground: #080A12;
+  --warning-foreground: #12131F;
 
-  --border: #1E2240;
-  --input: #1E2240;
+  --border: #262850;
+  --input: #262850;
   --ring: #6B5CF8;
 
-  --badge-destructive-bg: #220808;
-  --badge-success-bg: #0C2218;
-  --badge-warning-bg: #231800;
+  --badge-destructive-bg: #2D1215;
+  --badge-success-bg: #0E2418;
+  --badge-warning-bg: #261A00;
 }
 
 /* ─── Tailwind Theme Bridge ──────────────────────────────────────── */

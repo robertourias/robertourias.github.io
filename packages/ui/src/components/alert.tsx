@@ -9,13 +9,13 @@ const alertVariants = cva(
     variants: {
       variant: {
         /** Fundo accent neutro com ícone de informação. Para mensagens informativas gerais. */
-        default: "bg-accent border-border text-accent-foreground",
+        default: "bg-accent border-border text-accent-foreground dark:border-accent-foreground/50",
         /** Fundo verde suave com ícone de check. Para confirmações e operações bem-sucedidas. */
-        success: "bg-badge-success-bg border-success text-success",
+        success: "bg-badge-success-bg border-success text-success dark:border-success/50",
         /** Fundo vermelho suave com ícone de alerta. Para erros e falhas críticas. */
-        destructive: "bg-badge-destructive-bg border-destructive text-destructive",
+        destructive: "bg-badge-destructive-bg border-destructive text-destructive dark:border-destructive/50",
         /** Fundo amarelo suave com ícone de triângulo. Para avisos que requerem atenção. */
-        warning: "bg-badge-warning-bg border-warning text-warning",
+        warning: "bg-badge-warning-bg border-warning text-warning dark:border-warning/50",
       },
     },
     defaultVariants: {
