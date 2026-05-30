@@ -105,12 +105,12 @@ function ColorDarkSwatch({ token }: { token: string }) {
   return (
     <div className="flex items-center gap-3">
       <div
-        className="h-10 w-10 shrink-0 rounded-md border border-[#1E2240] shadow-sm"
+        className="h-10 w-10 shrink-0 rounded-md border border-[#262850] shadow-sm"
         style={{ backgroundColor: darkValue }}
       />
       <div>
-        <p className="text-sm font-medium text-[#EEEEF8]">--{token}</p>
-        <p className="text-xs text-[#7B7E9E]">{darkValue}</p>
+        <p className="text-sm font-medium text-[#E6E7F4]">--{token}</p>
+        <p className="text-xs text-[#8A8CB0]">{darkValue}</p>
       </div>
     </div>
   );
@@ -149,11 +149,11 @@ function ColorShowcaseSideBySide() {
     <div className="flex min-h-screen">
       <div className="flex-1 bg-[#F8F9FF] p-8 space-y-10">
         <div>
-          <h2 className="text-lg font-bold text-[#0A0C1A] mb-1">Light Mode</h2>
+          <h2 className="text-lg font-bold text-[#252742] mb-1">Light Mode</h2>
         </div>
         {groups.map((group) => (
           <section key={group.label}>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-[#64658A] mb-4">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-[#5A5C82] mb-4">
               {group.label}
             </h3>
             <div className="space-y-3">
@@ -164,13 +164,13 @@ function ColorShowcaseSideBySide() {
           </section>
         ))}
       </div>
-      <div className="flex-1 bg-[#080A12] p-8 space-y-10">
+      <div className="flex-1 bg-[#12131F] p-8 space-y-10">
         <div>
-          <h2 className="text-lg font-bold text-[#EEEEF8] mb-1">Dark Mode</h2>
+          <h2 className="text-lg font-bold text-[#E6E7F4] mb-1">Dark Mode</h2>
         </div>
         {groups.map((group) => (
           <section key={group.label}>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-[#7B7E9E] mb-4">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-[#8A8CB0] mb-4">
               {group.label}
             </h3>
             <div className="space-y-3">
