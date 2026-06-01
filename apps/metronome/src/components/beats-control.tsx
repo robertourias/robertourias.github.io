@@ -8,7 +8,7 @@ interface BeatsControlProps {
 export function BeatsControl({ beats, onChange }: BeatsControlProps) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-sm font-medium text-foreground">Beats</span>
+      <span className="text-sm font-medium text-foreground cursor-default select-none">Beats</span>
       <div className="flex items-center gap-3">
         <button
           aria-label="Diminuir beats"
